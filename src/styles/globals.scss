@@ -1,0 +1,29 @@
+@import './main.scss';
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  font-size: 1rem;
+}
+
+body {
+  color: $dark;
+  background: $light-blue;
+}
+
+.btn {
+  font-size: 14px;
+  border-radius: 10px;
+}
+
+.error-msg {
+  color: $red;
+  font-size: $font-12;
+}
