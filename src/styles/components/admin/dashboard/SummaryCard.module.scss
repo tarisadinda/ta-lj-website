@@ -1,0 +1,17 @@
+.cardWrap {
+    padding: 15px;
+    border-radius: 10px;
+    width: 350px;
+
+    p {
+        margin-bottom: 10px;
+    }
+
+    p:last-of-type {
+        margin-bottom: 0px;
+    }
+}
+
+.count {
+    font-size: $font-24;
+}

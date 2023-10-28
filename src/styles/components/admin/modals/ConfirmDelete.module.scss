@@ -1,0 +1,16 @@
+.text {
+    font-weight: 500;
+    display: flex;
+    justify-content: center;
+}
+
+.btnList {
+    display: flex;
+    justify-content: center;
+    column-gap: 15px;
+    margin-top: 30px;
+}
+
+.actBtn {
+    width: 110px;
+}

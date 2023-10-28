@@ -1,0 +1,34 @@
+.wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.formWrap {
+    display: flex;
+    justify-content: center;
+}
+
+.form {
+    display: flex;
+    row-gap: 10px;
+    flex-direction: column;
+    width: 40vw;
+}
+
+.inputGroup {
+    width: 100%;
+}
+
+.eyeIcon {
+    fill: $dark;    
+}
+
+.registBtn {
+    width: 150px;
+    margin-top: 10px;
+}
+
+.loginText {
+    color: $gray-1;
+}

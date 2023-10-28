@@ -1,0 +1,31 @@
+.infoWrapper {
+    display: flex;
+    column-gap: 20px;
+    width: 100%;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.logoCompany {
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.companyName{
+    font-size: $font-24;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.actionBtn {
+    display: flex;
+    column-gap: 15px;
+}
+
+.button{
+    width: 100px;
+}
+
+.loc {
+    color: $gray-1;
+}

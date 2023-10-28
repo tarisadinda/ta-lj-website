@@ -1,0 +1,16 @@
+.inputLabel {
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.actionBtn {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    column-gap: 15px;
+    margin-top: 30px;
+}
+
+.cancelBtn , .saveBtn{
+    width: 110px;
+}

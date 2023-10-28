@@ -1,0 +1,42 @@
+.wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.formWrap {
+    display: flex;
+    justify-content: center;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    width: 40vw;
+}
+
+.inputGroup {
+    width: 100%;
+}
+
+.eyeIcon {
+    fill: $dark;    
+}
+
+.forgetText {
+    font-size: $font-16;
+    color: $light-gray;
+    margin-bottom: 15px;
+
+    a {
+        text-decoration: none;
+    }
+}
+
+.loginBtn {
+    width: 150px;
+}
+
+.registText {
+    color: $gray-1;
+}
