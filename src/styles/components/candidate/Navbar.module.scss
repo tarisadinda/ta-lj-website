@@ -1,0 +1,51 @@
+.navWrapper {
+    background-color: $blue-2;
+    z-index: 1000;
+    position: fixed;
+    width: 100%;
+    
+    ul {
+        li {
+            a {
+                color: $light;
+
+                &:hover {
+                    color: $dark;
+                }
+
+                &:focus {
+                    color: $light;
+                }
+            }
+        }
+    }
+}
+
+.group {
+    margin: 0px 118px;
+    padding: 10px auto;
+}
+
+.accountMenu {
+    position: relative;
+    width: max-content;
+    height: 100%;
+    cursor: pointer;
+}
+
+.userBtn {
+    display: flex;
+    column-gap: 20px;
+    align-items: center;
+
+    span {
+        color: $light;
+    }
+}
+
+.userOption {
+    a {
+        text-decoration: none;
+        color: $dark;
+    }
+}

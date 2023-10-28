@@ -1,0 +1,28 @@
+.cardWrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+}
+
+.textLeft {
+    display: flex;
+    align-items: center;
+    column-gap: 15px;
+}
+
+.logoCompany {
+    border-radius: 10px;
+}
+
+.role {
+    font-size: $font-20;
+    margin-bottom: 0px;
+}
+
+.loc {
+    display: flex;
+    align-items: center;
+    color: $gray-1;
+    margin-top: 8px;
+}

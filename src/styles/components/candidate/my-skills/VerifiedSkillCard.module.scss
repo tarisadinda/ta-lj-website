@@ -1,0 +1,13 @@
+.text {
+    display: grid;
+    row-gap: 5px;
+
+    p {
+        margin-bottom: 0px;
+    }
+}
+
+.detailBtn {
+    min-width: 80px;
+    max-width: max-content;
+}

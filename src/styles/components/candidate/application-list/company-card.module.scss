@@ -1,0 +1,37 @@
+.companyCard {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px;
+    border-radius: 10px;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.infoCompany {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    column-gap: 15px;
+}
+
+.logoImg {
+    border-radius: 10px;
+    background-color: #FFF5E9;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.imgCompany {
+    border-radius: 10px;
+}
+
+.lastApplied {
+    color: $gray-1;
+}

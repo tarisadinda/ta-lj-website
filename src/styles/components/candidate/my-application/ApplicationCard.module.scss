@@ -1,0 +1,29 @@
+.cardWrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.groupText {
+    display: flex;
+    column-gap: 15px;
+}
+
+.logoCompany {
+    border-radius: 10px;
+}
+
+.text {
+    display: grid;
+    width: 100%;
+    row-gap: 5px;
+
+    p {
+        margin-bottom: 0px;
+    }
+}
