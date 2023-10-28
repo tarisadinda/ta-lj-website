@@ -1,0 +1,27 @@
+.wrapper {
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.inputWrap {
+    width: 100%;
+    padding-right: 50px;
+}
+
+.iconWrapper {
+    position: absolute;
+    right: 0;
+    margin-right: 6px;
+}
+
+.btnIcon {
+    padding: 5px;
+}
+
+.icon {
+    path {
+        fill: #000;
+    }
+}
