@@ -1,0 +1,7 @@
+export const LOGIN_API = '/admin/login'
+export const API_CATEGORY_LIST = '/operation/category/index'
+export const API_ADD_CAT = '/operation/category/store'
+export const API_EDIT_CAT = '/operation/category/update/'
+export const API_CAT_ID = '/operation/category/'
+export const API_DELETE_CAT = '/operation/category/destroy/'
+export const API_SALARY = '/operation/salary/index'
