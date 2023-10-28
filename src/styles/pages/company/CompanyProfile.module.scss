@@ -1,0 +1,28 @@
+.profileCol {
+    display: flex;
+    column-gap: 50px;
+    margin-top: 30px;
+}
+
+.avaSection{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 10px;
+}
+
+.editBtn {
+    display: flex;
+    width: max-content;
+}
+
+.dataSection {
+    width: 100%;
+    display: grid;
+    row-gap: 15px;
+
+    label {
+        font-weight: 600;
+    }
+}
+

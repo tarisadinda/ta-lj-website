@@ -1,0 +1,60 @@
+.inputWrapper {
+    display: grid;
+    row-gap: 15px;
+}
+
+.textareaHeight {
+    resize: none;
+    height: 130px;
+}
+
+.salary {
+    display: flex;
+    align-items: center;
+}
+
+.selectWidth {
+    width: 250px;
+}
+
+.optionRow {
+    display: flex;
+    column-gap: 20px;
+}
+
+.calendar {
+    width: 200px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    padding: 6px;
+}
+
+.actionBtn {
+    display: flex;
+    justify-content: flex-end;
+    column-gap: 15px;
+    margin-top: 30px;
+}
+
+.cancelBtn, .uploadBtn {
+    width: max-content;
+}
+
+.colWrap {
+    display: flex;
+    column-gap: 30px;
+}
+
+.jobDetail {
+    display: flex;
+    align-items: flex-start;
+    column-gap: 10px;
+}
+
+.iconWrap {
+    border-radius: 100px;
+    width: max-content;
+    height: max-content;
+    padding: 10px;
+    background-color: $blue-2;
+}

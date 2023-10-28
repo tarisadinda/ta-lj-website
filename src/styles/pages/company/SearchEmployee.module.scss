@@ -1,0 +1,11 @@
+.colGrid{
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    column-gap: 20px;
+}
+
+.listEmployee {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 15px;
+}

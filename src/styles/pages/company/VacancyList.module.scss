@@ -1,0 +1,19 @@
+.listCard {
+    display: flex;
+    column-gap: 15px;
+}
+
+.text {
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+    padding: 15px;
+
+    h2 {
+        margin-bottom: 0px;
+    }
+}
+
+.addBtn {
+    width: 200px;
+}

@@ -1,0 +1,59 @@
+.wrapCard {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 80%;
+}
+
+.avaInfo {
+    display: flex;
+    align-items: center;
+    column-gap: 20px;
+}
+
+.textInfo {
+    p:last-child {
+        margin-bottom: 0px;
+    }
+}
+
+.name {
+    font-size: $font-28;
+}
+
+.role {
+    font-size: $font-20;
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+}
+
+.loc {
+    color: $gray-1;
+}
+
+.offerBtn {
+    width: 130px;
+    height: max-content;
+}
+
+.detail {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 20px;
+}
+
+.pdf {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.historySection {
+    ul > .itemHistory {
+        margin-bottom: 15px;
+
+        p {
+            margin-bottom: 0px;
+        }
+    }
+}

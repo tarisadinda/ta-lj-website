@@ -1,0 +1,49 @@
+.avaSection {
+    display: flex;
+    column-gap: 30px;
+    align-items: flex-end;
+    margin-top: 30px;
+}
+
+.btnList {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+
+.actionBtn {
+    width: 150px;
+}
+
+.formSection {
+    width: 600px;
+    margin-top: 50px;
+
+    form {
+        display: grid;
+        row-gap: 15px;
+    }
+
+    textarea {
+        resize: none;
+        height: 100px;
+    }
+}
+
+.inputGroup {
+    label {
+        font-weight: 600;
+        margin-bottom: 5px;
+    }
+}
+
+.formBtn {
+    display: flex;
+    justify-content: flex-end;
+    column-gap: 15px;
+    margin-top: 25px;
+
+    button {
+        width: max-content;
+    }
+}

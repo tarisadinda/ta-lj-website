@@ -1,0 +1,57 @@
+.row {
+    display: flex;
+    column-gap: 100px;
+}
+
+.applicantInfo {
+    width: 480px;
+}
+
+.wrapper {
+    display: flex;
+    align-items: flex-start;
+    column-gap: 20px;
+}
+
+.textWrap {
+    display: grid;
+    row-gap: 5px;
+
+    p {
+        margin-bottom: 0px;
+    }
+}
+
+.btnSection {
+    margin-top: 20px;
+    width: 300px;
+    display: grid;
+    row-gap: 10px;
+}
+
+.btnIcon {
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+}
+
+.editStatus {
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+    margin-bottom: 10px;
+}
+
+.date {
+    color: $light-gray;
+}
+
+.positionInfo {
+    width: 480px;
+    display: grid;
+    row-gap: 5px;
+
+    p {
+        margin-bottom: 0px;
+    }
+}
