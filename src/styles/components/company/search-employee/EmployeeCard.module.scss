@@ -1,0 +1,21 @@
+.wrapper {
+    display: flex;
+    align-items: flex-start;
+    column-gap: 10px;
+    width: 100%;
+}
+
+.infoEmployee {
+    p:not(:last-child) {
+        margin-bottom: 5px;
+    }
+
+    p:last-child {
+        margin-bottom: 0px;
+        margin-top: 15px;
+    }
+}
+
+.loc {
+    color: $gray-1;
+}
