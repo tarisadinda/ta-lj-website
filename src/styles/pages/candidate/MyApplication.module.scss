@@ -1,0 +1,10 @@
+.colGroup {
+    display: flex;
+    column-gap: 40px;
+}
+
+.cardList {
+    width: 100%;
+    display: grid;
+    row-gap: 20px;
+}

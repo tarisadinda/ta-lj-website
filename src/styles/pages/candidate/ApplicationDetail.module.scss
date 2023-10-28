@@ -1,0 +1,27 @@
+.jobTitle {
+    display: flex;
+    align-items: center;
+    column-gap: 20px;
+}
+
+.companyLogo {
+    border-radius: 10px;
+}
+
+.colGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.statusText {
+    margin-bottom: 5px;
+}
+
+.workType {
+    display: flex;
+    flex-direction: column;
+}
+
+.timeline {
+    margin-top: 20px;
+}

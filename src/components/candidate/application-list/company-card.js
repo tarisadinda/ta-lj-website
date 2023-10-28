@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import styles from '@/styles/components/candidate/application-list/company-card.module.scss'
 import cn from 'classnames'
-import { CustomChip } from '@/components/chip'
+import { CustomChip } from '@/components/common/chip'
 
 export default function CompanyCard() {
     return(<>

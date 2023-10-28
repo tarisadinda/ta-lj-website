@@ -11,17 +11,17 @@ export default function ProfileLayout({ children }) {
         {
             label: 'Lamaran Saya',
             value: 1,
-            path: '/application-list'
+            path: '/candidate/application-list'
         },
         {
             label: 'Keahlian Saya',
             value: 2,
-            path: '/my-skills'
+            path: '/candidate/my-skills'
         },
         {
             label: 'Penawaran',
             value: 3,
-            path: '/offering-list'
+            path: '/candidate/offering-list'
         },
     ]
 

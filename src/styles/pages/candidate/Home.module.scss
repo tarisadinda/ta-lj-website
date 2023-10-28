@@ -1,0 +1,24 @@
+.title {
+    font-size: $font-24;
+    font-weight: 700;
+    text-align: center;
+}
+
+.searchSection {
+    display: flex;
+    justify-content: center;
+    margin: 15px 0px 60px 0px;
+}
+
+.mainContent {
+    display: flex;
+    column-gap: 30px;
+}
+
+.jobList {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 20px;
+    row-gap: 30px;
+}

@@ -11,7 +11,7 @@ export default function JobCard() {
     const router = useRouter()
 
     const applyBtn = () => {
-        router.push('/about-vacancy')
+        router.push('/candidate/about-vacancy')
     }
 
     return (<>

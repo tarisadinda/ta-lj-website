@@ -20,7 +20,7 @@ export default function Navbar() {
             <div className={cn(styles.group, "collapse navbar-collapse")} id="navbarSupportedContent">
                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                     <li className="nav-item">
-                        <Link className="nav-link" aria-current="page" href="/home">Lowongan Kerja</Link>
+                        <Link className="nav-link" aria-current="page" href="/candidate/home">Lowongan Kerja</Link>
                     </li>
                 </ul>
                 <div className={styles.accountMenu}>
@@ -65,7 +65,7 @@ export default function Navbar() {
                         }}
                     >
                         <MenuItem onClick={handleDropdown} className={styles.userOption}>
-                            <Link href='/profile'>Profil Saya</Link>
+                            <Link href='/candidate/profile'>Profil Saya</Link>
                         </MenuItem>
                         <MenuItem onClick={handleDropdown}>Ubah password</MenuItem>
                         <MenuItem onClick={handleDropdown}>Logout</MenuItem>

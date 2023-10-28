@@ -1,0 +1,24 @@
+.card {
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 60%;
+}
+
+.company, .role {
+    font-weight: 700;
+    font-size: $font-20;
+    margin-bottom: 5px;
+}
+
+.loc {
+    color: $gray-1;
+}
+
+.action {
+    width: max-content;
+    display: grid;
+    row-gap: 10px;
+}

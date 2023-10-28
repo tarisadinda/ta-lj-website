@@ -8,12 +8,12 @@ export default function SkillLayout({ children }) {
         {
             label: 'Approved Skills',
             value: 1,
-            path: '/my-skills'
+            path: '/candidate/my-skills'
         },
         {
             label: 'Status Pengajuan',
             value: 2,
-            path: '/applied-skill-status'
+            path: '/candidate/applied-skill-status'
         },
     ]
 

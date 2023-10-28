@@ -1,0 +1,15 @@
+.gridWrapper {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    column-gap: 30px;
+}
+
+.category {
+    margin-bottom: 0px;
+    font-weight: 600;
+    color: $light-gray;
+}
+
+.fileBtn {
+    width: max-content;
+}
