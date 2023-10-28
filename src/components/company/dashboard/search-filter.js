@@ -1,4 +1,4 @@
-import styles from '@/styles/components/dashboard/SearchFilter.module.scss'
+import styles from '@/styles/components/company/dashboard/SearchFilter.module.scss'
 import cn from 'classnames'
 import { Divider } from '@mui/material';
 

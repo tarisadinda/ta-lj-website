@@ -1,4 +1,4 @@
-import styles from '@/styles/components/dashboard/CountingCard.module.scss'
+import styles from '@/styles/components/company/dashboard/CountingCard.module.scss'
 import cn from 'classnames'
 
 export default function CountingCard({title, total}) {

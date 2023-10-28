@@ -7,7 +7,6 @@
 
 .btn-primary {
     @extend %button-shape;
-    border: 0px;
 
     &.blue {
         color: $light;
@@ -18,7 +17,6 @@
             background-color: $blue-3;
         }
     }
-
 
     &.red {
         color: $light;
@@ -39,15 +37,16 @@
 
 .btn-secondary {
     @extend %button-shape;
-    border: 0px;
 
     &.blue {
         background-color: $blue-4;
         color: $blue-1;
+        border: none;
         box-shadow: inset 0px 0px 0px 1px $blue-1;
 
         &:hover, &:active {
-            background-color: $blue-1 !important;
+            color: $blue-1;
+            background-color: $blue-3;
         }
     }
 
@@ -75,12 +74,15 @@
 
 .btn-ghost {
     @extend %button-shape;
-    border: 0px;
-    color: $dark;
-    background-color: transparent;
 
-    &:hover {
-        color: $light;
-        background-color: $blue-1;
+    &.blue {
+        color: $dark;
+        background-color: transparent;
+        border: none;
+
+        &:active, &:hover {
+            background-color: $blue-1;
+            color: $light;
+        }
     }
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import Navbar from '@/components/navbar'
+import Navbar from '@/components/company/navbar'
 import { Inter } from "next/font/google"
 
 const inter = Inter({

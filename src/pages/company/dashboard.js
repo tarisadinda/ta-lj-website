@@ -1,9 +1,9 @@
-import styles from '@/styles/pages/Dashboard.module.scss'
-import LayoutMain from "@/components/layouts/main"
+import styles from '@/styles/pages/company/Dashboard.module.scss'
+import LayoutMain from "@/components/company/layouts/main"
 import { Avatar } from "@mui/material"
 import WorkIcon from '@mui/icons-material/Work'
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt'
-import CustomCard from "@/components/card"
+import CustomCard from "@/components/common/card"
 
 export default function Dashboard() {
     return(<>

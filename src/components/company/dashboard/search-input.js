@@ -1,4 +1,4 @@
-import styles from '@/styles/components/dashboard/SearchInput.module.scss'
+import styles from '@/styles/components/company/dashboard/SearchInput.module.scss'
 import cn from 'classnames'
 import SearchIcon from '@mui/icons-material/Search'
 

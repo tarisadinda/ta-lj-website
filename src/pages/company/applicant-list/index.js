@@ -1,5 +1,5 @@
-import CountingCard from "@/components/dashboard/counting-card"
-import LayoutMain from "@/components/layouts/main"
+import CountingCard from "@/components/company/dashboard/counting-card"
+import LayoutMain from "@/components/company/layouts/main"
 import CustomTable from "@/components/common/table"
 import { useRouter } from "next/router"
 import ConfirmDeleteModal from "@/components/common/confirm-delete"

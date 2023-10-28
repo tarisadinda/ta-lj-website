@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styles from '@/styles/components/Navbar.module.scss'
+import styles from '@/styles/components/company/Navbar.module.scss'
 import Box from '@mui/material/Box'
 import Drawer from '@mui/material/Drawer'
 import AppBar from '@mui/material/AppBar'
@@ -30,7 +30,7 @@ export default function Navbar() {
       <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
         <Toolbar className={styles.topBtn}>
           <div>
-            <Link href='/company-profile' className={styles.link}>
+            <Link href='/company/company-profile' className={styles.link}>
               <AccountCircleIcon sx={{ fontSize: 40 }} />
               <p className={styles.name}>PT Perusahaan</p>
             </Link>
@@ -48,29 +48,29 @@ export default function Navbar() {
         <Toolbar />
         <Box sx={{ overflow: 'auto' }} className={styles.menuWrap}>
           <List>
-            <Link href='/dashboard'>
+            <Link href='/company/dashboard'>
               <ListItemButton>
                 <ListItemText primary='Dashboard' />
               </ListItemButton>
             </Link>
-            <Link href='/vacancy-list'>
+            <Link href='/company/vacancy-list'>
               <ListItemButton>
                 <ListItemText primary='Daftar Lowongan' />
               </ListItemButton>
             </Link>
-            <Link href='/applicant-list'>
+            <Link href='/company/applicant-list'>
               <ListItemButton>
                 <ListItemText primary='Data Pelamar' />
               </ListItemButton>
             </Link>
-            <Link href='/search-employee'>
+            <Link href='/company/search-employee'>
               <ListItemButton>
                 <ListItemText primary='Cari Karyawan' />
               </ListItemButton>
             </Link>
           </List>
           <List>
-            <Link href='/login'>
+            <Link href='/company/login'>
               <ListItem disablePadding>
                 <ListItemButton>
                     <ListItemIcon>

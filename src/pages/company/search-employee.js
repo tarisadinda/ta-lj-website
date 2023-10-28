@@ -1,9 +1,9 @@
 import cn from 'classnames'
-import SearchFilter from '@/components/dashboard/search-filter'
-import SearchInput from '@/components/dashboard/search-input'
-import LayoutMain from '@/components/layouts/main'
-import EmployeeCard from '@/components/search-employee/employee-card'
-import styles from '@/styles/pages/SearchEmployee.module.scss'
+import SearchFilter from '@/components/company/dashboard/search-filter'
+import SearchInput from '@/components/company/dashboard/search-input'
+import LayoutMain from '@/components/company/layouts/main'
+import EmployeeCard from '@/components/company/search-employee/employee-card'
+import styles from '@/styles/pages/company/SearchEmployee.module.scss'
 
 export default function SearchEmployee() {
     return(<>

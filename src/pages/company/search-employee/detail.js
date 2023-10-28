@@ -1,7 +1,7 @@
-import styles from '@/styles/pages/search-employee/Detail.module.scss'
+import styles from '@/styles/pages/company/search-employee/Detail.module.scss'
 import cn from 'classnames'
-import CustomCard from "@/components/card"
-import LayoutMain from "@/components/layouts/main"
+import CustomCard from "@/components/common/card"
+import LayoutMain from "@/components/company/layouts/main"
 import VerifiedIcon from '@mui/icons-material/Verified';
 import { Avatar } from "@mui/material"
 
