@@ -62,17 +62,17 @@ export default function Navbar() {
         <Toolbar />
         <Box sx={{ overflow: 'auto' }} className={styles.menuWrap}>
           <List>
-            <Link href='/dashboard' className={styles.link}>
+            <Link href='/admin/dashboard' className={styles.link}>
                 <ListItemButton>
                     <ListItemText primary="Dashboard" />
                 </ListItemButton>
             </Link>
-            <Link href='/job-categories' className={styles.link}>
+            <Link href='/admin/job-categories' className={styles.link}>
                 <ListItemButton>
                     <ListItemText primary="Kategori Pekerjaan" />
                 </ListItemButton>
             </Link>
-            <Link href='/payroll' className={styles.link}>
+            <Link href='/admin/payroll' className={styles.link}>
                 <ListItemButton>
                     <ListItemText primary="Penghasilan" />
                 </ListItemButton>
@@ -83,19 +83,19 @@ export default function Navbar() {
             </ListItemButton>
             <Collapse in={openCompanyList} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
-                <Link href='/company/new-submission' className={styles.link}>
+                <Link href='/admin/company/new-submission' className={styles.link}>
                   <ListItemButton sx={{ pl: 4 }}>
                     <ListItemText primary="Pengajuan Baru" />
                   </ListItemButton>
                 </Link>
-                <Link href='/company/all' className={styles.link}>
+                <Link href='/admin/company/all' className={styles.link}>
                   <ListItemButton sx={{ pl: 4 }}>
                     <ListItemText primary="Semua Perusahaan" />
                   </ListItemButton>
                 </Link>
               </List>
             </Collapse>
-            <Link href='/employee/all' className={styles.link}>
+            <Link href='/admin/employee/all' className={styles.link}>
                 <ListItemButton>
                     <ListItemText primary="Semua Pekerja" />
                 </ListItemButton>
@@ -106,7 +106,7 @@ export default function Navbar() {
             </ListItemButton>
             <Collapse in={openSkillList} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
-                <Link href='/skills/skill-submission' className={styles.link}>
+                <Link href='/admin/skills/skill-submission' className={styles.link}>
                   <ListItemButton sx={{ pl: 4 }}>
                     <ListItemText primary="Pengajuan Baru" />
                   </ListItemButton>

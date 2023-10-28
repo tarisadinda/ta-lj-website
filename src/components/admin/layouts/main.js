@@ -1,5 +1,5 @@
 import React from 'react'
-import Navbar from '@/components/navbar'
+import Navbar from '@/components/admin/navbar'
 import { Inter } from "next/font/google"
 import { ThemeProvider, createTheme } from '@mui/material';
 

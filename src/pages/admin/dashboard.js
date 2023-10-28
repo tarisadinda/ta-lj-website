@@ -1,5 +1,5 @@
-import SummaryCard from "@/components/dashboard/summary-card"
-import LayoutMain from "@/components/layouts/main"
+import SummaryCard from "@/components/admin/dashboard/summary-card"
+import LayoutMain from "@/components/admin/layouts/main"
 import styles from '@/styles/pages/admin/Dashboard.module.scss'
 
 export default function Dashboard() {

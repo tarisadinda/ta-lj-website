@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux'
 import { axiosInstance } from 'src/utils/axios'
 import { useState } from 'react'
 import { API_ADD_CAT } from 'src/utils/api'
-import { setMessage, setOpenAlert, setSeverity } from 'src/redux/slices/alertSlice'
+import { setMessage, setOpenAlert, setSeverity } from 'src/redux/common/alertSlice'
 
 export default function AddCategoryModal({ open, onClose }) {
     const dispatch = useDispatch()
