@@ -1,6 +1,6 @@
 import React from 'react'
-import Footer from '../footer'
 import { ThemeProvider, createTheme } from '@mui/material';
+import Footer from '../footer';
 
 const theme = createTheme({
   typography: {

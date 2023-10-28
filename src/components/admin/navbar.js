@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styles from '@/styles/components/Navbar.module.scss'
+import styles from '@/styles/components/admin/Navbar.module.scss'
 import Box from '@mui/material/Box'
 import Drawer from '@mui/material/Drawer'
 import AppBar from '@mui/material/AppBar'
