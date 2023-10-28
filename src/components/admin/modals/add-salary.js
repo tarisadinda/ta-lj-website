@@ -1,5 +1,5 @@
 import { DialogContent } from '@mui/material'
-import CustomDialog from '../common/dialog'
+import CustomDialog from '@/components/common/dialog'
 import { useForm } from 'react-hook-form';
 import styles from '@/styles/components/admin/modals/AddSalaryModal.module.scss'
 import cn from 'classnames'
@@ -9,7 +9,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { axiosInstance } from 'src/utils/axios'
 import { API_SAVE_SAL_END, API_SAVE_SAL_START } from 'src/utils/api'
 import { useDispatch } from 'react-redux';
-import { setMessage, setOpenAlert } from 'src/redux/slices/alertSlice';
+import { setMessage, setOpenAlert } from 'src/redux/common/alertSlice';
 
 export default function AddSalaryModal({ open, onClose }) {
     const dispatch = useDispatch()

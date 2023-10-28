@@ -1,11 +1,11 @@
 import cn from 'classnames'
-import LayoutMain from "@/components/layouts/main"
+import LayoutMain from "@/components/admin/layouts/main"
 import styles from '@/styles/pages/admin/skills/DetailSkill.module.scss'
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile'
 import { Card, DialogContent } from '@mui/material'
 import CustomDialog from '@/components/common/dialog'
 import React from 'react'
-import CustomDropdown from '@/components/common/custom-dropdown'
+import CustomDropdown from '@/components/common/dropdown'
 
 const statusData = [
     {

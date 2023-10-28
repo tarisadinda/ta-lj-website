@@ -1,4 +1,4 @@
-import LayoutMain from "@/components/layouts/main"
+import LayoutMain from "@/components/admin/layouts/main"
 import CustomTable from "@/components/common/table"
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import { useRouter } from "next/router"
@@ -55,7 +55,7 @@ export default function NewAccountList() {
 
     const detailBtn = (id) => {
         console.log(id)
-        router.push('/employee/detail')
+        router.push('/admin/employee/detail')
     }
 
     const actionBtn = [

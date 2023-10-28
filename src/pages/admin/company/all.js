@@ -1,10 +1,10 @@
 import React from 'react'
 import cn from 'classnames'
 import BlueCard from '@/components/common/blue-card'
-import LayoutMain from '@/components/layouts/main'
+import LayoutMain from '@/components/admin/layouts/main'
 import styles from '@/styles/pages/admin/company/AllCompany.module.scss'
 import CustomTable from '@/components/common/table'
-import CustomDropdown from '@/components/common/custom-dropdown'
+import CustomDropdown from '@/components/common/dropdown'
 import EditIcon from '@mui/icons-material/Edit'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import DeleteIcon from '@mui/icons-material/Delete'
@@ -89,7 +89,7 @@ export default function AllCompany() {
 
     const detailBtn = (id) => {
         console.log('Detail: ' + id)
-        router.push('/company/detail-company')
+        router.push('/admin/company/detail-company')
     }
     
     const actionBtn = [

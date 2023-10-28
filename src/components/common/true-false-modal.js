@@ -1,4 +1,4 @@
-import styles from '@/styles/components/admin/modals/TrueFalseModal.module.scss'
+import styles from '@/styles/components/common/TrueFalseModal.module.scss'
 import cn from 'classnames'
 import { Dialog, DialogContent } from '@mui/material'
 

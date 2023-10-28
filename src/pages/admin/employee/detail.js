@@ -1,4 +1,4 @@
-import LayoutMain from "@/components/layouts/main"
+import LayoutMain from "@/components/admin/layouts/main"
 import styles from '@/styles/pages/admin/employee/Detail.module.scss'
 import Avatar from '@mui/material/Avatar'
 import Pic from '@/public/profilepic.jpg'

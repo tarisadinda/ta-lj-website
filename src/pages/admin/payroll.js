@@ -1,16 +1,16 @@
 import React, { useRef, useState } from 'react'
 import styles from '@/styles/pages/admin/Payroll.module.scss'
 import IconBtn from "@/components/common/icon-button"
-import LayoutMain from "@/components/layouts/main"
+import LayoutMain from "@/components/admin/layouts/main"
 import SVGAdd from '@/public/icons/add.svg'
 import CustomTable from '@/components/common/table'
-import AddSalaryModal from '@/components/modals/add-salary'
+import AddSalaryModal from '@/components/admin/modals/add-salary'
 import { axiosInstance } from 'src/utils/axios'
 import { API_SALARY, API_SALARY_END, API_SALARY_START } from 'src/utils/api'
 import { convertDate } from 'src/utils/convert-date'
 import { useDispatch, useSelector } from 'react-redux'
-import { alertMessage, openAlert, setOpenAlert } from 'src/redux/slices/alertSlice'
-import CustomAlert from '@/components/common/custom-alert'
+import { alertMessage, openAlert, setOpenAlert } from 'src/redux/common/alertSlice'
+import CustomAlert from '@/components/common/alert'
 
 const colList = [
     {

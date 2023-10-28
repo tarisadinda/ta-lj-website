@@ -1,4 +1,4 @@
-import LayoutMain from "@/components/layouts/main"
+import LayoutMain from "@/components/admin/layouts/main"
 import styles from '@/styles/pages/admin/company/DetailCompany.module.scss'
 import Image from "next/image"
 import cn from 'classnames'

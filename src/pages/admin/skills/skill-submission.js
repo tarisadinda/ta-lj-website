@@ -1,6 +1,6 @@
 import React from 'react'
-import CustomDropdown from "@/components/common/custom-dropdown"
-import LayoutMain from "@/components/layouts/main"
+import CustomDropdown from "@/components/common/dropdown"
+import LayoutMain from "@/components/admin/layouts/main"
 import CustomTable from "@/components/common/table"
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import { useRouter } from 'next/router'
@@ -50,7 +50,7 @@ export default function SkillSubmission() {
 
     const detailBtn = (id) => {
         console.log('Detail: ' + id)
-        router.push('/skills/detail')
+        router.push('/admin/skills/detail')
     }
 
     const colList = [

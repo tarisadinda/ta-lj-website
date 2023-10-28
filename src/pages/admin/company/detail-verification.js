@@ -1,4 +1,4 @@
-import LayoutMain from "@/components/layouts/main"
+import LayoutMain from "@/components/admin/layouts/main"
 import cn from 'classnames'
 import styles from '@/styles/pages/admin/company/DetailVerification.module.scss'
 import { Card } from '@mui/material'

@@ -1,11 +1,11 @@
 import React from 'react'
-import LayoutMain from "@/components/layouts/main"
+import LayoutMain from "@/components/admin/layouts/main"
 import CustomTable from "@/components/common/table"
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import CheckIcon from '@mui/icons-material/Check'
 import ClearIcon from '@mui/icons-material/Clear'
 import { useRouter } from "next/router"
-import TrueFalseModal from "@/components/modals/true-false-modal"
+import TrueFalseModal from "@/components/common/true-false-modal"
 
 const colList = [
     {
@@ -46,7 +46,7 @@ export default function NewSubmission() {
     const [openModal, setOpenModal] = React.useState(false)
 
     const detailBtn = (id) => {
-        router.push('/company/detail-verification')
+        router.push('/admin/company/detail-verification')
     }
 
     const acceptBtn = (id) => {
