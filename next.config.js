@@ -9,6 +9,10 @@ const nextConfig = {
     @import "@/styles/helpers/_button.scss";
     `,
   },
+  images: {
+    domains: ['i.ibb.co'],
+    unoptimized: true
+  },
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/i,
