@@ -21,6 +21,14 @@ const nextConfig = {
     });
 
     return config;
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/',
+        destination: '/login'
+      }
+    ]
   }
 }
 
