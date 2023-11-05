@@ -35,7 +35,7 @@ export default function Navbar() {
 
   const handleLogout = () => {
     sessionStorage.removeItem('user_token')
-    router.push('/')
+    router.push('/login')
   }
 
   return (

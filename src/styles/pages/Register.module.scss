@@ -1,0 +1,34 @@
+.wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    width: 450px;
+}
+
+.inputField {
+    width: inherit;
+}
+
+.regisBtn {
+    width: 100px;
+    margin-top: 10px;
+}
+
+.loginWrap {
+    width: 450px;
+}
+
+.loginBtn {
+    color: $blue-1;
+
+    &:hover, &:active {
+        color: $blue-hover;
+    }
+}

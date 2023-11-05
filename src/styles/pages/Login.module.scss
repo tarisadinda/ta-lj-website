@@ -39,4 +39,10 @@
 
 .registText {
     color: $gray-1;
+
+    &:hover {
+        span {
+            text-decoration: underline;
+        }
+    }
 }

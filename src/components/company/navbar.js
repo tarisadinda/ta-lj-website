@@ -70,7 +70,7 @@ export default function Navbar() {
             </Link>
           </List>
           <List>
-            <Link href='/company/login'>
+            <Link href='/login'>
               <ListItem disablePadding>
                 <ListItemButton>
                     <ListItemIcon>
