@@ -100,7 +100,17 @@ export default function Navbar() {
                     <ListItemText primary="Semua Pekerja" />
                 </ListItemButton>
             </Link>
-            <ListItemButton onClick={handleSkillList}>
+            <Link href='#' className={styles.link}>
+                <ListItemButton>
+                    <ListItemText primary="Role" />
+                </ListItemButton>
+            </Link>
+            <Link href='#' className={styles.link}>
+                <ListItemButton>
+                    <ListItemText primary="Kelola Hak Akses" />
+                </ListItemButton>
+            </Link>
+            {/* <ListItemButton onClick={handleSkillList}>
                 <ListItemText primary="Pengajuan Keahlian" />
                 {openSkillList ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
@@ -117,7 +127,7 @@ export default function Navbar() {
                   </ListItemButton>
                 </Link>
               </List>
-            </Collapse>
+            </Collapse> */}
           </List>
           <List>
             <ListItem disablePadding onClick={handleLogout}>
