@@ -12,37 +12,49 @@ export default function AddCategoryModal({ open, onClose }) {
     const dispatch = useDispatch()
 
     const [catName, setCatName] = useState('')
+    const [desc, setDesc] = useState('')
     
     const saveCategory = (e) => {
         e.preventDefault()
 
         const data = {
-            category_name: catName
+            name: catName,
+            description: desc
         }
 
-        axiosInstance.post(API_ADD_CAT, data)
-        .then((res) => {
+        axiosInstance.post(API_ADD_CAT, data, {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then((res) => {
             console.log(res)
-            onClose()
 
-            if(res.status === 200) {
+            if(res.status === 201) {
                 dispatch(setOpenAlert(true))
                 dispatch(setMessage('Data berhasil ditambahkan'))
                 dispatch(setSeverity('success'))
             }
+
+            // if(res.status === 200) {
+            //     dispatch(setOpenAlert(true))
+            //     dispatch(setMessage('Data berhasil ditambahkan'))
+            //     dispatch(setSeverity('success'))
+            // }
         }).catch((err) => {
             console.log(err)
 
-            if(err) {
-                dispatch(setMessage(err.response.data.message))
-                dispatch(setSeverity('error'))
-                dispatch(setOpenAlert(true))
-            } else {
-                dispatch(setMessage('Data gagal ditambahkan. Silahkan ulangi kembali!'))
-                dispatch(setSeverity('error'))
-                dispatch(setOpenAlert(true))
-            }
+            // if(err) {
+            //     dispatch(setMessage(err.response.data.message))
+            //     dispatch(setSeverity('error'))
+            //     dispatch(setOpenAlert(true))
+            // } else {
+            //     dispatch(setMessage('Data gagal ditambahkan. Silahkan ulangi kembali!'))
+            //     dispatch(setSeverity('error'))
+            //     dispatch(setOpenAlert(true))
+            // }
         })
+
+        onClose()
     }
 
     return(<>
@@ -54,9 +66,27 @@ export default function AddCategoryModal({ open, onClose }) {
                 </div>
             </DialogTitle>
             <DialogContent dividers>
-                <div>
-                    <label className={styles.inputLabel}>Nama Kategori</label>
-                    <input type='text' className='form-control' name='category_name' onChange={(e) => setCatName(e.target.value)} />
+                <div className={styles.formSection}>
+                    <div>
+                        <label className={styles.inputLabel}>Nama Kategori</label>
+                        <input 
+                            type='text' 
+                            placeholder='Masukkan nama kategori'
+                            className='form-control' 
+                            name='category_name' 
+                            onChange={(e) => setCatName(e.target.value)} 
+                        />
+                    </div>
+                    <div>
+                        <label className={styles.inputLabel}>Deskripsi Kategori</label>
+                        <input 
+                            type='text' 
+                            placeholder='Masukkan deskripsi kategori'
+                            className='form-control' 
+                            name='description' 
+                            onChange={(e) => setDesc(e.target.value)} 
+                        />
+                    </div>
                 </div>
                 <div className={styles.actionBtn}>
                     <button onClick={onClose} className={cn(styles.cancelBtn, 'btn btn-ghost')}>Batal</button>

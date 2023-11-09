@@ -7,7 +7,7 @@ import IconBtn from '@/components/common/icon-button'
 import AddCategoryModal from '@/components/admin/modals/add-category'
 import { axiosInstance } from 'src/utils/axios'
 import { convertDate } from 'src/utils/convert-date'
-import { API_CATEGORY_LIST, API_DELETE_CAT } from 'src/utils/api'
+import { API_ADD_CAT, API_CATEGORY_LIST, API_DELETE_CAT } from 'src/utils/api'
 import ConfirmDeleteModal from '@/components/common/confirm-delete'
 import CustomAlert from '@/components/common/alert'
 import { useDispatch, useSelector } from 'react-redux'
@@ -17,15 +17,20 @@ import { openModal, setOpenModal } from 'src/redux/common/modalSlice'
 
 const colList = [
     {
-        id: 'category_name',
+        id: 'name',
         label: 'Kategori',
-        render: (data) => <span>{data.category_name}</span>
+        render: (data) => <span>{data.name}</span>
     },
     {
-        id: 'create_date',
-        label: 'Tanggal Dibuat',
-        render: (data) => <span>{convertDate(data.create_date)}</span>
-    },
+        id: 'description',
+        label: 'Deskripsi Kategori',
+        render: (data) => <span>{data.description}</span>
+    }
+    // {
+    //     id: 'create_date',
+    //     label: 'Tanggal Dibuat',
+    //     render: (data) => <span>{convertDate(data.create_date)}</span>
+    // },
 ]
 
 export default function JobCategories() {
@@ -44,23 +49,27 @@ export default function JobCategories() {
     const [categoryList, setCategoryList] = React.useState([])
 
     const getCategoryList = () => {
-        axiosInstance.get(API_CATEGORY_LIST)
+        axiosInstance.get(API_ADD_CAT)
         .then((res) => {
-            res.data.data.map((item) => {
-                if(!categoryList.find((item) => item.category_id)) {
-                    setCategoryList((categoryList) => [
-                        ...categoryList, {
-                            category_id: item.category_id,
-                            category_name: item.category_name,
-                            category_slug: item.category_slug,
-                            create_date: item.createdAt
-                        }
-                    ])
-                }
-            })
+            console.log(res)
+            setCategoryList(res.data)
+
+            // res.data.data.map((item) => {
+            //     if(!categoryList.find((item) => item.category_id)) {
+            //         setCategoryList((categoryList) => [
+            //             ...categoryList, {
+            //                 category_id: item.category_id,
+            //                 category_name: item.category_name,
+            //                 category_slug: item.category_slug,
+            //                 create_date: item.createdAt
+            //             }
+            //         ])
+            //     }
+            // })
         }).catch((err) => {})
     }
 
+    console.log(categoryList)
     React.useEffect(() => {
         if (effectRan.current === false) {
           getCategoryList()  
@@ -73,15 +82,27 @@ export default function JobCategories() {
 
     const deleteItem = () => {
         if(deleteId !== '') {
-            axiosInstance.get(API_DELETE_CAT + deleteId)
+            axiosInstance.delete(API_ADD_CAT + '/' + deleteId)
             .then((res) => {
+                console.log(res)
                 setAskDelete(false)
-                setDeleteId('')
-                dispatch(setMessage(res.data.message))
-                dispatch(setOpenAlert(true))
+
+                if(res.status === 200) {
+                    setCategoryList(categoryList.filter((category) => {
+                        return category.id !== deleteId
+                    }))
+
+                    setDeleteId('')
+                } else {
+                    setDeleteId('')
+                }
+                // dispatch(setMessage(res.data.message))
+                // dispatch(setOpenAlert(true))
             }).catch((err) => {})
         }
     }
+
+    console.log(deleteId)
 
     const modalDelete = (id) => {
         setDeleteId(id)
@@ -95,8 +116,6 @@ export default function JobCategories() {
             setEditCatId(id)
         }
     }
-
-    console.log(editCatId)
     
     return(<>
         <h4><b>Kategori Pekerjaan</b></h4>
@@ -111,14 +130,15 @@ export default function JobCategories() {
         <CustomTable 
             columns={colList}
             data={categoryList}
-            idKey='category_id'
+            idKey='id'
             deleteData
             deleteFunc={modalDelete}
             editData
             editFunc={editItem}
         />
         <AddCategoryModal open={openCatModal} onClose={() => setOpenCatModal(false)} />
-        <ConfirmDeleteModal open={askDelete} 
+        <ConfirmDeleteModal 
+            open={askDelete} 
             delFunc={deleteItem} 
             onClose={() => { setAskDelete(false), setDeleteId('') }} 
         />
@@ -128,7 +148,8 @@ export default function JobCategories() {
             duration={3500} 
             onClose={() => { dispatch(setOpenAlert(false)), dispatch(setMessage('')) }} 
         />
-        <EditCategoryModal id={editCatId} 
+        <EditCategoryModal 
+            id={editCatId} 
             open={isEditModal} 
             onClose={() => { dispatch(setOpenModal(false)); setEditCatId('') }} 
         />

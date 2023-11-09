@@ -1,5 +1,5 @@
 import CustomIconButton from "@/components/common/icon-button"
-import styles from '@/styles/pages/CompanyProfile.module.scss'
+import styles from '@/styles/pages/company/CompanyProfile.module.scss'
 import LayoutMain from "@/components/layouts/main"
 import { Avatar } from "@mui/material"
 import EditIcon from '@mui/icons-material/Edit'

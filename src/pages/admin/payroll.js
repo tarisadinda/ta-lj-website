@@ -6,28 +6,29 @@ import SVGAdd from '@/public/icons/add.svg'
 import CustomTable from '@/components/common/table'
 import AddSalaryModal from '@/components/admin/modals/add-salary'
 import { axiosInstance } from 'src/utils/axios'
-import { API_SALARY, API_SALARY_END, API_SALARY_START } from 'src/utils/api'
+import { API_SALARY } from 'src/utils/api'
 import { convertDate } from 'src/utils/convert-date'
 import { useDispatch, useSelector } from 'react-redux'
 import { alertMessage, openAlert, setOpenAlert } from 'src/redux/common/alertSlice'
 import CustomAlert from '@/components/common/alert'
+import ConfirmDeleteModal from '@/components/common/confirm-delete'
 
 const colList = [
     {
-        id: 'salary_nominal',
+        id: 'nominal',
         label: 'Nominal Gaji',
-        render: (data) => <span>{data.salary_nominal}</span>
+        render: (data) => <span>{data.nominal}</span>
     },
-    {
-        id: 'salary_flag',
-        label: 'Flag Item',
-        render: (data) => <span>{data.salary_flag}</span>
-    },
-    {
-        id: 'createdAt',
-        label: 'Tanggal Dibuat',
-        render: (data) => <span>{convertDate(data.createdAt)}</span>
-    },
+    // {
+    //     id: 'salary_flag',
+    //     label: 'Flag Item',
+    //     render: (data) => <span>{data.salary_flag}</span>
+    // },
+    // {
+    //     id: 'createdAt',
+    //     label: 'Tanggal Dibuat',
+    //     render: (data) => <span>{convertDate(data.createdAt)}</span>
+    // },
 ]
 
 export default function Payroll() {
@@ -39,12 +40,15 @@ export default function Payroll() {
     const alertMsg = useSelector(alertMessage)
 
     const [isAddSalary, setIsAddSalary] = useState(false)
+    const [askDelete, setAskDelete] = React.useState(false)
+    const [deleteId, setDeleteId] = React.useState('')
     const [salaryList, setSalaryList] = useState([])
 
     const getSalary = () => {
         axiosInstance.get(API_SALARY)
         .then((res) => {
-            setSalaryList(res.data.data)
+            console.log(res)
+            setSalaryList(res.data)
         }).catch((err) => console.log(err))
     }
 
@@ -59,8 +63,30 @@ export default function Payroll() {
     }, [])
 
     const deleteSalary = (id) => {
-        console.log(id)
-        // axiosInstance.get()
+        setDeleteId(id)
+        setAskDelete(true)
+    }
+
+    const deleteItem = () => {
+        if(deleteId !== '') {
+            axiosInstance.delete(API_SALARY + '/' + deleteId)
+            .then((res) => {
+                console.log(res)
+                setAskDelete(false)
+
+                if(res.status === 200) {
+                    setSalaryList(salaryList.filter((data) => {
+                        return data.id !== deleteId
+                    }))
+
+                    setDeleteId('')
+                } else {
+                    setDeleteId('')
+                }
+                // dispatch(setMessage(res.data.message))
+                // dispatch(setOpenAlert(true))
+            }).catch((err) => {})
+        }
     }
 
     return(<>
@@ -74,11 +100,11 @@ export default function Payroll() {
             />
         </div>
         <div>
-            <p className={styles.tableName}>Daftar Penghasilan Minimal</p>
+            <p className={styles.tableName}>Daftar Penghasilan</p>
             <CustomTable
                 columns={colList}
                 data={salaryList}
-                idKey='salary_id'
+                idKey='id'
                 deleteData={true}
                 editData={true}
                 deleteFunc={deleteSalary}
@@ -91,6 +117,11 @@ export default function Payroll() {
             text={alertMsg}
             duration={3500} 
             onClose={() => dispatch(setOpenAlert(false))} 
+        />
+        <ConfirmDeleteModal
+            open={askDelete} 
+            delFunc={deleteItem} 
+            onClose={() => { setAskDelete(false), setDeleteId('') }} 
         />
     </>)
 }

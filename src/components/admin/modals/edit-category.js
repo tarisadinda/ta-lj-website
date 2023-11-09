@@ -10,6 +10,7 @@ export default function EditCategoryModal({ open, onClose, id }) {
     const dispatch = useDispatch()
 
     const [catName, setCatName] = useState('')
+    const [desc, setDesc] = useState('')
 
     console.log(id)
     
@@ -26,9 +27,15 @@ export default function EditCategoryModal({ open, onClose, id }) {
                 </div>
             </DialogTitle>
             <DialogContent dividers>
-                <div>
-                    <label className={styles.inputLabel}>Nama Kategori</label>
-                    <input type='text' className='form-control' name='category_name' onChange={(e) => setCatName(e.target.value)} />
+                <div className={styles.formSection}>
+                    <div>
+                        <label className={styles.inputLabel}>Nama Kategori</label>
+                        <input type='text' className='form-control' value={catName} name='name' onChange={(e) => setCatName(e.target.value)} />
+                    </div>
+                    <div>
+                        <label className={styles.inputLabel}>Deskripsi Kategori</label>
+                        <input type='text' className='form-control' value={desc} name='description' onChange={(e) => setDesc(e.target.value)} />
+                    </div>
                 </div>
                 <div className={styles.actionBtn}>
                     <button onClick={onClose} className={cn(styles.cancelBtn, 'btn btn-ghost')}>Batal</button>
