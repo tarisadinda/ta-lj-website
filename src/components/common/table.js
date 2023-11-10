@@ -32,8 +32,8 @@ const CustomTableRow = styled(TableRow)(({ theme }) => ({
     },
 }))
 
-export default function CustomTable({columns, data, actionButton, deleteData, deleteFunc,
-    editData, editFunc, idKey}) {
+export default function CustomTable({columns, data, actionButton, deleteFunc,
+    editFunc, idKey}) {
     return(<>
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -61,12 +61,12 @@ export default function CustomTable({columns, data, actionButton, deleteData, de
                                                 {btn.icon}
                                             </IconButton>
                                         ))}
-                                        {deleteData &&
+                                        {deleteFunc &&
                                             <IconButton onClick={() => deleteFunc(item[idKey])}>
                                                 <DeleteIcon />
                                             </IconButton>
                                         }
-                                        {editData &&
+                                        {editFunc &&
                                             <IconButton onClick={() => editFunc(item[idKey])}>
                                                 <EditIcon />
                                             </IconButton>

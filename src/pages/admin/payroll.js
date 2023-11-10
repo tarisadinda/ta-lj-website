@@ -9,9 +9,10 @@ import { axiosInstance } from 'src/utils/axios'
 import { API_SALARY } from 'src/utils/api'
 import { convertDate } from 'src/utils/convert-date'
 import { useDispatch, useSelector } from 'react-redux'
-import { alertMessage, openAlert, setOpenAlert } from 'src/redux/common/alertSlice'
+import { alertMessage, openAlert, setOpenAlert, severity } from 'src/redux/common/alertSlice'
 import CustomAlert from '@/components/common/alert'
 import ConfirmDeleteModal from '@/components/common/confirm-delete'
+import EditSalaryModal from '@/components/admin/modals/edit-payroll'
 
 const colList = [
     {
@@ -38,10 +39,13 @@ export default function Payroll() {
 
     const isOpenAlert = useSelector(openAlert)
     const alertMsg = useSelector(alertMessage)
+    const alertSeverity = useSelector(severity)
 
     const [isAddSalary, setIsAddSalary] = useState(false)
     const [askDelete, setAskDelete] = React.useState(false)
     const [deleteId, setDeleteId] = React.useState('')
+    const [editId, setEditId] = React.useState('')
+    const [openEditModal, setOpenEditModal] = React.useState(false)
     const [salaryList, setSalaryList] = useState([])
 
     const getSalary = () => {
@@ -62,9 +66,14 @@ export default function Payroll() {
         }
     }, [])
 
-    const deleteSalary = (id) => {
+    const deleteModal = (id) => {
         setDeleteId(id)
         setAskDelete(true)
+    }
+
+    const editModal = (id) => {
+        setEditId(id)
+        setOpenEditModal(true)
     }
 
     const deleteItem = () => {
@@ -105,15 +114,14 @@ export default function Payroll() {
                 columns={colList}
                 data={salaryList}
                 idKey='id'
-                deleteData={true}
-                editData={true}
-                deleteFunc={deleteSalary}
+                deleteFunc={deleteModal}
+                editFunc={editModal}
             />
         </div>
         <AddSalaryModal open={isAddSalary} onClose={() => setIsAddSalary(false)} />
         <CustomAlert 
             open={isOpenAlert} 
-            severity="success" 
+            severity={alertSeverity}
             text={alertMsg}
             duration={3500} 
             onClose={() => dispatch(setOpenAlert(false))} 
@@ -121,7 +129,14 @@ export default function Payroll() {
         <ConfirmDeleteModal
             open={askDelete} 
             delFunc={deleteItem} 
+            title="Apakah anda ingin menghapus data ini?"
+            desc="Data yang telah dihapus, tidak dapat dikembali lagi."
             onClose={() => { setAskDelete(false), setDeleteId('') }} 
+        />
+        <EditSalaryModal
+            open={openEditModal}
+            onClose={() => setOpenEditModal(false)}
+            id={editId}
         />
     </>)
 }

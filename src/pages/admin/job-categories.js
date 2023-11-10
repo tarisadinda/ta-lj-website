@@ -102,14 +102,12 @@ export default function JobCategories() {
         }
     }
 
-    console.log(deleteId)
-
     const modalDelete = (id) => {
         setDeleteId(id)
         setAskDelete(true)
     }
 
-    const editItem = (id) => {
+    const modalEdit = (id) => {
         dispatch(setOpenModal(true))
 
         if(id) {
@@ -131,14 +129,14 @@ export default function JobCategories() {
             columns={colList}
             data={categoryList}
             idKey='id'
-            deleteData
             deleteFunc={modalDelete}
-            editData
-            editFunc={editItem}
+            editFunc={modalEdit}
         />
         <AddCategoryModal open={openCatModal} onClose={() => setOpenCatModal(false)} />
         <ConfirmDeleteModal 
             open={askDelete} 
+            title="Apakah anda ingin menghapus data ini?"
+            desc="Data yang telah dihapus, tidak dapat dikembali lagi."
             delFunc={deleteItem} 
             onClose={() => { setAskDelete(false), setDeleteId('') }} 
         />

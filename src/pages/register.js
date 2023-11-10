@@ -22,6 +22,7 @@ export default function Register() {
     const [severity, setSeverity] = React.useState('success')
     const [seePassword, setSeePassword] = React.useState(false)
     const [seeConfirmPass, setSeeConfirmPass] = React.useState(false)
+    const [roleId, setRoleId] = React.useState(1)
     const [userAccount, setUserAccount] = React.useState({
         username: '',
         name: '',
@@ -29,10 +30,7 @@ export default function Register() {
         password: '',
         confirm_pass: '',
         phone_number: '',
-        role_id: 1
     })
-
-    console.log(userAccount)
 
     const validationSchema = Yup.object().shape({
         username: Yup.string().required('Username wajib diisi'),
@@ -42,7 +40,6 @@ export default function Register() {
         password: Yup.string().min(6, 'Kata sandi harus terdapat minimal 6 karakter').required('Password wajib diisi'),
         confirm_pass: Yup.string().oneOf([Yup.ref('password'), null], 'Konfirmasi password tidak sesuai dengan password yang diinputkan')
         .required('Konfirmasi password wajib diisi'),
-        role_id: Yup.number().oneOf([1, 2], 'Nilai tidak valid').required('Role yang dipilih tidak sesuai')
     })
 
     const formOptions = { resolver: yupResolver(validationSchema) };
@@ -66,6 +63,10 @@ export default function Register() {
         })
     }
 
+    const handleRole = (e) => {
+        setRoleId(e.target.value)
+    }
+
     const submitForm = (data) => {
         const formData = {
             name: data.name,
@@ -77,34 +78,37 @@ export default function Register() {
             role_id: data.role_id
         }
 
-        axiosInstance.post(API_REGIS, formData, {
-            headers: {
-                "Content-Type": "application/json"
-            }
-        })
-        .then((res) => {
-            console.log(res)
-            if(res.status === 201) {
-                setOpenAlert(true)
-                setErrorMsg('Data berhasil disimpan!')
-                setUserAccount({
-                    name: '',
-                    username: '',
-                    email: '',
-                    phone_number: '',
-                    password: '',
-                    confirm_pass: '',
-                    role_id: 1
-                })
-                setValue('password', '')
-                setValue('confirm_pass', '')
-            }
-        }).catch((err) => console.log(err))
+        console.log(formData)
+
+        // axiosInstance.post(API_REGIS, formData, {
+        //     headers: {
+        //         "Content-Type": "application/json"
+        //     }
+        // })
+        // .then((res) => {
+        //     console.log(res)
+        //     if(res.status === 201) {
+        //         setOpenAlert(true)
+        //         setErrorMsg('Data berhasil disimpan!')
+        //         setUserAccount({
+        //             name: '',
+        //             username: '',
+        //             email: '',
+        //             phone_number: '',
+        //             password: '',
+        //             confirm_pass: '',
+        //             role_id: 1
+        //         })
+        //         setValue('password', '')
+        //         setValue('confirm_pass', '')
+        //     }
+        // }).catch((err) => console.log(err))
     }
 
     console.log(errors)
     console.log(userAccount)
-    
+    console.log(roleId)
+    console.log(typeof(roleId))
     return(<>
         <div className={styles.wrapper}>
             <h2 className="d-flex justify-content-center mb-4"><b>Buat Akun</b></h2>
@@ -116,9 +120,8 @@ export default function Register() {
                             name="role_id" 
                             id="role_id" 
                             className="form-select"
-                            onChange={handleChange} 
-                            {...register('role_id')}
-                            value={userAccount.role_id}
+                            onChange={handleRole} 
+                            value={roleId}
                         > 
                             <option value="1">Perusahaan</option>
                             <option value="2">Kandidat</option>
@@ -126,7 +129,7 @@ export default function Register() {
                         {errors && <span className="error-msg">{errors.role_id?.message}</span>}
                     </div>
                     <div className={styles.inputField}>
-                        <label htmlFor="name" className="form-label"><b>Nama</b></label>
+                        <label htmlFor="name" className="form-label"><b>Nama {roleId == 1 ? 'Perusahaan' : 'Lengkap'}</b></label>
                         <input 
                             type="text"  
                             {...register('name')}
@@ -134,7 +137,7 @@ export default function Register() {
                             className="form-control" 
                             id="name" 
                             name="name" 
-                            placeholder="Masukkan nama" 
+                            placeholder={`Masukkan nama ${roleId == 1 ? 'perusahaan' : 'lengkap'}`}
                             value={userAccount.name}
                         />
                         {errors && <span className="error-msg">{errors.name?.message}</span>}
@@ -148,13 +151,13 @@ export default function Register() {
                             className="form-control" 
                             id="email" 
                             name="email" 
-                            placeholder="Masukkan email" 
+                            placeholder={`Masukkan email ${roleId == 1 ? 'perusahaan' : ''}`}
                             value={userAccount.email}
                         />
                         {errors && <span className="error-msg">{errors.email?.message}</span>}
                     </div>
                     <div className={styles.inputField}>
-                        <label htmlFor="phone_number" className="form-label"><b>Nomor Telepon</b></label>
+                        <label htmlFor="phone_number" className="form-label"><b>Nomor Telepon {roleId == 1 ? 'Perusahaan' : ''}</b></label>
                         <input 
                             type="text"  
                             {...register('phone_number')}
@@ -162,13 +165,13 @@ export default function Register() {
                             className="form-control" 
                             id="phone_number" 
                             name="phone_number" 
-                            placeholder="Masukkan nomor telepon"
+                            placeholder={`Masukkan nomor telepon ${roleId == 1 ? 'perusahaan' : ''}`}
                             value={userAccount.phone_number} 
                         />
                         {errors && <span className="error-msg">{errors.phone_number?.message}</span>}
-                    </div>
+                    </div>                    
                     <div className={styles.inputField}>
-                        <label htmlFor="username" className="form-label"><b>Username</b></label>
+                        <label htmlFor="username" className="form-label"><b>Username {roleId == 1 ? 'Perusahaan' : ''}</b></label>
                         <input 
                             type="text"  
                             {...register('username')}
@@ -176,7 +179,7 @@ export default function Register() {
                             className="form-control" 
                             id="username" 
                             name="username" 
-                            placeholder="Masukkan username" 
+                            placeholder={`Masukkan username ${roleId == 1 ? 'perusahaan' : ''}`}
                             value={userAccount.username}
                         />
                         {errors && <span className="error-msg">{errors.username?.message}</span>}
