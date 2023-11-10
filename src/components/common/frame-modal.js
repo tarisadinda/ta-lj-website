@@ -3,6 +3,7 @@ import CloseIcon from '@mui/icons-material/Close'
 import { Dialog, DialogContent, DialogTitle, IconButton } from '@mui/material'
 import styles from '@/styles/components/common/FrameModal.module.scss'
 
+//can close outside of modal
 const FrameModal = ({open, handleClose, children, title}) => {
     return(<>
         <Dialog 
