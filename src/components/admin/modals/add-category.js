@@ -27,8 +27,6 @@ export default function AddCategoryModal({ open, onClose }) {
                 "Content-Type": "application/json"
             }
         }).then((res) => {
-            console.log(res)
-
             if(res.status === 201) {
                 dispatch(setOpenAlert(true))
                 dispatch(setMessage('Data berhasil ditambahkan'))
