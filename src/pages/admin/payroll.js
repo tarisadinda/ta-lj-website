@@ -123,7 +123,7 @@ export default function Payroll() {
             open={isOpenAlert} 
             severity={alertSeverity}
             text={alertMsg}
-            duration={3500} 
+            duration={3000} 
             onClose={() => dispatch(setOpenAlert(false))} 
         />
         <ConfirmDeleteModal

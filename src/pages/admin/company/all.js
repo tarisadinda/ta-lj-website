@@ -5,9 +5,6 @@ import LayoutMain from '@/components/admin/layouts/main'
 import styles from '@/styles/pages/admin/company/AllCompany.module.scss'
 import CustomTable from '@/components/common/table'
 import CustomDropdown from '@/components/common/dropdown'
-import EditIcon from '@mui/icons-material/Edit'
-import VisibilityIcon from '@mui/icons-material/Visibility'
-import DeleteIcon from '@mui/icons-material/Delete'
 import { useRouter } from 'next/router'
 import { axiosInstance } from 'src/utils/axios'
 import { API_COMPANY } from 'src/utils/api'
@@ -78,7 +75,6 @@ const statusData = [
 
 export default function AllCompany() {
     const router = useRouter()
-    const effectRan = useRef(false)
 
     const [status, setStatus] = React.useState('all')
     const [companyList, setCompanyList] = React.useState([])
@@ -87,39 +83,34 @@ export default function AllCompany() {
         setStatus(e.target.value)
     }
 
-    const detailBtn = (id) => {
-        console.log('Detail: ' + id)
-        router.push('/admin/company/detail-company')
+    const modalDelete = (id) => {
+        console.log(id)
+    }
+
+    const modalEdit = (id) => {
+        console.log(id)
     }
     
-    const actionBtn = [
-        {
-            icon: <EditIcon />,
-            id: 'edit'
-        },
-        {
-            icon: <DeleteIcon />,
-            id: 'delete'
-        },
-        {
-            icon: <VisibilityIcon />,
-            id: 'detail',
-            function: (id) => detailBtn(id)
-        },
-    ]
+    const modalDetail = (id) => {
+        console.log(id)
+        router.push({
+            pathname: '/admin/company/detail-company/[id]',
+            query: { id: id }
+        }, `/admin/company/detail-company/${id}`, { shallow: true })
+    }
 
     const getListCompany = () => {
         axiosInstance.get(API_COMPANY)
         .then((res) => {
             console.log(res.data)
-            setCompanyList(res.data)
             res.data.map((item) => {
                 setCompanyList((prevData) => [
                     ...prevData,
                     {
+                        id: item.id,
                         name: item.name,
                         email: item.email,
-                        status: item.status
+                        status: item.status === "0" ? 'Belum Terverifikasi' : 'Terverifikasi'
                     }
                 ])
             })
@@ -129,13 +120,7 @@ export default function AllCompany() {
     console.log(companyList)
 
     React.useEffect(() => {
-        if (effectRan.current === false) {
-            getListCompany()  
-  
-            return () => {
-              effectRan.current === true
-            }
-          }
+        getListCompany()
     }, [])
 
     return(<>
@@ -151,9 +136,12 @@ export default function AllCompany() {
                     <CustomDropdown value={status} onChange={handleStatus} data={statusData} />
                 </div>
                 <CustomTable 
+                    idKey='id'
                     columns={colNames}
                     data={companyList}
-                    actionButton={actionBtn}
+                    deleteFunc={modalDelete}
+                    editFunc={modalEdit}
+                    detailFunc={modalDetail}
                 />
             </div>
         </div>
