@@ -100,7 +100,7 @@ export default function Navbar() {
                     <ListItemText primary="Semua Pekerja" />
                 </ListItemButton>
             </Link>
-            <Link href='#' className={styles.link}>
+            <Link href='/admin/role' className={styles.link}>
                 <ListItemButton>
                     <ListItemText primary="Role" />
                 </ListItemButton>
