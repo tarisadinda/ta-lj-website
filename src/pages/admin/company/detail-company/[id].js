@@ -5,12 +5,37 @@ import cn from 'classnames'
 import Laptop from '@/public/laptop-work.png'
 import { CustomChip } from "@/components/common/chip"
 import Link from "next/link"
+import { useRouter } from "next/router"
+import { axiosInstance } from "src/utils/axios"
+import { API_COMPANY } from "src/utils/api"
+import React from "react"
 
 export default function DetailCompany() {
+    const router = useRouter()
+    const dataId = router.query.id
+
+    const [company, setCompany] = React.useState('')
+    console.log(router.query)
+
+    const detailData = () => {
+        axiosInstance.get(API_COMPANY + "/" + dataId)
+        .then((res) => {
+            console.log(res)
+            setCompany(res.data)
+        }).catch((err) => console.log(err))
+    }
+
+    React.useEffect(() => {
+        detailData()
+    }, [dataId])
+
     return(<>
         <Image src={Laptop} className={styles.logoCompany} width={150} height={150} alt="company-logo" />
         <div className="mt-2">
-            <CustomChip label='Belum Terverifikasi' bgcolor='#F1C93A' />
+            {company.status == "0" ? 
+                <CustomChip label='Belum Terverifikasi' bgcolor='#F1C93A' /> :
+                <CustomChip label='Terverifikasi' bgcolor='#17AD47' /> 
+            }
         </div>
         <div className={cn(styles.tableWrap, 'mt-2')}>
             <div className="row">
@@ -25,11 +50,11 @@ export default function DetailCompany() {
         <div className={cn(styles.tableWrap, 'mt-5')}>
             <div className="row">
                 <div className="col-3"><b>Nama Perusahaan</b></div>
-                <div className="col-6">PT Metanesia Indonesia</div>
+                <div className="col-6">{company.name}</div>
             </div>
             <div className="row">
                 <div className="col-3"><b>Kategori Usaha</b></div>
-                <div className="col-6">Kesehatan</div>
+                <div className="col-6">{company.category}</div>
             </div>
             <div className="row">
                 <div className="col-3"><b>Provinsi</b></div>
@@ -41,11 +66,11 @@ export default function DetailCompany() {
             </div>
             <div className="row">
                 <div className="col-3"><b>Tentang Perusahaan</b></div>
-                <div className="col-6">PT Metanesia Indonesia is a member of Dexagroup, one of Indonesias largest ethical pharmaceutical company that engage in digital area. Aligning with technology advancement, PT Global Urban Esensial reaches the society wider, answering the societys needs for easier access to digital, and to be a leader in pharmaceutical business. </div>
+                <div className="col-6">{company.about_company}</div>
             </div>
             <div className="row">
                 <div className="col-3"><b>Website</b></div>
-                <div className="col-6"><Link href='#'>metanesia.co.id</Link></div>
+                <div className="col-6"><Link href='#'>{company.website}</Link></div>
             </div>
         </div>
     </>)
