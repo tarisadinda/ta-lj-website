@@ -11,6 +11,7 @@ import Paper from '@mui/material/Paper'
 import IconButton from '@mui/material/IconButton'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
+import VisibilityIcon from '@mui/icons-material/Visibility'
 
 const CustomTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -32,8 +33,8 @@ const CustomTableRow = styled(TableRow)(({ theme }) => ({
     },
 }))
 
-export default function CustomTable({columns, data, actionButton, deleteFunc,
-    editFunc, idKey}) {
+export default function CustomTable({columns, data, deleteFunc,
+    editFunc, idKey, detailFunc}) {
     return(<>
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -56,19 +57,19 @@ export default function CustomTable({columns, data, actionButton, deleteFunc,
                                 ))}
                                 <CustomTableCell>
                                     <div className={styles.actions}>
-                                        {actionButton !== undefined && actionButton.map((btn, index) => (
-                                            <IconButton key={index} onClick={() => btn.function(item.id)}>
-                                                {btn.icon}
-                                            </IconButton>
-                                        ))}
-                                        {deleteFunc &&
-                                            <IconButton onClick={() => deleteFunc(item[idKey])}>
-                                                <DeleteIcon />
+                                        {detailFunc &&
+                                            <IconButton onClick={() => detailFunc(item[idKey])}>
+                                                <VisibilityIcon />
                                             </IconButton>
                                         }
                                         {editFunc &&
                                             <IconButton onClick={() => editFunc(item[idKey])}>
                                                 <EditIcon />
+                                            </IconButton>
+                                        }
+                                        {deleteFunc &&
+                                            <IconButton onClick={() => deleteFunc(item[idKey])}>
+                                                <DeleteIcon />
                                             </IconButton>
                                         }
                                     </div>
