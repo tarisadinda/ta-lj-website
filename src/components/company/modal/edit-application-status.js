@@ -1,9 +1,9 @@
 import React from 'react'
-import styles from '@/styles/components/modals/EditApplicationStatus.module.scss'
+import styles from '@/styles/components/company/modals/EditApplicationStatus.module.scss'
 import { useDispatch, useSelector } from 'react-redux'
-import { openAlert, setOpenAlert } from 'src/redux/slices/alertSlice'
-import CustomAlert from '../common/custom-alert'
-import FrameModal from '../common/frame-modal'
+import { openAlert, setOpenAlert } from 'src/redux/common/alertSlice'
+import CustomAlert from '@/components/common/alert'
+import FrameModal from '@/components/common/frame-modal'
 
 const ModalEditStatus = ({open, handleClose}) => {
     const dispatch = useDispatch()

@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
-import styles from '@/styles/pages/applicant-list/DetailApplicant.module.scss'
+import styles from '@/styles/pages/company/applicant-list/DetailApplicant.module.scss'
 import cn from 'classnames'
 import BlueCard from "@/components/common/blue-card"
-import LayoutMain from "@/components/layouts/main"
+import LayoutMain from "@/components/company/layouts/main"
 import { Avatar, } from '@mui/material'
 import { CustomChip } from '@/components/common/chip'
 import CustomIconButton from '@/components/common/icon-button'
 import EditIcon from '@mui/icons-material/Edit'
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile'
 import { useDispatch, useSelector } from 'react-redux'
-import ModalEditStatus from '@/components/modal/edit-application-status'
-import { openAlert, setOpenAlert } from 'src/redux/slices/alertSlice'
+import ModalEditStatus from '@/components/company/modal/edit-application-status'
+import { openAlert, setOpenAlert } from 'src/redux/common/alertSlice'
 
 export default function DetailApplicant() {
     const dispatch = useDispatch()

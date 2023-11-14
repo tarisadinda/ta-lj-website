@@ -58,7 +58,7 @@ export default function ApplicantList() {
     const [isDeleteModal, setIsDeleteModal] = React.useState(false)
 
     const detailData = (id) => {
-        router.push('/applicant-list/detail-applicant')
+        router.push('/company/applicant-list/detail-applicant')
     }
 
     const deleteData = (id) => {
