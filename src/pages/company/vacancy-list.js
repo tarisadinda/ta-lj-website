@@ -6,17 +6,14 @@ import CustomIconButton from "@/components/common/icon-button"
 import AddIcon from '@mui/icons-material/Add'
 import CustomTable from "@/components/common/table"
 import { useRouter } from "next/router"
+import IconBtn from "@/components/common/icon-button"
+import SVGAdd from '@/public/icons/add.svg'
 
 const colNames = [
     {
         id: 'position',
         label: 'Posisi',
         render: (data) => <span>{data.position}</span>
-    },
-    {
-        id: 'category',
-        label: 'Kategori',
-        render: (data) => <span>{data.category}</span>
     },
     {
         id: 'status',
@@ -39,7 +36,6 @@ const dummyData = [
     {
         id: 1,
         position: 'UI/UX Designer',
-        category: 'Teknologi',
         status: 'Buka',
         applicantAccepted: '-',
         entryApplication: '15'
@@ -47,7 +43,6 @@ const dummyData = [
     {
         id: 2,
         position: 'Mobile Developer',
-        category: 'Teknologi',
         status: 'Tutup',
         applicantAccepted: '3',
         entryApplication: '12'
@@ -59,11 +54,11 @@ export default function VacancyList() {
 
     const detailBtn = (id) => {
         console.log(id)
-        router.push('/vacancy-list/vacancy-detail')
+        router.push('/company/vacancy-list/vacancy-detail')
     }
 
     const newJobVacancy = () => {
-        router.push('/add-job-vacancy')
+        router.push('/company/add-job-vacancy')
     }
 
     const deleteJob = (id) =>{
@@ -87,11 +82,11 @@ export default function VacancyList() {
             </BlueCard>
         </div>
         <div className="mt-4">
-            <CustomIconButton 
-                icon={<AddIcon />}
-                text="Lowongan Baru"
+            <IconBtn
+                title='Lowongan Baru' 
+                startIcon={<SVGAdd />}
                 onClick={newJobVacancy}
-                className={cn(styles.addBtn, "btn btn-primary blue")}
+                className="btn btn-primary blue" 
             />
             <div className="mt-3">
                 <CustomTable 
