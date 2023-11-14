@@ -1,6 +1,10 @@
 .inputWrapper {
     display: grid;
     row-gap: 15px;
+
+    label {
+        font-weight: 600;
+    }
 }
 
 .textareaHeight {
@@ -15,6 +19,18 @@
 
 .selectWidth {
     width: 250px;
+}
+
+.selectedList {
+    display: flex;
+    column-gap: 8px;
+    margin-top: 10px;
+}
+
+.optionRow {
+    label {
+        font-weight: 500;
+    }
 }
 
 .optionRow {
