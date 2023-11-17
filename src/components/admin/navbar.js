@@ -105,9 +105,9 @@ export default function Navbar() {
                     <ListItemText primary="Role" />
                 </ListItemButton>
             </Link>
-            <Link href='#' className={styles.link}>
+            <Link href='/admin/permission' className={styles.link}>
                 <ListItemButton>
-                    <ListItemText primary="Kelola Hak Akses" />
+                    <ListItemText primary="Hak Akses" />
                 </ListItemButton>
             </Link>
             {/* <ListItemButton onClick={handleSkillList}>
