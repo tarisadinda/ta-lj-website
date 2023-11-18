@@ -1,0 +1,53 @@
+.formGroup {
+    display: grid;
+    row-gap: 10px;
+
+    label {
+        font-weight: 700;
+        margin-bottom: 5px;
+    }
+}
+
+.fileInfo {
+    display: flex;
+    align-items: center;
+    column-gap: 15px;
+    padding: 10px 20px;
+    background-color: $light-blue;
+    border-radius: 10px;
+    width: max-content;
+
+    p {
+        margin-bottom: 0px;
+    }
+}
+
+.fileName {
+    font-weight: 500;
+}
+
+.fileSize {
+    font-size: $font-14;
+    color: $light-gray;
+}
+
+.changeBtn {
+    width: max-content;
+    margin-left: 30px;
+}
+
+.letter {
+    resize: none;
+    height: 150px;
+}
+
+.btnSection {
+    display: flex;
+    justify-content: flex-end;
+    column-gap: 10px;
+    margin-top: 50px;
+
+    button {
+        width: max-content;
+    }
+}
