@@ -97,7 +97,7 @@ export default function Login() {
                             className={cn(styles.inputField, "form-control")} 
                             id="username" 
                             name="username" 
-                            placeholder="Masukkan username admin" 
+                            placeholder="Masukkan username" 
                         />
                     </div>
                     <div className={cn(styles.inputGroup, "mb-1")}>
