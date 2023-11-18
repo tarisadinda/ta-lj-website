@@ -67,11 +67,11 @@ export default function Navbar() {
                     <ListItemText primary="Dashboard" />
                 </ListItemButton>
             </Link>
-            <Link href='/admin/job-categories' className={styles.link}>
+            {/* <Link href='/admin/job-categories' className={styles.link}>
                 <ListItemButton>
                     <ListItemText primary="Kategori Pekerjaan" />
                 </ListItemButton>
-            </Link>
+            </Link> */}
             <Link href='/admin/payroll' className={styles.link}>
                 <ListItemButton>
                     <ListItemText primary="Penghasilan" />
