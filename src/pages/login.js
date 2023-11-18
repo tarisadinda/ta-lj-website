@@ -10,7 +10,7 @@ import { axiosInstance } from "src/utils/axios"
 import SVGEye from '@/public/icons/eye.svg'
 import SVGEyeClose from '@/public/icons/eye-closed.svg'
 import CustomAlert from "@/components/common/alert"
-import { LOGIN_API } from "src/utils/api"
+import { API_LOGIN } from "src/utils/api"
 
 export default function Login() {
     const router = useRouter()
@@ -42,28 +42,37 @@ export default function Login() {
             password: userAccount.password
         }
 
-        axiosInstance.post(LOGIN_API, formData, {
-            headers: {
-                "Content-Type": "application/json"
-            }
-        })
+        axiosInstance.post(API_LOGIN, formData)
         .then((res) => {
-            if(res.status === 201) {
-                if(res.data.username === "admin") {
-                    router.push('/admin/dashboard')
-                } else if(res.data.username === "company1") {
-                    router.push('/company/dashboard')
-                } else if(res.data.username === "user1") {
-                    router.push('/candidate/home')
-                } else {
-                    setErrorMsg('Data tidak valid')
-                    setSeverity('error')
-                    setOpenAlert(true)
+            console.log(res)
+            if(res.status == 201) {
+                setToken(res.data.data.accessToken)
+                setErrorMsg(res.data.message)
+                setSeverity('success')
+                setOpenAlert(true)
+
+                if(res.data) {
+                    if(res.data.data.login_as === 'admin') {
+                        router.push('/admin/dashboard')
+                    } else if(res.data.data.login_as === 'company') {
+                        router.push('/company/dashboard')
+                    } else {
+                        router.push('/candidate/home')
+                    }
                 }
             }
-            // if(res.data.status === "success") {
-            //     setToken(res.data.token)
-            //     router.push('/dashboard')
+            // if(res.status === 201) {
+            //     if(res.data.username === "admin") {
+            //         router.push('/admin/dashboard')
+            //     } else if(res.data.username === "company1") {
+            //         router.push('/company/dashboard')
+            //     } else if(res.data.username === "user1") {
+            //         router.push('/candidate/home')
+            //     } else {
+            //         setErrorMsg('Data tidak valid')
+            //         setSeverity('error')
+            //         setOpenAlert(true)
+            //     }
             // }
         }).catch((err) => {
             if(err) {

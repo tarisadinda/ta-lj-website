@@ -24,6 +24,10 @@ const drawerWidth = 240
 
 
 export default function Navbar() {
+  const handleLogout = () => {
+    sessionStorage.clear()
+  }
+  
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -72,7 +76,7 @@ export default function Navbar() {
           <List>
             <Link href='/login'>
               <ListItem disablePadding>
-                <ListItemButton>
+                <ListItemButton onClick={handleLogout}>
                     <ListItemIcon>
                         <LogoutIcon fontSize="small" />
                     </ListItemIcon>
