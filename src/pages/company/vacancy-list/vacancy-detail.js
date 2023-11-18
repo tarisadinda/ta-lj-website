@@ -1,6 +1,6 @@
-import LayoutMain from '@/components/layouts/main'
+import LayoutMain from '@/components/company/layouts/main'
 import cn from 'classnames'
-import styles from '@/styles/pages/vacancy-list/VacancyDetail.module.scss'
+import styles from '@/styles/pages/company/vacancy-list/VacancyDetail.module.scss'
 import { CustomChip } from '@/components/common/chip'
 import CustomTable from '@/components/common/table'
 import React from 'react'
@@ -50,7 +50,7 @@ export default function VacancyDetail() {
     const router = useRouter()
     
     const detailBtn = () => {
-        router.push('/applicant-list/detail-applicant')
+        router.push('/company/applicant-list/detail-applicant')
     } 
 
     return(<>
