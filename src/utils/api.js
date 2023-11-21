@@ -1,5 +1,4 @@
-// export const API_REGIS = '/users/register'
-export const API_REGIS = '/users-register'
+export const API_REGIS = '/users/register'
 export const API_LOGIN = '/users/login'
 export const API_CATEGORY_LIST = '/operation/category/index'
 // export const API_ADD_CAT = '/operation/category/store'
