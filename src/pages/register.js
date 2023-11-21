@@ -18,11 +18,12 @@ export default function Register() {
     const router = useRouter()
 
     const [openAlert, setOpenAlert] = React.useState(false)
+    const [clickSend, setClickSend] = React.useState(false)
     const [errorMsg, setErrorMsg] = React.useState('')
     const [severity, setSeverity] = React.useState('success')
     const [seePassword, setSeePassword] = React.useState(false)
     const [seeConfirmPass, setSeeConfirmPass] = React.useState(false)
-    const [roleId, setRoleId] = React.useState(1)
+    const [roleId, setRoleId] = React.useState(3)
     const [userAccount, setUserAccount] = React.useState({
         username: '',
         name: '',
@@ -75,40 +76,52 @@ export default function Register() {
             password: data.password,
             confPassword: data.confirm_pass,
             phone_number: data.phone_number,
-            role_id: data.role_id
+            role_id: roleId
         }
+
+        setClickSend(true)
 
         console.log(formData)
 
-        // axiosInstance.post(API_REGIS, formData, {
-        //     headers: {
-        //         "Content-Type": "application/json"
-        //     }
-        // })
-        // .then((res) => {
-        //     console.log(res)
-        //     if(res.status === 201) {
-        //         setOpenAlert(true)
-        //         setErrorMsg('Data berhasil disimpan!')
-        //         setUserAccount({
-        //             name: '',
-        //             username: '',
-        //             email: '',
-        //             phone_number: '',
-        //             password: '',
-        //             confirm_pass: '',
-        //             role_id: 1
-        //         })
-        //         setValue('password', '')
-        //         setValue('confirm_pass', '')
-        //     }
-        // }).catch((err) => console.log(err))
+        axiosInstance.post(API_REGIS, formData)
+        .then((res) => {
+            console.log(res)
+            if(res.status == 201) {
+                setSeverity('success')
+                setErrorMsg(res.data.message)
+                setOpenAlert(true)
+                setUserAccount({
+                    name: '',
+                    username: '',
+                    email: '',
+                    phone_number: '',
+                    password: '',
+                    confirm_pass: '',
+                    role_id: 2
+                })
+                setValue('password', '')
+                setValue('confirm_pass', '')
+            }
+        }).catch((err) => {
+            console.log(err)
+            if(err.response.status == 400) {
+                setErrorMsg(err.response.data.message)
+                setSeverity('error')
+                setOpenAlert(true)
+            }
+        })
     }
 
-    console.log(errors)
+    React.useEffect(() => {
+        if(!openAlert && clickSend) {
+            router.push('/login')
+            setClickSend(false)
+        }
+    }, [openAlert, clickSend])
+    console.log(errors) 
     console.log(userAccount)
     console.log(roleId)
-    console.log(typeof(roleId))
+    console.log(openAlert)
     return(<>
         <div className={styles.wrapper}>
             <h2 className="d-flex justify-content-center mb-4"><b>Buat Akun</b></h2>
@@ -123,13 +136,13 @@ export default function Register() {
                             onChange={handleRole} 
                             value={roleId}
                         > 
-                            <option value="1">Perusahaan</option>
-                            <option value="2">Kandidat</option>
+                            <option value="2">Perusahaan</option>
+                            <option value="3">Kandidat</option>
                         </select>
                         {errors && <span className="error-msg">{errors.role_id?.message}</span>}
                     </div>
                     <div className={styles.inputField}>
-                        <label htmlFor="name" className="form-label"><b>Nama {roleId == 1 ? 'Perusahaan' : 'Lengkap'}</b></label>
+                        <label htmlFor="name" className="form-label"><b>Nama {roleId == 2 ? 'Perusahaan' : 'Lengkap'}</b></label>
                         <input 
                             type="text"  
                             {...register('name')}
@@ -137,7 +150,7 @@ export default function Register() {
                             className="form-control" 
                             id="name" 
                             name="name" 
-                            placeholder={`Masukkan nama ${roleId == 1 ? 'perusahaan' : 'lengkap'}`}
+                            placeholder={`Masukkan nama ${roleId == 2 ? 'perusahaan' : 'lengkap'}`}
                             value={userAccount.name}
                         />
                         {errors && <span className="error-msg">{errors.name?.message}</span>}
@@ -151,13 +164,13 @@ export default function Register() {
                             className="form-control" 
                             id="email" 
                             name="email" 
-                            placeholder={`Masukkan email ${roleId == 1 ? 'perusahaan' : ''}`}
+                            placeholder={`Masukkan email ${roleId == 2 ? 'perusahaan' : ''}`}
                             value={userAccount.email}
                         />
                         {errors && <span className="error-msg">{errors.email?.message}</span>}
                     </div>
                     <div className={styles.inputField}>
-                        <label htmlFor="phone_number" className="form-label"><b>Nomor Telepon {roleId == 1 ? 'Perusahaan' : ''}</b></label>
+                        <label htmlFor="phone_number" className="form-label"><b>Nomor Telepon {roleId == 2 ? 'Perusahaan' : ''}</b></label>
                         <input 
                             type="text"  
                             {...register('phone_number')}
@@ -165,13 +178,13 @@ export default function Register() {
                             className="form-control" 
                             id="phone_number" 
                             name="phone_number" 
-                            placeholder={`Masukkan nomor telepon ${roleId == 1 ? 'perusahaan' : ''}`}
+                            placeholder={`Masukkan nomor telepon ${roleId == 2 ? 'perusahaan' : ''}`}
                             value={userAccount.phone_number} 
                         />
                         {errors && <span className="error-msg">{errors.phone_number?.message}</span>}
                     </div>                    
                     <div className={styles.inputField}>
-                        <label htmlFor="username" className="form-label"><b>Username {roleId == 1 ? 'Perusahaan' : ''}</b></label>
+                        <label htmlFor="username" className="form-label"><b>Username {roleId == 2 ? 'Perusahaan' : ''}</b></label>
                         <input 
                             type="text"  
                             {...register('username')}
@@ -179,7 +192,7 @@ export default function Register() {
                             className="form-control" 
                             id="username" 
                             name="username" 
-                            placeholder={`Masukkan username ${roleId == 1 ? 'perusahaan' : ''}`}
+                            placeholder={`Masukkan username ${roleId == 2 ? 'perusahaan' : ''}`}
                             value={userAccount.username}
                         />
                         {errors && <span className="error-msg">{errors.username?.message}</span>}
@@ -202,7 +215,7 @@ export default function Register() {
                         <label htmlFor="confirmPass" className="form-label"><b>Konfirmasi Password</b></label>
                         <InputIcon 
                             placeholder="Masukkan konfirmasi password"
-                            id="confirm_pass"
+                            id="confirmPass"
                             name="confirm_pass"
                             type={seeConfirmPass ? "text" : "password"}
                             onClick={handleSeeConfirmPass}
@@ -217,13 +230,16 @@ export default function Register() {
             </form>
             <span className={cn(styles.loginWrap, "mt-3 mb-4")}>Sudah punya akun? <Link className={styles.loginBtn} href='/login'>Login</Link></span>
         </div>
-        <CustomAlert
-            open={openAlert}
-            onClose={() => setOpenAlert(false)}
-            duration={1700}
-            severity={severity}
-            text={errorMsg}
-        />
+        <div>
+            <CustomAlert
+                open={openAlert}
+                onClose={() => setOpenAlert(false)}
+                duration={1700}
+                severity={severity}
+                text={errorMsg}
+            />
+        </div>
+        
     </>)
 }
 
