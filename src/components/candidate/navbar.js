@@ -5,10 +5,13 @@ import { Avatar, Menu, MenuItem, } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { useSelector } from 'react-redux'
+import { selectUser } from 'src/redux/common/userSlice'
 
 export default function Navbar() {
     const [openDropdown, setOpenDropdown] = React.useState(false)
     const router = useRouter()
+    const user = useSelector(selectUser);
 
     const handleDropdown = () => {
         setOpenDropdown(!openDropdown)
@@ -25,9 +28,9 @@ export default function Navbar() {
                 </ul>
                 <div className={styles.accountMenu}>
                     <div onClick={handleDropdown} className={styles.userBtn}>
-                        <Avatar sx={{ width: 32, height: 32 }} />
+                        <Avatar src={user?.img} sx={{ width: 32, height: 32 }} />
                         <div>
-                            <span>Nama User</span>
+                            <span>{user?.full_name}</span>
                             <ExpandMoreIcon sx={{ color: '#F5F5F5' }} />
                         </div>
                     </div>

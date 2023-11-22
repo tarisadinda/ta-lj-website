@@ -6,7 +6,7 @@ import Image from "next/image"
 import PlaceIcon from '@mui/icons-material/Place'
 import { CustomChip } from '@/components/common/chip'
 
-export default function OfferingCard() {
+export default function OfferingCard({data}) {
     return(<>
         <Card variant="outlined"
             sx={{ width: '100%', padding: '25px', borderRadius: '10px' }}
@@ -15,14 +15,14 @@ export default function OfferingCard() {
             <div className={styles.textLeft}>
                 <Image 
                     alt="company-img"
-                    src={CompanyImg}
+                    src={data?.job?.company_detail?.user?.img}
                     width={100}
                     height={100}
                     className={styles.logoCompany}
                 />
                 <div>
-                    <p className={styles.role}><b>Web Developer</b></p>
-                    <p className='mb-0'>PT Aruni Indonesia</p>
+                    <p className={styles.role}><b>{data?.job?.name}</b></p>
+                    <p className='mb-0'>{data?.job?.company_detail?.user?.full_name}</p>
                     <div className={styles.loc}>
                         <PlaceIcon />
                         <span>Malang, Jawa Timur</span>

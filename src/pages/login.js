@@ -45,7 +45,7 @@ export default function Login() {
         axiosInstance.post(API_LOGIN, formData)
         .then((res) => {
             console.log(res)
-            if(res.status == 201) {
+            if(res.status == 200) {
                 setToken(res.data.data.accessToken)
                 setErrorMsg(res.data.message)
                 setSeverity('success')
