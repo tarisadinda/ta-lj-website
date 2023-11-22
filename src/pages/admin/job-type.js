@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import styles from '@/styles/pages/admin/JobCategories.module.scss'
+import styles from '@/styles/pages/admin/JobType.module.scss'
 import SVGAdd from '@/public/icons/add.svg'
 import CustomTable from '@/components/common/table'
 import LayoutMain from '@/components/admin/layouts/main'
@@ -7,7 +7,7 @@ import IconBtn from '@/components/common/icon-button'
 import AddCategoryModal from '@/components/admin/modals/add-category'
 import { axiosInstance } from 'src/utils/axios'
 import { convertDate } from 'src/utils/convert-date'
-import { API_ADD_CAT, API_CATEGORY_LIST, API_DELETE_CAT } from 'src/utils/api'
+import { API_ADD_CAT, API_JOB_TYPE } from 'src/utils/api'
 import ConfirmDeleteModal from '@/components/common/confirm-delete'
 import CustomAlert from '@/components/common/alert'
 import { useDispatch, useSelector } from 'react-redux'
@@ -18,22 +18,27 @@ import { openModal, setOpenModal } from 'src/redux/common/modalSlice'
 const colList = [
     {
         id: 'name',
-        label: 'Kategori',
+        label: 'Tipe Kerja',
         render: (data) => <span>{data.name}</span>
     },
     {
         id: 'description',
-        label: 'Deskripsi Kategori',
+        label: 'Deskripsi',
         render: (data) => <span>{data.description}</span>
-    }
-    // {
-    //     id: 'create_date',
-    //     label: 'Tanggal Dibuat',
-    //     render: (data) => <span>{convertDate(data.create_date)}</span>
-    // },
+    },
+    {
+        id: 'slug',
+        label: 'Slug',
+        render: (data) => <span>{data.slug}</span>
+    },
+    {
+        id: 'updatedAt',
+        label: 'Tanggal Dibuat',
+        render: (data) => <span>{convertDate(data.updatedAt)}</span>
+    },
 ]
 
-export default function JobCategories() {
+export default function JobType() {
     const dispatch = useDispatch()
     const effectRan = useRef(false)
 
@@ -48,36 +53,17 @@ export default function JobCategories() {
     const [editCatId, setEditCatId] = React.useState('')
     const [categoryList, setCategoryList] = React.useState([])
 
-    const getCategoryList = () => {
-        axiosInstance.get(API_ADD_CAT)
+    const getJobTypeList = () => {
+        axiosInstance.get(API_JOB_TYPE)
         .then((res) => {
             console.log(res)
-            setCategoryList(res.data)
-
-            // res.data.data.map((item) => {
-            //     if(!categoryList.find((item) => item.category_id)) {
-            //         setCategoryList((categoryList) => [
-            //             ...categoryList, {
-            //                 category_id: item.category_id,
-            //                 category_name: item.category_name,
-            //                 category_slug: item.category_slug,
-            //                 create_date: item.createdAt
-            //             }
-            //         ])
-            //     }
-            // })
+            setCategoryList(res.data.data)
         }).catch((err) => {})
     }
 
     console.log(categoryList)
     React.useEffect(() => {
-        if (effectRan.current === false) {
-          getCategoryList()  
-
-          return () => {
-            effectRan.current === true
-          }
-        }
+        getJobTypeList()
     }, [])
 
     const deleteItem = () => {
@@ -116,10 +102,10 @@ export default function JobCategories() {
     }
     
     return(<>
-        <h4><b>Kategori Pekerjaan</b></h4>
+        <h4><b>Tipe Pekerjaan</b></h4>
         <div className={styles.addBtn}>
             <IconBtn 
-                title='Tambah Kategori' 
+                title='Tambah Tipe Kerja' 
                 startIcon={<SVGAdd />}
                 onClick={() => setOpenCatModal(!openCatModal)}
                 className="btn btn-primary blue" 
@@ -127,7 +113,7 @@ export default function JobCategories() {
         </div>        
         <CustomTable 
             columns={colList}
-            data={categoryList}
+            data={categoryList.data}
             idKey='id'
             deleteFunc={modalDelete}
             editFunc={modalEdit}
@@ -154,7 +140,7 @@ export default function JobCategories() {
     </>)
 }
 
-JobCategories.getLayout = function getLayout(page) {
+JobType.getLayout = function getLayout(page) {
     return (
         <LayoutMain>
             {page}
