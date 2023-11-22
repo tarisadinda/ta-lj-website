@@ -1,5 +1,6 @@
 import LayoutMain from "@/components/admin/layouts/main"
 import AddRoleModal from "@/components/admin/modals/add-role"
+import EditRoleModal from "@/components/admin/modals/edit-role"
 import CustomAlert from "@/components/common/alert"
 import ConfirmDeleteModal from "@/components/common/confirm-delete"
 import IconBtn from "@/components/common/icon-button"
@@ -33,25 +34,31 @@ export default function Role() {
 
     const [addRole, setAddRole] = React.useState(false)
     const [askDelete, setAskDelete] = React.useState(false)
-    const [deleteId, setDeleteId] = React.useState('')
+    const [askEdit, setAskEdit] = React.useState(false)
+    const [itemId, setItemId] = React.useState('')
     const [roles, setRoles] = React.useState([])
 
     const deleteModal = (id) => {
-        setDeleteId(id)
+        setItemId(id)
         setAskDelete(true)
+    }
+
+    const editModal = (id) => {
+        setItemId(id)
+        setAskEdit(true)
     }
 
     const deleteItem = () => {
         console.log('tes')
-        if(deleteId !== '') {
-            axiosInstance.delete(API_ROLE + '/' + deleteId)
+        if(itemId !== '') {
+            axiosInstance.delete(API_ROLE + '/' + itemId)
             .then((res) => {
                 setAskDelete(false)
 
                 if(res.status === 200) {
-                    setRoles(roles.filter((data) => {return data.id !== deleteId}))
+                    setRoles(roles.filter((data) => {return data.id !== itemId}))
 
-                    setDeleteId('')
+                    setItemId('')
                 }
             })
         }
@@ -61,7 +68,7 @@ export default function Role() {
         axiosInstance.get(API_ROLE)
         .then((res) => {
             console.log(res)
-            setRoles(res.data)
+            setRoles(res.data.data.data)
         }).catch((err) => console.log(err))
     }
 
@@ -85,7 +92,7 @@ export default function Role() {
                 data={roles}
                 idKey='id'
                 deleteFunc={deleteModal}
-                // editFunc={editModal}
+                editFunc={editModal}
             />
         </div>
         <AddRoleModal
@@ -97,7 +104,7 @@ export default function Role() {
             delFunc={deleteItem} 
             title="Apakah anda ingin menghapus data ini?"
             desc="Data yang telah dihapus, tidak dapat dikembali lagi."
-            onClose={() => { setAskDelete(false), setDeleteId('') }} 
+            onClose={() => { setAskDelete(false), setItemId('') }} 
         />
         <CustomAlert
             open={isOpenAlert} 
@@ -106,6 +113,7 @@ export default function Role() {
             duration={3000} 
             onClose={() => dispatch(setOpenAlert(false))} 
         />
+        <EditRoleModal id={itemId} open={askEdit} onClose={() => setAskEdit(false)} />
     </>)
 }
 
