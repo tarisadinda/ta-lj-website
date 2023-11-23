@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import FrameModal from "../common/frame-modal";
 import CustomDropdown from "../common/dropdown";
 import { axiosInstance } from "src/utils/axios";
-import { Clear } from "@mui/icons-material";
 import { CustomChip } from "../common/chip";
+import { useDispatch, useSelector } from "react-redux";
+import { alertMessage, openAlert, severity, setMessage, setOpenAlert, setSeverity } from "src/redux/common/alertSlice";
+import CustomAlert from "../common/alert";
 
 const AddSkill = ({ open, onClose}) => {
   const [pagination, setPagination] = useState({
@@ -11,9 +13,14 @@ const AddSkill = ({ open, onClose}) => {
     page: 0,
     search: "",
   });
+  const dispatch = useDispatch()
   const [skillOptions, setSkillOptions] = useState([]);
   const [selectedSkills, setSelectedSkills] = useState([]);
   const [selectedOptions, setSelectedOptions] = useState([]);
+
+  const isOpenAlert = useSelector(openAlert)
+  const alertMsg = useSelector(alertMessage)
+  const alertSeverity = useSelector(severity)
 
   const getAllSkills = () => {
     axiosInstance
@@ -67,7 +74,14 @@ const AddSkill = ({ open, onClose}) => {
   };
 
   const handleSaveSkill = () => {
-    axiosInstance.post('/candidateDetail/addSkill', {skill: selectedSkills.toString()}).then((res) => console.log(res)).catch((err) => console.log(err))
+    axiosInstance.post('/candidateDetail/addSkill', {skill: selectedSkills.toString()}).then((res) => {
+      if(res) {
+        dispatch(setOpenAlert(true))
+        dispatch(setMessage('Profile berhasil diperbarui!'))
+        dispatch(setSeverity('success'))
+        setTimeout(onClose, 2000)
+      }
+    }).catch((err) => console.log(err))
   }
 
   return (
@@ -99,6 +113,13 @@ const AddSkill = ({ open, onClose}) => {
           <span>Simpan</span>
         </button>
       </div>
+      <CustomAlert
+            open={isOpenAlert} 
+            severity={alertSeverity}
+            text={alertMsg}
+            duration={2000} 
+            onClose={() => dispatch(setOpenAlert(false))} 
+        />
     </FrameModal>
   );
 };

@@ -111,7 +111,7 @@ export default function Profile() {
             <div className={styles.editGroup}>
               <b>Keahlian</b>
               <div className={styles.group}>
-                <button className={cn(styles.skillBtn, "btn")}>
+                <button onClick={openModalAddSkill} className={cn(styles.skillBtn, "btn")}>
                   <BorderColorIcon
                     fontSize="small"
                     className={styles.editIcon}

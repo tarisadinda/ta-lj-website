@@ -30,12 +30,12 @@ export default function AboutVacancy() {
   };
 
   const applyBtn = () => {
-    router.push("/candidate/apply-job");
+    router.push(`/candidate/apply/${slug}`);
   };
 
   useEffect(() => {
     getJobBySlug()
-  }, [])
+  }, [slug])
 
   return (
     <>
