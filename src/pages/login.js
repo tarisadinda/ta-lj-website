@@ -45,35 +45,22 @@ export default function Login() {
         axiosInstance.post(API_LOGIN, formData)
         .then((res) => {
             console.log(res)
-            if(res.status == 201) {
+            if(res.status == 200) {
                 setToken(res.data.data.accessToken)
                 setErrorMsg(res.data.message)
                 setSeverity('success')
                 setOpenAlert(true)
 
-                if(res.data) {
-                    if(res.data.data.login_as === 'admin') {
+                if(res) {
+                    if(res.data.data.login_as == 'admin') {
                         router.push('/admin/dashboard')
-                    } else if(res.data.data.login_as === 'company') {
+                    } else if(res.data.data.login_as == 'company') {
                         router.push('/company/dashboard')
                     } else {
                         router.push('/candidate/home')
                     }
                 }
             }
-            // if(res.status === 201) {
-            //     if(res.data.username === "admin") {
-            //         router.push('/admin/dashboard')
-            //     } else if(res.data.username === "company1") {
-            //         router.push('/company/dashboard')
-            //     } else if(res.data.username === "user1") {
-            //         router.push('/candidate/home')
-            //     } else {
-            //         setErrorMsg('Data tidak valid')
-            //         setSeverity('error')
-            //         setOpenAlert(true)
-            //     }
-            // }
         }).catch((err) => {
             if(err) {
                 if( err.response?.status !== 200) {

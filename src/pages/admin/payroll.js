@@ -4,7 +4,7 @@ import IconBtn from "@/components/common/icon-button"
 import LayoutMain from "@/components/admin/layouts/main"
 import SVGAdd from '@/public/icons/add.svg'
 import CustomTable from '@/components/common/table'
-import AddSalaryModal from '@/components/admin/modals/add-salary'
+import AddSalaryModal from '@/components/admin/modals/add-permission'
 import { axiosInstance } from 'src/utils/axios'
 import { API_SALARY } from 'src/utils/api'
 import { convertDate } from 'src/utils/convert-date'

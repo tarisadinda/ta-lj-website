@@ -7,7 +7,7 @@ export default function CustomDialog({open, title, closeModal, handleClose, chil
         <Dialog open={open} {...props}>
             <DialogTitle
                 sx={{
-                    minWidth: '500px',
+                    width: '600px',
                     padding: '10px 15px'
                 }}
             >

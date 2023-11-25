@@ -15,7 +15,6 @@ export default function AddRoleModal({ open, onClose }) {
         desc: ''
     })
 
-    console.log(role)
     const handleChange = (e) => {
         setRole({
             ...role,
@@ -30,11 +29,8 @@ export default function AddRoleModal({ open, onClose }) {
             description: role.desc
         }
 
-        axiosInstance.post(API_ROLE, data, {
-            headers: {
-                "Content-Type": "application/json"
-            }
-        }).then((res) => {
+        axiosInstance.post(API_ROLE, data)
+        .then((res) => {
             if(res.status === 201) {
                 dispatch(setOpenAlert(true))
                 dispatch(setMessage('Data berhasil ditambahkan'))

@@ -1,4 +1,5 @@
 import LayoutMain from "@/components/admin/layouts/main"
+import AddPermissionModal from "@/components/admin/modals/add-permission"
 import IconBtn from "@/components/common/icon-button"
 import CustomTable from "@/components/common/table"
 import SVGAdd from '@/public/icons/add.svg'
@@ -29,11 +30,11 @@ const colList = [
 
 export default function Permission() {
     const [permissionsList,setPermissionList] = React.useState([])
+    const [newPermission, setNewPermission] = React.useState(false)
 
     const getList = () => {
         axiosInstance.get(API_ROLE_PERMISSION)
         .then((res) => {
-            console.log(res)
             setPermissionList(res.data.data)
         })
     }
@@ -53,7 +54,7 @@ export default function Permission() {
             <IconBtn 
                 title='Akses Pengguna' 
                 startIcon={<SVGAdd />}
-                onClick={() => setIsAddSalary(!isAddSalary)}
+                onClick={() => setNewPermission(!newPermission)}
                 className="btn btn-primary blue" 
             />
         </div>
@@ -61,6 +62,10 @@ export default function Permission() {
             columns={colList}
             data={permissionsList}
             editFunc={editModal}
+        />
+        <AddPermissionModal
+            open={newPermission}
+            onClose={() => setNewPermission(false)}
         />
     </>)
 }
