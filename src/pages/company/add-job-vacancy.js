@@ -238,7 +238,7 @@ export default function JobVacancyForm() {
                             {skillList.map((item, index) => (
                                 <CustomChip
                                     key={item}
-                                    label='tes'
+                                    label={item?.name}
                                     onDelete={() => deleteSkill(index)}
                                     bgcolor='#FF9D3E'
                                 />

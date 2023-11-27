@@ -6,21 +6,22 @@ import { Chip } from '@mui/material'
 import LocationOnIcon from '@mui/icons-material/LocationOn'
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet'
 import { useRouter } from 'next/router'
+import { formatRupiah } from 'src/utils/formatRupiah'
 
-export default function JobCard() {
+export default function JobCard({data, key}) {
     const router = useRouter()
 
     const applyBtn = () => {
-        router.push('/candidate/about-vacancy')
+        router.push(`/candidate/job/${data?.slug}`)
     }
 
     return (<>
-        <div>
+        <div key={key}>
             <div className={cn(styles.cardWrap, 'card')}>
                 <div className={styles.row}>
                     <div className={styles.imgWrap}>
                         <Image 
-                            src={CompanyImg} 
+                            src={data?.company_detail?.user?.img ? data?.company_detail?.user?.img : CompanyImg} 
                             alt="company-img"
                             width={60}
                             height={60}
@@ -28,8 +29,8 @@ export default function JobCard() {
                         />
                     </div>
                     <div className={styles.companyName}>
-                        <b>Mobile Developer</b>
-                        <p>PT Metanesia Indonesia</p>
+                        <b>{data?.name}</b>
+                        <p>{data?.company_detail?.user?.full_name}</p>
                     </div>
                 </div>
                 <div className={styles.companyTerms}>
@@ -38,23 +39,23 @@ export default function JobCard() {
                             backgroundColor: '#458AEB',
                             color: '#F5F6FB'
                         }}
-                        label="Full Time"
+                        label={data?.career_level?.name}
                     />
                     <Chip 
                         sx={{
                             backgroundColor: '#458AEB',
                             color: '#F5F6FB'
                         }}
-                        label="WFO"
+                        label={data?.job_type_work?.name}
                     />
                 </div>
                 <div className={styles.textIcon}>
                     <LocationOnIcon />
-                    <span>Gambir, Jakarta Pusat</span>
+                    <span>{data?.company_detail?.address}</span>
                 </div>
                 <div className={styles.textIcon}>
                     <AccountBalanceWalletIcon />
-                    <span>Rp 4.000.000 - Rp 5.000.000</span>
+                    <span>Rp {formatRupiah(data?.salary_min)} - Rp {formatRupiah(data?.salary_max)}</span>
                 </div>
                 <div className={styles.btnWrap}>
                     <button onClick={applyBtn} className={cn(styles.applyBtn, 'btn-primary blue')}>Lamar</button>

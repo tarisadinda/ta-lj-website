@@ -1,53 +1,57 @@
 .formGroup {
-    display: grid;
-    row-gap: 10px;
+  display: grid;
+  row-gap: 10px;
 
-    label {
-        font-weight: 700;
-        margin-bottom: 5px;
-    }
+  label {
+    font-weight: 700;
+    margin-bottom: 5px;
+  }
 }
 
 .fileInfo {
-    display: flex;
-    align-items: center;
-    column-gap: 15px;
-    padding: 10px 20px;
-    background-color: $light-blue;
-    border-radius: 10px;
-    width: max-content;
+  display: flex;
+  align-items: center;
+  column-gap: 15px;
+  padding: 10px 20px;
+  background-color: $light-blue;
+  border-radius: 10px;
+  width: max-content;
 
-    p {
-        margin-bottom: 0px;
-    }
+  p {
+    margin-bottom: 0px;
+  }
 }
 
 .fileName {
-    font-weight: 500;
+  font-weight: 500;
+  white-space: nowrap; /* Mencegah pemisahan kata */
+  overflow: hidden; /* Mengatur agar teks yang keluar dari batas tersembunyi */
+  text-overflow: ellipsis;
+  max-width: 310px;
 }
 
 .fileSize {
-    font-size: $font-14;
-    color: $light-gray;
+  font-size: $font-14;
+  color: $light-gray;
 }
 
 .changeBtn {
-    width: max-content;
-    margin-left: 30px;
+  width: max-content;
+  margin-left: 30px;
 }
 
 .letter {
-    resize: none;
-    height: 150px;
+  resize: none;
+  height: 150px;
 }
 
 .btnSection {
-    display: flex;
-    justify-content: flex-end;
-    column-gap: 10px;
-    margin-top: 50px;
+  display: flex;
+  justify-content: flex-end;
+  column-gap: 10px;
+  margin-top: 50px;
 
-    button {
-        width: max-content;
-    }
+  button {
+    width: max-content;
+  }
 }
