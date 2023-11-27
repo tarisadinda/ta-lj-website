@@ -1,35 +1,40 @@
 import React, { useRef, useState } from 'react'
-import styles from '@/styles/pages/admin/Payroll.module.scss'
+import styles from '@/styles/pages/admin/Qualifications.module.scss'
 import IconBtn from "@/components/common/icon-button"
 import LayoutMain from "@/components/admin/layouts/main"
 import SVGAdd from '@/public/icons/add.svg'
 import CustomTable from '@/components/common/table'
-import AddSalaryModal from '@/components/admin/modals/add-permission'
 import { axiosInstance } from 'src/utils/axios'
-import { API_SALARY } from 'src/utils/api'
+import { API_QUALIFICATION, API_SALARY } from 'src/utils/api'
 import { convertDate } from 'src/utils/convert-date'
 import { useDispatch, useSelector } from 'react-redux'
 import { alertMessage, openAlert, setOpenAlert, severity } from 'src/redux/common/alertSlice'
 import CustomAlert from '@/components/common/alert'
 import ConfirmDeleteModal from '@/components/common/confirm-delete'
 import EditSalaryModal from '@/components/admin/modals/edit-payroll'
+import AddQualificationModal from '@/components/admin/modals/add-qualification'
 
 const colList = [
     {
-        id: 'nominal',
-        label: 'Nominal Gaji',
-        render: (data) => <span>{data.nominal}</span>
+        id: 'name',
+        label: 'Nama',
+        render: (data) => <span>{data.name}</span>
     },
-    // {
-    //     id: 'salary_flag',
-    //     label: 'Flag Item',
-    //     render: (data) => <span>{data.salary_flag}</span>
-    // },
-    // {
-    //     id: 'createdAt',
-    //     label: 'Tanggal Dibuat',
-    //     render: (data) => <span>{convertDate(data.createdAt)}</span>
-    // },
+    {
+        id: 'slug',
+        label: 'Slug',
+        render: (data) => <span>{data.slug}</span>
+    },
+    {
+        id: 'description',
+        label: 'Deskripsi',
+        render: (data) => <span>{data.description}</span>
+    },
+    {
+        id: 'status',
+        label: 'Status',
+        render: (data) => <span>{data.status == true ? 'Aktif' : 'Non-aktif'}</span>
+    },
 ]
 
 export default function Payroll() {
@@ -41,24 +46,25 @@ export default function Payroll() {
     const alertMsg = useSelector(alertMessage)
     const alertSeverity = useSelector(severity)
 
-    const [isAddSalary, setIsAddSalary] = useState(false)
+    const [isAddQualification, setIsAddQualification] = useState(false)
     const [askDelete, setAskDelete] = React.useState(false)
     const [deleteId, setDeleteId] = React.useState('')
     const [editId, setEditId] = React.useState('')
     const [openEditModal, setOpenEditModal] = React.useState(false)
-    const [salaryList, setSalaryList] = useState([])
+    const [qualification, setQualification] = useState([])
 
-    const getSalary = () => {
-        axiosInstance.get(API_SALARY)
+    const getQualifications = () => {
+        axiosInstance.get(API_QUALIFICATION)
         .then((res) => {
-            console.log(res)
-            setSalaryList(res.data)
+            console.log(res.data.data.data)
+            setQualification(res.data.data.data)
         }).catch((err) => console.log(err))
     }
 
+    console.log(qualification)
     React.useEffect(() => {
         if (effectRan.current === false) {
-            getSalary()
+            getQualifications()
 
             return () => {
                 effectRan.current === true
@@ -84,7 +90,7 @@ export default function Payroll() {
                 setAskDelete(false)
 
                 if(res.status === 200) {
-                    setSalaryList(salaryList.filter((data) => {
+                    setQualification(qualification.filter((data) => {
                         return data.id !== deleteId
                     }))
 
@@ -99,26 +105,27 @@ export default function Payroll() {
     }
 
     return(<>
-        <h4><b>Penghasilan</b></h4>
+        <h4><b>Daftar Kualifikasi Pekerjaan</b></h4>
         <div style={{ margin: '20px 0px'}}>
             <IconBtn 
-                title='Tambah Penghasilan' 
+                title='Kualifikasi' 
                 startIcon={<SVGAdd />}
-                onClick={() => setIsAddSalary(!isAddSalary)}
+                onClick={() => setIsAddQualification(!isAddQualification)}
                 className="btn btn-primary blue" 
             />
         </div>
         <div>
-            <p className={styles.tableName}>Daftar Penghasilan</p>
             <CustomTable
                 columns={colList}
-                data={salaryList}
+                data={qualification}
                 idKey='id'
                 deleteFunc={deleteModal}
                 editFunc={editModal}
             />
         </div>
-        <AddSalaryModal open={isAddSalary} onClose={() => setIsAddSalary(false)} />
+        <AddQualificationModal
+            open={isAddQualification}
+        />
         <CustomAlert 
             open={isOpenAlert} 
             severity={alertSeverity}
