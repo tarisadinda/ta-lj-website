@@ -14,13 +14,13 @@ export default function Filter() {
             <div className={styles.category}>
                 <p>Waktu</p>
                 <div className="form-check">
-                    <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+                    <input name='time' checked className="form-check-input" type="radio" value="" id="flexCheckDefault" />
                     <label className="form-check-label" htmlFor="flexCheckDefault">
                         Semua
                     </label>
                 </div>
                 <div className="form-check">
-                    <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault1" />
+                    <input name='time' className="form-check-input" type="radio" value="" id="flexCheckDefault1" />
                     <label className="form-check-label" htmlFor="flexCheckDefault1">
                         Terbaru
                     </label>
@@ -29,19 +29,19 @@ export default function Filter() {
             <div className={styles.category}>
                 <p>Jenis Pekerjaan</p>
                 <div className="form-check">
-                    <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault2" />
+                    <input name='jobType' className="form-check-input" type="radio" value="" id="flexCheckDefault2" />
                     <label className="form-check-label" htmlFor="flexCheckDefault2">
                         Full time
                     </label>
                 </div>
                 <div className="form-check">
-                    <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault3" />
+                    <input name='jobType' className="form-check-input" type="radio" value="" id="flexCheckDefault3" />
                     <label className="form-check-label" htmlFor="flexCheckDefault3">
                         Part time
                     </label>
                 </div>
                 <div className="form-check">
-                    <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault4" />
+                    <input name='jobType' className="form-check-input" type="radio" value="" id="flexCheckDefault4" />
                     <label className="form-check-label" htmlFor="flexCheckDefault4">
                         Kontrak
                     </label>

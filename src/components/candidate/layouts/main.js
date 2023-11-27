@@ -1,6 +1,8 @@
 import React from 'react'
 import Navbar from '@/components/candidate/navbar'
 import { Inter } from "next/font/google"
+import { Provider } from 'react-redux'
+import { store } from 'src/redux/store'
 
 const inter = Inter({
   weight: ['400', '600', '700', '800'],
@@ -9,7 +11,7 @@ const inter = Inter({
 
 export default function LayoutMain({ children }) {
   return (
-    <>
+    <Provider store={store}>
       <div className={inter.className}>
         <Navbar />
         <main
@@ -22,6 +24,6 @@ export default function LayoutMain({ children }) {
           {children}
         </main>
       </div>
-    </>  
+    </Provider>  
   )
 }

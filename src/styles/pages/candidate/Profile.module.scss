@@ -2,6 +2,7 @@
     padding: 30px;
     border-radius: 10px;
     width: 80%;
+    margin-top: 200;
 
     p {
         margin-bottom: 5px;
@@ -46,7 +47,7 @@
 
 .skillList {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     row-gap: 10px;
 }
 
@@ -70,4 +71,27 @@
     span {
         color: $light-gray;
     }
+}
+
+.emptyTextHeader {
+    font-size: 32px;
+}
+
+.profileName {
+    display: flex;
+    column-gap: 20px;
+    align-items: center;
+    width: 100%;
+}
+
+.avaWrap  {
+    position: relative;
+}
+
+.editBtn {
+    background-color: #FFF !important;
+    box-shadow: 1px 4px 5px rgba(0, 0, 0, 0.25);
+    position: absolute !important;
+    right: 0;
+    bottom: 0;
 }
