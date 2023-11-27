@@ -12,8 +12,8 @@ export default function AddPermissionModal({ open, onClose }) {
     const dispatch = useDispatch()
     const [role, setRole] = React.useState([])
     const [idRole, setIdRole] = React.useState(0)
-    const [permissionsList,setPermissionList] = React.useState([])
-    const [access, setAccess] = React.useState([])
+    const [permissionsList, setPermissionList] = React.useState([])
+    const [accessList, setAccessList] = React.useState([])
 
     const getRole = () => {
         axiosInstance.get(API_ROLE)
@@ -34,14 +34,18 @@ export default function AddPermissionModal({ open, onClose }) {
         })
     }
 
-    console.log(access)
+    console.log(accessList)
+    console.log(idRole)
     const handleChange = (e) => {
         const { value, checked } = e.target;
 
         if (checked) {
-            setAccess([...access, value])
+            setAccessList((prevData) => [
+                ...prevData,
+                value
+            ])
         } else {
-            setAccess([access.filter((e) => e !== value)])
+            setAccessList([accessList.filter((e) => e !== value)])
         }
     }
 
@@ -52,7 +56,8 @@ export default function AddPermissionModal({ open, onClose }) {
 
     const submitPermission = () => {
         const formData = {
-            access: access
+            access: ["can_show_job_type_work",
+                    "can_show_qualification"]
         }
 
         axiosInstance.post(API_ROLE_PERMISSION + "/" + idRole, formData)
@@ -87,8 +92,8 @@ export default function AddPermissionModal({ open, onClose }) {
                         <label style={{ fontWeight: 600, marginBottom: '6px' }}>Everything</label>
                         {permissionsList.everything?.map((item, index) => (
                             <div key={index} className="form-check">
-                                <input onChange={handleChange} className="form-check-input" type="checkbox" value={item} id="flexCheckDefault" />
-                                <label className="form-check-label" for="flexCheckDefault">{item}</label>
+                                <input onChange={handleChange} className="form-check-input" type="checkbox" value={item} id={item} />
+                                <label className="form-check-label" for={item}>{item}</label>
                             </div>
                         ))}
                     </div>
@@ -97,8 +102,8 @@ export default function AddPermissionModal({ open, onClose }) {
                         <div className={styles.checkList}>
                             {permissionsList.master_role?.map((item, index) => (
                                 <div key={index} className="form-check">
-                                    <input onChange={handleChange} className="form-check-input" type="checkbox" value={item} id="flexCheckDefault" />
-                                    <label className="form-check-label" for="flexCheckDefault">{item}</label>
+                                    <input onChange={handleChange} className="form-check-input" type="checkbox" value={item} id={item} />
+                                    <label className="form-check-label" for={item}>{item}</label>
                                 </div>
                             ))}
                         </div>
@@ -108,8 +113,8 @@ export default function AddPermissionModal({ open, onClose }) {
                         <div className={styles.checkList}>
                             {permissionsList.master_skill?.map((item, index) => (
                                 <div key={index} className="form-check">
-                                    <input onChange={handleChange} className="form-check-input" type="checkbox" value={item} id="flexCheckDefault" />
-                                    <label className="form-check-label" for="flexCheckDefault">{item}</label>
+                                    <input onChange={handleChange} className="form-check-input" type="checkbox" value={item} id={item} />
+                                    <label className="form-check-label" for={item}>{item}</label>
                                 </div>
                             ))}
                         </div>
@@ -119,8 +124,8 @@ export default function AddPermissionModal({ open, onClose }) {
                         <div className={styles.checkList}>
                             {permissionsList.master_permission?.map((item, index) => (
                                 <div key={index} className="form-check">
-                                    <input onChange={handleChange} className="form-check-input" type="checkbox" value={item} id="flexCheckDefault" />
-                                    <label className="form-check-label" for="flexCheckDefault">{item}</label>
+                                    <input onChange={handleChange} className="form-check-input" type="checkbox" value={item} id={item} />
+                                    <label className="form-check-label" for={item}>{item}</label>
                                 </div>
                             ))}
                         </div>
@@ -130,8 +135,8 @@ export default function AddPermissionModal({ open, onClose }) {
                         <div className={styles.checkList}>
                             {permissionsList.master_qualification?.map((item, index) => (
                                 <div key={index} className="form-check">
-                                    <input onChange={handleChange} className="form-check-input" type="checkbox" value={item} id="flexCheckDefault" />
-                                    <label className="form-check-label" for="flexCheckDefault">{item}</label>
+                                    <input onChange={handleChange} className="form-check-input" type="checkbox" value={item} id={item} />
+                                    <label className="form-check-label" for={item}>{item}</label>
                                 </div>
                             ))}
                         </div>
@@ -141,8 +146,8 @@ export default function AddPermissionModal({ open, onClose }) {
                         <div className={styles.checkList}>
                             {permissionsList.master_job_type_work?.map((item, index) => (
                                 <div key={index} className="form-check">
-                                    <input onChange={handleChange} className="form-check-input" type="checkbox" value={item} id="flexCheckDefault" />
-                                    <label className="form-check-label" for="flexCheckDefault">{item}</label>
+                                    <input onChange={handleChange} className="form-check-input" type="checkbox" value={item} id={item} />
+                                    <label className="form-check-label" for={item}>{item}</label>
                                 </div>
                             ))}
                         </div>
@@ -152,8 +157,8 @@ export default function AddPermissionModal({ open, onClose }) {
                         <div className={styles.checkList}>
                             {permissionsList.master_time_experience?.map((item, index) => (
                                 <div key={index} className="form-check">
-                                    <input onChange={handleChange} className="form-check-input" type="checkbox" value={item} id="flexCheckDefault" />
-                                    <label className="form-check-label" for="flexCheckDefault">{item}</label>
+                                    <input onChange={handleChange} className="form-check-input" type="checkbox" value={item} id={item} />
+                                    <label className="form-check-label" for={item}>{item}</label>
                                 </div>
                             ))}
                         </div>
@@ -163,8 +168,8 @@ export default function AddPermissionModal({ open, onClose }) {
                         <div className={styles.checkList}>
                             {permissionsList.master_career_level?.map((item, index) => (
                                 <div key={index} className="form-check">
-                                    <input onChange={handleChange} className="form-check-input" type="checkbox" value={item} id="flexCheckDefault" />
-                                    <label className="form-check-label" for="flexCheckDefault">{item}</label>
+                                    <input onChange={handleChange} className="form-check-input" type="checkbox" value={item} id={item} />
+                                    <label className="form-check-label" for={item}>{item}</label>
                                 </div>
                             ))}
                         </div>
@@ -174,8 +179,8 @@ export default function AddPermissionModal({ open, onClose }) {
                         <div className={styles.checkList}>
                             {permissionsList.master_job?.map((item, index) => (
                                 <div key={index} className="form-check">
-                                    <input onChange={handleChange} className="form-check-input" type="checkbox" value={item} id="flexCheckDefault" />
-                                    <label className="form-check-label" for="flexCheckDefault">{item}</label>
+                                    <input onChange={handleChange} className="form-check-input" type="checkbox" value={item} id={item} />
+                                    <label className="form-check-label" for={item}>{item}</label>
                                 </div>
                             ))}
                         </div>
@@ -185,8 +190,8 @@ export default function AddPermissionModal({ open, onClose }) {
                         <div className={styles.checkList}>
                             {permissionsList.candidate_behavior?.map((item, index) => (
                                 <div key={index} className="form-check">
-                                    <input onChange={handleChange} className="form-check-input" type="checkbox" value={item} id="flexCheckDefault" />
-                                    <label className="form-check-label" for="flexCheckDefault">{item}</label>
+                                    <input onChange={handleChange} className="form-check-input" type="checkbox" value={item} id={item} />
+                                    <label className="form-check-label" for={item}>{item}</label>
                                 </div>
                             ))}
                         </div>
@@ -196,8 +201,8 @@ export default function AddPermissionModal({ open, onClose }) {
                         <div className={styles.checkList}>
                             {permissionsList.candidate_behavior?.map((item, index) => (
                                 <div key={index} className="form-check">
-                                    <input onChange={handleChange} className="form-check-input" type="checkbox" value={item} id="flexCheckDefault" />
-                                    <label className="form-check-label" for="flexCheckDefault">{item}</label>
+                                    <input onChange={handleChange} className="form-check-input" type="checkbox" value={item} id={item} />
+                                    <label className="form-check-label" for={item}>{item}</label>
                                 </div>
                             ))}
                         </div>

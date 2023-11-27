@@ -1,5 +1,6 @@
 import LayoutMain from "@/components/admin/layouts/main"
 import AddPermissionModal from "@/components/admin/modals/add-permission"
+import EditPermissionModal from "@/components/admin/modals/edit-permission"
 import IconBtn from "@/components/common/icon-button"
 import CustomTable from "@/components/common/table"
 import SVGAdd from '@/public/icons/add.svg'
@@ -31,6 +32,8 @@ const colList = [
 export default function Permission() {
     const [permissionsList,setPermissionList] = React.useState([])
     const [newPermission, setNewPermission] = React.useState(false)
+    const [openEditModal, setOpenEditModal] = React.useState(false)
+    const [selectId, setSelectid] = React.useState(0)
 
     const getList = () => {
         axiosInstance.get(API_ROLE_PERMISSION)
@@ -44,7 +47,9 @@ export default function Permission() {
         getList()
     }, [])
 
-    const editModal = () => {
+    const editModal = (id) => {
+        setSelectid(id)
+        setOpenEditModal(true)
         console.log('edit')
     }
 
@@ -60,12 +65,18 @@ export default function Permission() {
         </div>
         <CustomTable
             columns={colList}
+            idKey="id"
             data={permissionsList}
             editFunc={editModal}
         />
         <AddPermissionModal
             open={newPermission}
             onClose={() => setNewPermission(false)}
+        />
+        <EditPermissionModal
+            open={openEditModal}
+            id={selectId}
+            onClose={() => setOpenEditModal(false)}
         />
     </>)
 }

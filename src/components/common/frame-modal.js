@@ -18,7 +18,7 @@ const FrameModal = ({open, handleClose, children, title}) => {
             }}
         >
             <DialogTitle className={styles.title}>
-                <span className={styles.modalTitle}><b>{title}</b></span>
+                <span className={styles.modalTitle}>{title}</span>
                 <IconButton 
                     onClick={handleClose}
                     sx={{
