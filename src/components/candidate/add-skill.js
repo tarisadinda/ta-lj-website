@@ -96,7 +96,7 @@ const AddSkill = ({ open, onClose}) => {
 
       <div>
         {selectedSkills && selectedSkills.length > 0 && (
-          <div style={{marginTop: 20, marginBottom: 20}} >
+          <div style={{marginTop: 20, marginBottom: 20, display: 'flex', gap: '15px'}} >
             {selectedOptions.map((selectedValue, index) => {
               return (
                 <CustomChip key={index} sx={{bgcolor: '#FF9D3E'}} label={selectedValue.label} onDelete={() => handleRemoveSkill(selectedSkills)}/>

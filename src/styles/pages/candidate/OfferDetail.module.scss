@@ -22,3 +22,14 @@
     display: grid;
     row-gap: 10px;
 }
+
+.colGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    margin-top: 20px;
+}
+
+.colFlex {
+    display: flex;
+    gap: 120px;
+}
