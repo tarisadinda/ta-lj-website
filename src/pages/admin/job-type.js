@@ -11,10 +11,11 @@ import { API_ADD_CAT, API_JOB_TYPE } from 'src/utils/api'
 import ConfirmDeleteModal from '@/components/common/confirm-delete'
 import CustomAlert from '@/components/common/alert'
 import { useDispatch, useSelector } from 'react-redux'
-import { alertMessage, openAlert, setMessage, setOpenAlert, severity } from 'src/redux/common/alertSlice'
+import { alertMessage, openAlert, setMessage, setOpenAlert, setSeverity, severity } from 'src/redux/common/alertSlice'
 import EditCategoryModal from '@/components/admin/modals/edit-category'
 import { openModal, setOpenModal } from 'src/redux/common/modalSlice'
 import AddJobType from '@/components/admin/modals/add-job-type'
+import EditJobType from '@/components/admin/modals/edit-job-type'
 
 const colList = [
     {
@@ -37,6 +38,11 @@ const colList = [
         label: 'Tanggal Dibuat',
         render: (data) => <span>{convertDate(data.updatedAt)}</span>
     },
+    {
+        id: 'status',
+        label: 'Status',
+        render: (data) => <span>{data.status == true ? 'Aktif' : 'Non-aktif'}</span>
+    },
 ]
 
 export default function JobType() {
@@ -51,9 +57,9 @@ export default function JobType() {
     const [askDelete, setAskDelete] = React.useState(false)
     const [deleteId, setDeleteId] = React.useState('')
     const [editCatId, setEditCatId] = React.useState('')
+    const [openEdit, setOpenEdit] = React.useState(false)
     const [jobTypeList, setJobTypeList] = React.useState([])
-    const filteredJobType = jobTypeList.filter(item => item.status === true)
-
+    
     const getJobTypeList = () => {
         axiosInstance.get(API_JOB_TYPE)
         .then((res) => {
@@ -77,28 +83,17 @@ export default function JobType() {
                 },
             })
             console.log(res)
+
+            if(res.status == 200) {
+                dispatch(setOpenAlert(true))
+                dispatch(setMessage('Data berhasil dihapus!'))
+                dispatch(setSeverity('success'))
+            }
         } catch(err) {
             console.log(err)
+        } finally {
+            setAskDelete(false)
         }
-        // if(deleteId !== '') {
-        //     axiosInstance.delete(API_JOB_TYPE + '/' + deleteId, data, {})
-        //     .then((res) => {
-        //         console.log(res)
-        //         setAskDelete(false)
-
-        //         if(res) {
-        //             setJobTypeList(jobTypeList.filter((category) => {
-        //                 return category.id !== deleteId
-        //             }))
-
-        //             setDeleteId('')
-        //         } else {
-        //             setDeleteId('')
-        //         }
-        //         // dispatch(setMessage(res.data.message))
-        //         // dispatch(setOpenAlert(true))
-        //     }).catch((err) => {})
-        // }
     }
 
     const modalDelete = (id) => {
@@ -107,7 +102,7 @@ export default function JobType() {
     }
 
     const modalEdit = (id) => {
-        dispatch(setOpenModal(true))
+        setOpenEdit(true)
 
         if(id) {
             setEditCatId(id)
@@ -126,7 +121,7 @@ export default function JobType() {
         </div>        
         <CustomTable 
             columns={colList}
-            data={filteredJobType}
+            data={jobTypeList}
             idKey='id'
             deleteFunc={modalDelete}
             editFunc={modalEdit}
@@ -148,10 +143,10 @@ export default function JobType() {
             duration={3500} 
             onClose={() => { dispatch(setOpenAlert(false)), dispatch(setMessage('')) }} 
         />
-        <EditCategoryModal 
-            id={editCatId} 
-            open={isEditModal} 
-            onClose={() => { dispatch(setOpenModal(false)); setEditCatId('') }} 
+        <EditJobType
+            open={openEdit}
+            onClose={() => setOpenEdit(false)}
+            id={editCatId}
         />
     </>)
 }

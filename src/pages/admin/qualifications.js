@@ -7,7 +7,7 @@ import { axiosInstance } from 'src/utils/axios'
 import { API_QUALIFICATION } from 'src/utils/api'
 import { convertDate } from 'src/utils/convert-date'
 import { useDispatch, useSelector } from 'react-redux'
-import { alertMessage, openAlert, setOpenAlert, severity } from 'src/redux/common/alertSlice'
+import { alertMessage, openAlert, setMessage, setOpenAlert, setSeverity, severity } from 'src/redux/common/alertSlice'
 import CustomAlert from '@/components/common/alert'
 import ConfirmDeleteModal from '@/components/common/confirm-delete'
 import AddQualificationModal from '@/components/admin/modals/add-qualification'
@@ -51,7 +51,6 @@ export default function Qualification() {
     const [editId, setEditId] = React.useState('')
     const [openEditModal, setOpenEditModal] = React.useState(false)
     const [qualification, setQualification] = useState([])
-    const filteredQualifications = qualification.filter(item => item.status === true)
 
     const getQualifications = () => {
         axiosInstance.get(API_QUALIFICATION)
@@ -96,11 +95,11 @@ export default function Qualification() {
                 setAskDelete(false)
 
                 if(res.status === 200) {
-                    setQualification(qualification.filter((item) => {
-                        return item.id !== deleteId
-                    }))
-
                     setDeleteId('')
+
+                    dispatch(setOpenAlert(true))
+                    dispatch(setMessage('Data berhasil dihapus'))
+                    dispatch(setSeverity('success'))
                 } else {
                     setDeleteId('')
                 }
@@ -125,7 +124,7 @@ export default function Qualification() {
         <div>
             <CustomTable
                 columns={colList}
-                data={filteredQualifications}
+                data={qualification}
                 idKey='id'
                 deleteFunc={deleteModal}
                 editFunc={editModal}
@@ -139,7 +138,7 @@ export default function Qualification() {
             open={isOpenAlert} 
             severity={alertSeverity}
             text={alertMsg}
-            duration={3000} 
+            duration={2800} 
             onClose={() => dispatch(setOpenAlert(false))} 
         />
         <ConfirmDeleteModal

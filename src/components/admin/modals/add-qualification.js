@@ -25,16 +25,14 @@ export default function AddQualificationModal({ open, onClose }) {
         axiosInstance.post(API_QUALIFICATION, data)
         .then((res) => {
             console.log(res)
-
             if(res.status === 201) {
                 dispatch(setOpenAlert(true))
-                dispatch(setMessage('Data berhasil ditambahkan'))
+                dispatch(setMessage(res.data.message))
                 dispatch(setSeverity('success'))
             }
+
             onClose()
         }).catch((err) => {
-            console.log(err)
-
             if(err.status == 400) {
                 dispatch(setMessage(err.response.data.message))
                 dispatch(setSeverity('error'))
@@ -49,7 +47,7 @@ export default function AddQualificationModal({ open, onClose }) {
         <Dialog open={open} fullWidth={true} maxWidth='xs'>
             <DialogTitle sx={{ padding: '10px 15px' }}>
                 <div className='d-flex flex-row align-items-center justify-content-between'>
-                    <span>Tambah Kualifikasi Kandidat</span>
+                    <span>Tambah Kualifikasi Pekerjaan</span>
                     <IconButton onClick={onClose}><CloseIcon /></IconButton>
                 </div>
             </DialogTitle>

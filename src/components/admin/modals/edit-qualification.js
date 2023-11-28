@@ -44,23 +44,29 @@ export default function EditQualificationModal({ open, onClose, id }) {
     const submitForm = (e) => {
         e.preventDefault()
 
-        const inpuForm = {
+        const inputForm = {
             name: qualification.name,
             description: qualification.desc
         }
 
-        axiosInstance.put(API_QUALIFICATION + "/" + id, inpuForm)
+        axiosInstance.put(API_QUALIFICATION + "/" + id, inputForm)
         .then((res) => {
-            if(res.status == 201) {
+            console.log(res)
+            if(res.status == 200) {
                 dispatch(setOpenAlert(true))
-                dispatch(setMessage(data.data.message))
+                dispatch(setMessage(res.data.message))
                 dispatch(setSeverity('success'))
             }
+
             onClose()
-        }).catch(err => {
-            dispatch(setMessage(err.response.data.message))
+        }).catch((err) => {
+            console.log(err)
+
+            dispatch(setMessage(err.response?.message))
             dispatch(setSeverity('error'))
             dispatch(setOpenAlert(true))
+
+            onClose()
         })
     }
 

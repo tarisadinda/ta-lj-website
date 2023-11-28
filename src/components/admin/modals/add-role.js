@@ -37,7 +37,6 @@ export default function AddRoleModal({ open, onClose }) {
                 dispatch(setMessage('Data berhasil ditambahkan'))
                 dispatch(setSeverity('success'))
 
-                
                 onClose()
             }
         }).catch((err) => console.log(err))
