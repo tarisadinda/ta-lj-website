@@ -5,10 +5,10 @@ import styles from '@/styles/components/admin/modals/CustomModal.module.scss'
 import CloseIcon from '@mui/icons-material/Close'
 import cn from 'classnames'
 import { Dialog, DialogContent, DialogTitle, IconButton } from "@mui/material"
-import { API_ADD_CAT } from "src/utils/api"
+import { API_SKILL } from "src/utils/api"
 import { setMessage, setOpenAlert, setSeverity } from "src/redux/common/alertSlice"
 
-export default function EditCategoryModal({ open, onClose, id }) {
+export default function EditSkillModal({ open, onClose, id }) {
     const dispatch = useDispatch()
 
     const [data, setData] = React.useState({
@@ -25,20 +25,20 @@ export default function EditCategoryModal({ open, onClose, id }) {
         })
     }
 
-    const getDetailCategory = () => {
-        axiosInstance.get(API_ADD_CAT + "/" + id)
+    const getSkill = () => {
+        axiosInstance.get(API_SKILL + "/" + id)
         .then((res) => {
             console.log(res)
             setData({
-                name: res.data.name,
-                desc: res.data.description
+                name: res.data.data.name,
+                desc: res.data.data.description
             })
         }).catch((err) => { console.log(err) })
     }
 
     React.useEffect(() => {
         if(open) {
-            getDetailCategory()
+            getSkill()
         }
     }, [open])
 
@@ -51,11 +51,8 @@ export default function EditCategoryModal({ open, onClose, id }) {
         }
 
         console.log(inpuForm)
-        axiosInstance.put(API_ADD_CAT + "/" + id, inpuForm, {
-            headers: {
-                "Content-Type": "application/json"
-            }
-        }).then((res) => {
+        axiosInstance.put(API_SKILL + "/" + id, inpuForm)
+        .then((res) => {
             console.log(res)
             dispatch(setOpenAlert(true))
             dispatch(setMessage('Data berhasil diperbarui!'))
@@ -68,12 +65,12 @@ export default function EditCategoryModal({ open, onClose, id }) {
         <Dialog open={open} fullWidth={true} maxWidth='xs'>
             <DialogTitle sx={{ padding: '10px 15px' }}>
                 <div className='d-flex flex-row align-items-center justify-content-between'>
-                    <span>Edit Kategori Pekerjaan</span>
+                    <span>Edit Keahlian</span>
                     <IconButton onClick={onClose}><CloseIcon /></IconButton>
                 </div>
             </DialogTitle>
             <DialogContent dividers>
-                <form onSubmit={submitForm}>
+                <div>
                     <div className={styles.formSection}>
                         <div>
                             <label className={styles.inputLabel}>Nama Kategori</label>
@@ -86,9 +83,9 @@ export default function EditCategoryModal({ open, onClose, id }) {
                     </div>
                     <div className={styles.actionBtn}>
                         <button onClick={onClose} className={cn(styles.cancelBtn, 'btn btn-ghost')}>Batal</button>
-                        <button type='submit' className={cn(styles.saveBtn, 'btn btn-primary blue')}>Simpan</button>
+                        <button onClick={submitForm} className={cn(styles.saveBtn, 'btn btn-primary blue')}>Simpan</button>
                     </div>
-                </form>
+                </div>
             </DialogContent>
         </Dialog>
     </>)
