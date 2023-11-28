@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { useDispatch } from "react-redux"
 import { axiosInstance } from "src/utils/axios"
-import styles from '@/styles/components/admin/modals/AddCategoryModal.module.scss'
+import styles from '@/styles/components/admin/modals/CustomModal.module.scss'
 import CloseIcon from '@mui/icons-material/Close'
 import cn from 'classnames'
 import { Dialog, DialogContent, DialogTitle, IconButton } from "@mui/material"

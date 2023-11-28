@@ -1,6 +1,6 @@
 import { DialogContent } from '@mui/material'
 import CustomDialog from '@/components/common/dialog'
-import styles from '@/styles/components/admin/modals/AddCategoryModal.module.scss'
+import styles from '@/styles/components/admin/modals/CustomModal.module.scss'
 import cn from 'classnames'
 import React from 'react'
 import { axiosInstance } from 'src/utils/axios'
