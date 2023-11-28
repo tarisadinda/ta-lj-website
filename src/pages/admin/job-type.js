@@ -140,7 +140,7 @@ export default function JobType() {
         <CustomAlert open={isOpenAlert} 
             severity={alertSeverity}
             text={alertMsg} 
-            duration={3500} 
+            duration={2800} 
             onClose={() => { dispatch(setOpenAlert(false)), dispatch(setMessage('')) }} 
         />
         <EditJobType

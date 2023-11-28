@@ -60,8 +60,6 @@ export default function EditQualificationModal({ open, onClose, id }) {
 
             onClose()
         }).catch((err) => {
-            console.log(err)
-
             dispatch(setMessage(err.response?.message))
             dispatch(setSeverity('error'))
             dispatch(setOpenAlert(true))

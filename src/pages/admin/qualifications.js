@@ -91,10 +91,9 @@ export default function Qualification() {
                     'Content-Type': 'application/json',
                 },
             }).then((res) => {
-                console.log(res)
                 setAskDelete(false)
 
-                if(res.status === 200) {
+                if(res.status == 200) {
                     setDeleteId('')
 
                     dispatch(setOpenAlert(true))
