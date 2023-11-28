@@ -1,4 +1,5 @@
 import LayoutMain from "@/components/admin/layouts/main";
+import AddTimeModal from "@/components/admin/modals/add-time-exp";
 import IconBtn from "@/components/common/icon-button";
 import CustomTable from "@/components/common/table";
 import SVGAdd from '@/public/icons/add.svg'
@@ -31,7 +32,7 @@ const colList = [
 
 export default function JobExperience() {
     const [time, setTime] = React.useState([])
-    const [clickTime, setClickTime] = React.useState(false)
+    const [addTime, setaddTime] = React.useState(false)
     const [timeList, setTimeList] = React.useState([])
     
     const getTime = () => {
@@ -54,7 +55,7 @@ export default function JobExperience() {
             <IconBtn
                 title='Tahun' 
                 startIcon={<SVGAdd />}
-                onClick={() => setClickTime(!clickTime)}
+                onClick={() => setaddTime(!addTime)}
                 className="btn btn-primary blue" 
             />
         </div>
@@ -67,6 +68,10 @@ export default function JobExperience() {
                 // editFunc={editModal}
             />
         </div>
+        <AddTimeModal
+            open={addTime}
+            onClose={() => setaddTime(false)}
+        />
     </>)
 }
 

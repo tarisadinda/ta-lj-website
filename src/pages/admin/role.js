@@ -80,7 +80,7 @@ export default function Role() {
         <h4><b>Kelola Role</b></h4>
         <div className="mt-3 mb-2">
             <IconBtn 
-                title='Tambah Role' 
+                title='Role' 
                 startIcon={<SVGAdd />}
                 onClick={() => setAddRole(true)}
                 className="btn btn-primary blue" 

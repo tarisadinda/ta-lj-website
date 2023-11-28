@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { alertMessage, openAlert, setMessage, setOpenAlert, severity } from 'src/redux/common/alertSlice'
 import EditCategoryModal from '@/components/admin/modals/edit-category'
 import { openModal, setOpenModal } from 'src/redux/common/modalSlice'
+import AddJobType from '@/components/admin/modals/add-job-type'
 
 const colList = [
     {
@@ -40,52 +41,70 @@ const colList = [
 
 export default function JobType() {
     const dispatch = useDispatch()
-    const effectRan = useRef(false)
 
     const isOpenAlert = useSelector(openAlert)
     const alertSeverity = useSelector(severity)
     const alertMsg = useSelector(alertMessage)
     const isEditModal = useSelector(openModal)
 
-    const [openCatModal, setOpenCatModal] = React.useState(false)
+    const [openAddModal, setopenAddModal] = React.useState(false)
     const [askDelete, setAskDelete] = React.useState(false)
     const [deleteId, setDeleteId] = React.useState('')
     const [editCatId, setEditCatId] = React.useState('')
-    const [categoryList, setCategoryList] = React.useState([])
+    const [jobTypeList, setJobTypeList] = React.useState([])
 
     const getJobTypeList = () => {
         axiosInstance.get(API_JOB_TYPE)
         .then((res) => {
             console.log(res)
-            setCategoryList(res.data.data)
+            setJobTypeList(res.data.data.data)
         }).catch((err) => {})
     }
 
-    console.log(categoryList)
+    console.log(jobTypeList)
     React.useEffect(() => {
         getJobTypeList()
     }, [])
 
-    const deleteItem = () => {
-        if(deleteId !== '') {
-            axiosInstance.delete(API_ADD_CAT + '/' + deleteId)
-            .then((res) => {
-                console.log(res)
-                setAskDelete(false)
+    React.useEffect(() => {
+        setJobTypeList(jobTypeList.filter((category) => {
+            return category.status != false
+        }))
+    }, [jobTypeList])
 
-                if(res.status === 200) {
-                    setCategoryList(categoryList.filter((category) => {
-                        return category.id !== deleteId
-                    }))
-
-                    setDeleteId('')
-                } else {
-                    setDeleteId('')
-                }
-                // dispatch(setMessage(res.data.message))
-                // dispatch(setOpenAlert(true))
-            }).catch((err) => {})
+    const deleteItem = async() => {
+        try {
+            const res = await axiosInstance.delete(API_JOB_TYPE + '/' + deleteId, {
+                data: {
+                    status: false,
+                },
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            console.log(res)
+        } catch(err) {
+            console.log(err)
         }
+        // if(deleteId !== '') {
+        //     axiosInstance.delete(API_JOB_TYPE + '/' + deleteId, data, {})
+        //     .then((res) => {
+        //         console.log(res)
+        //         setAskDelete(false)
+
+        //         if(res) {
+        //             setJobTypeList(jobTypeList.filter((category) => {
+        //                 return category.id !== deleteId
+        //             }))
+
+        //             setDeleteId('')
+        //         } else {
+        //             setDeleteId('')
+        //         }
+        //         // dispatch(setMessage(res.data.message))
+        //         // dispatch(setOpenAlert(true))
+        //     }).catch((err) => {})
+        // }
     }
 
     const modalDelete = (id) => {
@@ -105,20 +124,23 @@ export default function JobType() {
         <h4><b>Tipe Pekerjaan</b></h4>
         <div className={styles.addBtn}>
             <IconBtn 
-                title='Tambah Tipe Kerja' 
+                title='Tipe Kerja' 
                 startIcon={<SVGAdd />}
-                onClick={() => setOpenCatModal(!openCatModal)}
+                onClick={() => setopenAddModal(!openAddModal)}
                 className="btn btn-primary blue" 
             />
         </div>        
         <CustomTable 
             columns={colList}
-            data={categoryList.data}
+            data={jobTypeList}
             idKey='id'
             deleteFunc={modalDelete}
             editFunc={modalEdit}
         />
-        <AddCategoryModal open={openCatModal} onClose={() => setOpenCatModal(false)} />
+        <AddJobType
+            open={openAddModal}
+            onClose={() => setopenAddModal(false)}
+        />
         <ConfirmDeleteModal 
             open={askDelete} 
             title="Apakah anda ingin menghapus data ini?"

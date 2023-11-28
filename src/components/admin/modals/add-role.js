@@ -21,6 +21,7 @@ export default function AddRoleModal({ open, onClose }) {
             [e.target.name]: e.target.value
         })
     }
+
     const submitForm = (e) => {
         e.preventDefault()
 
@@ -29,7 +30,7 @@ export default function AddRoleModal({ open, onClose }) {
             description: role.desc
         }
 
-        axiosInstance.post(API_ROLE, data)
+         
         .then((res) => {
             if(res.status === 201) {
                 dispatch(setOpenAlert(true))

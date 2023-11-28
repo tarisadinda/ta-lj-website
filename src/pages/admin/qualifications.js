@@ -82,18 +82,15 @@ export default function Qualification() {
     }
     
     const deleteItem = () => {
-        const data = {
-            status: false
-        }
-
-        if(deleteId !== '') {
-        console.log(deleteId)
-            axiosInstance.delete(API_QUALIFICATION + '/' + deleteId, data, {
+        if(deleteId != '') {
+            axiosInstance.delete(API_QUALIFICATION + '/' + deleteId, {
+                data: {
+                    status: false,
+                },
                 headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then((res) => {
+                    'Content-Type': 'application/json',
+                },
+            }).then((res) => {
                 console.log(res)
                 setAskDelete(false)
 
