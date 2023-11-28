@@ -1,5 +1,4 @@
 import React, { useRef, useState } from 'react'
-import styles from '@/styles/pages/admin/Qualifications.module.scss'
 import IconBtn from "@/components/common/icon-button"
 import LayoutMain from "@/components/admin/layouts/main"
 import SVGAdd from '@/public/icons/add.svg'
@@ -11,8 +10,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { alertMessage, openAlert, setOpenAlert, severity } from 'src/redux/common/alertSlice'
 import CustomAlert from '@/components/common/alert'
 import ConfirmDeleteModal from '@/components/common/confirm-delete'
-import EditSalaryModal from '@/components/admin/modals/edit-payroll'
 import AddQualificationModal from '@/components/admin/modals/add-qualification'
+import EditQualificationModal from '@/components/admin/modals/edit-qualification'
 
 const colList = [
     {
@@ -82,25 +81,30 @@ export default function Payroll() {
         setOpenEditModal(true)
     }
 
+    
+
     const deleteItem = () => {
         if(deleteId !== '') {
-            axiosInstance.delete(API_SALARY + '/' + deleteId)
+        console.log(deleteId)
+            axiosInstance.delete(API_QUALIFICATION + '/' + deleteId)
             .then((res) => {
                 console.log(res)
                 setAskDelete(false)
 
                 if(res.status === 200) {
-                    setQualification(qualification.filter((data) => {
-                        return data.id !== deleteId
+                    setQualification(qualification.filter((item) => {
+                        return item.id !== deleteId
                     }))
 
                     setDeleteId('')
                 } else {
                     setDeleteId('')
                 }
-                // dispatch(setMessage(res.data.message))
-                // dispatch(setOpenAlert(true))
-            }).catch((err) => {})
+            }).catch((err) => {
+                if(err) {
+                    setAskDelete(false)
+                }
+            })
         }
     }
 
@@ -125,6 +129,7 @@ export default function Payroll() {
         </div>
         <AddQualificationModal
             open={isAddQualification}
+            onClose={() => setIsAddQualification(false)}
         />
         <CustomAlert 
             open={isOpenAlert} 
@@ -140,7 +145,7 @@ export default function Payroll() {
             desc="Data yang telah dihapus, tidak dapat dikembali lagi."
             onClose={() => { setAskDelete(false), setDeleteId('') }} 
         />
-        <EditSalaryModal
+        <EditQualificationModal
             open={openEditModal}
             onClose={() => setOpenEditModal(false)}
             id={editId}
