@@ -52,6 +52,7 @@ export default function JobType() {
     const [deleteId, setDeleteId] = React.useState('')
     const [editCatId, setEditCatId] = React.useState('')
     const [jobTypeList, setJobTypeList] = React.useState([])
+    const filteredJobType = jobTypeList.filter(item => item.status === true)
 
     const getJobTypeList = () => {
         axiosInstance.get(API_JOB_TYPE)
@@ -61,16 +62,9 @@ export default function JobType() {
         }).catch((err) => {})
     }
 
-    console.log(jobTypeList)
     React.useEffect(() => {
         getJobTypeList()
     }, [])
-
-    React.useEffect(() => {
-        setJobTypeList(jobTypeList.filter((category) => {
-            return category.status != false
-        }))
-    }, [jobTypeList])
 
     const deleteItem = async() => {
         try {
@@ -132,7 +126,7 @@ export default function JobType() {
         </div>        
         <CustomTable 
             columns={colList}
-            data={jobTypeList}
+            data={filteredJobType}
             idKey='id'
             deleteFunc={modalDelete}
             editFunc={modalEdit}
