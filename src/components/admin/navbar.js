@@ -87,7 +87,7 @@ export default function Navbar() {
                     <ListItemText primary="Pengalaman Kerja (Tahun)" />
                 </ListItemButton>
             </Link>
-            <Link href='#' className={styles.link}>
+            <Link href='/admin/career-level' className={styles.link}>
                 <ListItemButton>
                     <ListItemText primary="Kategori Kerja" />
                 </ListItemButton>
