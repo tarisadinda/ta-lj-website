@@ -77,6 +77,21 @@ export default function Navbar() {
                     <ListItemText primary="Kualifikasi" />
                 </ListItemButton>
             </Link>
+            <Link href='#' className={styles.link}>
+                <ListItemButton>
+                    <ListItemText primary="Keahlian" />
+                </ListItemButton>
+            </Link>
+            <Link href='/admin/job-experiences' className={styles.link}>
+                <ListItemButton>
+                    <ListItemText primary="Pengalaman Kerja (Tahun)" />
+                </ListItemButton>
+            </Link>
+            <Link href='#' className={styles.link}>
+                <ListItemButton>
+                    <ListItemText primary="Kategori Kerja" />
+                </ListItemButton>
+            </Link>
             <ListItemButton onClick={handleCompanyList}>
                 <ListItemText primary="Perusahaan" />
                 {openCompanyList ? <ExpandLess /> : <ExpandMore />}
