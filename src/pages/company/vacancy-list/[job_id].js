@@ -48,6 +48,7 @@ const dummyData = [
 
 export default function VacancyDetail() {
     const router = useRouter()
+    const {job_id} = router.query
     
     const detailBtn = () => {
         router.push('/company/applicant-list/detail-applicant')

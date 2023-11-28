@@ -18,6 +18,8 @@ export default function Home() {
     size: 10,
     page: 0,
     search: "",
+    career_levels: [],
+    job_type_works: null,
   });
 
   const getProfile = () => {
@@ -43,7 +45,7 @@ export default function Home() {
                 phone_number: data?.candidate_detail?.phone_number,
                 updatedAt: data?.candidate_detail?.updatedAt,
                 user_id: data?.candidate_detail?.user_id,
-                skill: data?.candidate_detail?.Skill
+                skill: data?.candidate_detail?.Skill,
               },
             })
           );
@@ -59,11 +61,18 @@ export default function Home() {
 
   const getJobs = () => {
     axiosInstance
-      .get(
-        `/jobs?size=${pagination.size}&page=${pagination.page}&search=${pagination.search}`
-      )
+      .get(`/jobs`, {
+        params: {
+          size: pagination.size,
+          page: pagination.page,
+          search: pagination.search,
+          career_levels: pagination.career_levels,
+          job_type_works:
+            pagination.job_type_works !== null ? pagination.job_type_works : "",
+        },
+      })
       .then((res) => {
-        const data = res?.data?.data?.data
+        const data = res?.data?.data?.data;
         if (res) {
           setJobList(data);
         }
@@ -73,15 +82,15 @@ export default function Home() {
 
   useEffect(() => {
     getJobs();
-  }, []);
+  }, [pagination]);
 
   const onSearchJob = () => {
-    if(pagination.search === '') {
-      getJobs()
+    if (pagination.search === "") {
+      getJobs();
     } else {
-      getJobs()
+      getJobs();
     }
-  }
+  };
 
   useEffect(() => {
     if (!isLoading) {
@@ -94,14 +103,23 @@ export default function Home() {
       <div>
         <p className={styles.title}>Temukan Lowongan Terdekat dari Lokasimu!</p>
         <div className={styles.searchSection}>
-          <SearchInput value={pagination.search} onChange={(e) => setPagination({...pagination, search: e.target.value})} onClick={onSearchJob} />
+          <SearchInput
+            value={pagination.search}
+            onChange={(e) =>
+              setPagination({ ...pagination, search: e.target.value })
+            }
+            onClick={onSearchJob}
+          />
         </div>
         <div className={styles.mainContent}>
-          <Filter  />
+          <Filter pagination={pagination} setPagination={setPagination} />
           <div className={styles.jobList}>
-            {jobList && jobList?.map((value, index) => <JobCard data={value} key={index + 1} />)}
+            {jobList &&
+              jobList?.map((value, index) => (
+                <JobCard data={value} key={index + 1} />
+              ))}
             {jobList.length === 0 && (
-              <p className={styles.title} >Tidak ada Job List</p>
+              <p className={styles.title}>Tidak ada Job List</p>
             )}
           </div>
         </div>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import LayoutMain from "@/components/candidate/layouts/main";
 import cn from "classnames";
 import styles from "@/styles/pages/candidate/EditProfile.module.scss";
@@ -9,31 +9,86 @@ import { selectUser, updateUser } from "src/redux/common/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { axiosInstance } from "src/utils/axios";
 import { CloudUpload } from "@mui/icons-material";
+import {
+  alertMessage,
+  openAlert,
+  severity,
+  setMessage,
+  setOpenAlert,
+  setSeverity,
+} from "src/redux/common/alertSlice";
+import CustomAlert from "@/components/common/alert";
 
 export default function EditProfil() {
-  const user = useSelector(selectUser);
   const dispatch = useDispatch();
   const router = useRouter();
+  const user = useSelector(selectUser);
+
+  const isOpenAlert = useSelector(openAlert);
+  const alertMsg = useSelector(alertMessage);
+  const alertSeverity = useSelector(severity);
+
+  const [profileImage, setProfileImage] = useState("");
+  const [selectedAvatar, setSelectedAvatar] = useState(null);
+  const [fileCv, setFileCv] = useState(user?.candidate_detail?.cv);
   const [newDataUser, setNewDataUser] = useState({
     address: user?.candidate_detail?.address,
     phone_number: user?.candidate_detail?.phone_number,
     description: user?.candidate_detail?.description,
     image_profile: "",
+    cv_file: fileCv,
   });
-  const [profileImage, setProfileImage] = useState("");
+
+  const fileInputRef = useRef(null);
 
   const handleUpdateProfile = (e) => {
     e.preventDefault();
     axiosInstance
       .post(`/candidateDetail`, newDataUser)
       .then((res) => {
-        if (res) {
+        if (res.status == 201) {
           dispatch(updateUser(newDataUser));
-          // Setelah dispatch, Anda dapat melakukan navigasi atau aksi lain yang diperlukan
-          // router.push("/candidate/profile");
+
+          dispatch(setOpenAlert(true));
+          dispatch(setMessage("Profile berhasil diperbarui!"));
+          dispatch(setSeverity("success"));
+          setTimeout(() => {
+            router.push("/candidate/profile");
+          }, 1000);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        dispatch(setOpenAlert(true));
+        dispatch(setMessage(err?.response?.data?.message));
+        dispatch(setSeverity("error"));
+      });
+  };
+
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    console.log(fileInputRef.current);
+    console.log(e);
+    // Lakukan validasi jika file tidak ada atau bukan file .pdf
+    if (!file || !file.name.match(/\.(pdf)$/)) {
+      alert("Silakan pilih file .pdf");
+      return;
+    }
+    setFileCv(file);
+    setNewDataUser({ ...newDataUser, cv_file: file });
+  };
+
+  const removeCv = () => {
+    setFileCv(null);
+    // ... Tambahkan logika untuk menghapus file CV dari server jika diperlukan
+  };
+
+  const handleAvatarChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setSelectedAvatar(URL.createObjectURL(file));
+      setProfileImage(file);
+      setNewDataUser({ ...newDataUser, image_profile: file });
+    }
   };
 
   const cancelBtn = (e) => {
@@ -47,9 +102,21 @@ export default function EditProfil() {
         <b>Edit Profil</b>
       </h3>
       <div className={styles.avaRow}>
-        <Avatar src={user?.img} sx={{ width: 150, height: 150 }} />
+        <Avatar
+          src={selectedAvatar ? selectedAvatar : user?.img}
+          sx={{ width: 150, height: 150 }}
+        />
         <div className={styles.groupBtn}>
-          <button className="btn btn-primary blue">Ubah Foto Profil</button>
+          <label htmlFor="fileInput" className="btn btn-primary blue">
+            Ubah Foto Profil
+            <input
+              type="file"
+              id="fileInput"
+              style={{ display: "none" }}
+              accept="image/*"
+              onChange={handleAvatarChange}
+            />
+          </label>
           <button className="btn btn-secondary blue">Hapus Foto Profil</button>
         </div>
       </div>
@@ -121,20 +188,18 @@ export default function EditProfil() {
           </div>
           <div className={styles.inputGroup}>
             <label>Curriculum Vitae/Resume</label>
-            {user?.candidate_detail?.cv ? (
-              <Card
-                variant="outline"
-              >
+            {fileCv ? (
+              <Card variant="outline">
                 <div className={styles.cardGroup}>
-                  <p>{user?.candidate_detail?.cv}</p>
-                  <IconButton size="small">
+                  <p>{fileCv?.name ? fileCv?.name : fileCv}</p>
+                  <IconButton size="small" onClick={() => removeCv()}>
                     <CloseIcon fontSize="small" />
                   </IconButton>
                 </div>
               </Card>
             ) : (
               <div style={{ display: "flex" }}>
-                <label htmlFor="fileInput" style={{ cursor: "pointer" }}>
+                <label htmlFor="fileInputCv" style={{ cursor: "pointer" }}>
                   <div style={{ display: "flex", alignItems: "center" }}>
                     <CloudUpload sx={{ width: 78, height: 78 }} />
                     <div style={{ marginLeft: 20 }}>
@@ -145,10 +210,11 @@ export default function EditProfil() {
                 </label>
                 <input
                   type="file"
-                  id="fileInput"
+                  id="fileInputCv"
+                  name="fileInputCv"
                   style={{ display: "none" }}
-                  accept=".pdf"
-                  onChange={() => {}}
+                  accept="application/pdf"
+                  onChange={handleFileUpload}
                 />
               </div>
             )}
@@ -169,6 +235,13 @@ export default function EditProfil() {
           </div>
         </form>
       </div>
+      <CustomAlert
+        open={isOpenAlert}
+        severity={alertSeverity}
+        text={alertMsg}
+        duration={2000}
+        onClose={() => dispatch(setOpenAlert(false))}
+      />
     </>
   );
 }

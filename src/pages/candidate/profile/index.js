@@ -18,7 +18,7 @@ export default function Profile() {
   const user = useSelector(selectUser);
 
   const editInfo = () => {
-    router.push("/candidate/edit-profile");
+    router.push("/candidate/profile/edit-profile");
   };
 
   const openModalAddSkill = () => {
