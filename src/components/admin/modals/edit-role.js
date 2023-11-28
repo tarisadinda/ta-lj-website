@@ -51,7 +51,6 @@ export default function EditRoleModal({ open, onClose, id }) {
         }).catch((err) => console.log(err))
     }
 
-    console.log(role)
     return(<>
         <FrameModal
             open={open}

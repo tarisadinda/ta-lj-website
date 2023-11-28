@@ -49,7 +49,6 @@ export default function Role() {
     }
 
     const deleteItem = () => {
-        console.log('tes')
         if(itemId !== '') {
             axiosInstance.delete(API_ROLE + '/' + itemId)
             .then((res) => {
