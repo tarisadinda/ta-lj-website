@@ -90,7 +90,7 @@ export default function SkillSubmission() {
     ]
 
     return(<>
-        <h4><b>Daftar Pengajuan Keahlian</b></h4>
+        <h4><b>Kelola Pengajuan Keahlian</b></h4>
         <div className='mt-4 mb-2'>
             <CustomDropdown 
                 value={chooseStatus} 

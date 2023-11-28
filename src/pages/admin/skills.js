@@ -96,7 +96,7 @@ export default function Skills() {
 
     console.log(itemId)
     return(<>
-        <h4><b>Daftar Keahlian</b></h4>
+        <h4><b>Kelola Keahlian</b></h4>
         <div style={{ margin: '20px 0px'}}>
             <IconBtn 
                 title='Keahlian' 

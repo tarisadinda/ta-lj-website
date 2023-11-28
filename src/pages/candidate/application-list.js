@@ -37,7 +37,7 @@ export default function ApplicationList() {
   return (
     <>
       <h2>
-        <b>Daftar Lamaran Saya</b>
+        <b>Kelola Lamaran Saya</b>
       </h2>
       <div className={styles.cardList}>
         {listApply?.map((value, index) => (

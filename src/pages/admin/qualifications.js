@@ -111,7 +111,7 @@ export default function Qualification() {
     }
 
     return(<>
-        <h4><b>Daftar Kualifikasi Pekerjaan</b></h4>
+        <h4><b>Kelola Kualifikasi Pekerjaan</b></h4>
         <div style={{ margin: '20px 0px'}}>
             <IconBtn 
                 title='Kualifikasi' 

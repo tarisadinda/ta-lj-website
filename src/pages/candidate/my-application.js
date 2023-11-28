@@ -21,7 +21,7 @@ export default function MyApplication() {
     ]
 
     return(<>
-        <h3 className="mb-4"><b>Daftar Lamaran Saya</b></h3>
+        <h3 className="mb-4"><b>Kelola Lamaran Saya</b></h3>
         <div className={styles.colGroup}>
             <SideMenu data={MenuData} />
             <div className={styles.cardList}>

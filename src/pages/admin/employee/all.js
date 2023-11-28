@@ -67,7 +67,7 @@ export default function NewAccountList() {
     ]
 
     return(<>
-        <h4><b>Daftar Pengguna</b></h4>
+        <h4><b>Kelola Pengguna</b></h4>
         <div className="mt-3">
             <CustomTable 
                 columns={colNames}

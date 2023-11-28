@@ -16,7 +16,7 @@ export default function MySkills() {
     }
 
     return(<>
-        <h3 className="mb-4"><b>Daftar Keahlian Saya</b></h3>
+        <h3 className="mb-4"><b>Kelola Keahlian Saya</b></h3>
         <IconWithButton onClick={addNewSkill} className={cn(styles.addBtn,'btn btn-primary blue')}>
             <AddIcon />
             <span><b>Pengajuan Keahlian Baru</b></span>

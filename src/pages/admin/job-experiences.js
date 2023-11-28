@@ -97,7 +97,7 @@ export default function JobExperience() {
     }
 
     return(<>
-        <h4><b>Daftar Pengalaman Kerja (Tahun)</b></h4>
+        <h4><b>Kelola Pengalaman Kerja (Tahun)</b></h4>
         <div style={{ margin: '20px 0px'}}>
             <IconBtn
                 title='Tahun' 
