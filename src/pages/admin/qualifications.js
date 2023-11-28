@@ -36,7 +36,7 @@ const colList = [
     },
 ]
 
-export default function Payroll() {
+export default function Qualification() {
     const dispatch = useDispatch()
 
     const effectRan = useRef(false)
@@ -80,13 +80,19 @@ export default function Payroll() {
         setEditId(id)
         setOpenEditModal(true)
     }
-
     
-
     const deleteItem = () => {
+        const data = {
+            status: false
+        }
+
         if(deleteId !== '') {
         console.log(deleteId)
-            axiosInstance.delete(API_QUALIFICATION + '/' + deleteId)
+            axiosInstance.delete(API_QUALIFICATION + '/' + deleteId, data, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
             .then((res) => {
                 console.log(res)
                 setAskDelete(false)
@@ -153,7 +159,7 @@ export default function Payroll() {
     </>)
 }
 
-Payroll.getLayout = function getLayout(page) {
+Qualification.getLayout = function getLayout(page) {
     return (
         <LayoutMain>
             {page}
