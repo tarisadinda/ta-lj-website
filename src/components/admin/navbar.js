@@ -77,7 +77,7 @@ export default function Navbar() {
                     <ListItemText primary="Kualifikasi" />
                 </ListItemButton>
             </Link>
-            <Link href='#' className={styles.link}>
+            <Link href='/admin/skills' className={styles.link}>
                 <ListItemButton>
                     <ListItemText primary="Keahlian" />
                 </ListItemButton>
