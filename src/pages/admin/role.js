@@ -8,7 +8,7 @@ import CustomTable from "@/components/common/table"
 import SVGAdd from '@/public/icons/add.svg'
 import React from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { alertMessage, openAlert, setOpenAlert, severity } from "src/redux/common/alertSlice"
+import { alertMessage, openAlert, setMessage, setOpenAlert, setSeverity, severity } from "src/redux/common/alertSlice"
 import { API_ROLE } from "src/utils/api"
 import { axiosInstance } from "src/utils/axios"
 
@@ -22,6 +22,11 @@ const colList = [
         id: 'description',
         label: 'Deskripsi',
         render: (data) => <span>{data.description}</span>
+    },
+    {
+        id: 'status',
+        label: 'Status',
+        render: (data) => <span>{data.status == true ? 'Aktif' : 'Non-aktif'}</span>
     },
 ]
 
@@ -50,14 +55,30 @@ export default function Role() {
 
     const deleteItem = () => {
         if(itemId !== '') {
-            axiosInstance.delete(API_ROLE + '/' + itemId)
-            .then((res) => {
-                setAskDelete(false)
-
+            axiosInstance.delete(API_ROLE + '/' + itemId, {
+                data: {
+                    status: false,
+                },
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }).then((res) => {
                 if(res.status === 200) {
-                    setRoles(roles.filter((data) => {return data.id !== itemId}))
-
                     setItemId('')
+                    setAskDelete(false)
+
+                    dispatch(setOpenAlert(true))
+                    dispatch(setMessage('Data berhasil dihapus'))
+                    dispatch(setSeverity('success'))
+                }
+            }).catch(err => {
+                console.log(err)
+                if(err.response.status == 400) {
+                    setAskDelete(false)
+
+                    dispatch(setOpenAlert(true))
+                    dispatch(setMessage(err.response.data.message))
+                    dispatch(setSeverity('error'))
                 }
             })
         }
@@ -66,7 +87,6 @@ export default function Role() {
     const getRoles = () => {
         axiosInstance.get(API_ROLE)
         .then((res) => {
-            console.log(res)
             setRoles(res.data.data.data)
         }).catch((err) => console.log(err))
     }

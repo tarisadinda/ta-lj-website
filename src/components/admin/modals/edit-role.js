@@ -4,8 +4,12 @@ import FrameModal from '@/components/common/frame-modal'
 import styles from '@/styles/components/admin/modals/CustomModal.module.scss'
 import { axiosInstance } from 'src/utils/axios'
 import { API_ROLE } from 'src/utils/api'
+import { useDispatch } from 'react-redux'
+import { setMessage, setOpenAlert, setSeverity } from 'src/redux/common/alertSlice'
 
 export default function EditRoleModal({ open, onClose, id }) {
+    const dispatch = useDispatch()
+
     const [role, setRole] = React.useState({
         name: '',
         description: ''
@@ -47,8 +51,20 @@ export default function EditRoleModal({ open, onClose, id }) {
         axiosInstance.put(`${API_ROLE}/${id}`, formData)
         .then((res) => {
             console.log(res)
+            if(res.status == 200) {
+                dispatch(setOpenAlert(true))
+                dispatch(setMessage(res.data.message))
+                dispatch(setSeverity('success'))
+            }
+
             onClose()
-        }).catch((err) => console.log(err))
+        }).catch((err) => {
+            dispatch(setMessage(err.response?.message))
+            dispatch(setSeverity('error'))
+            dispatch(setOpenAlert(true))
+
+            onClose()
+        })
     }
 
     return(<>

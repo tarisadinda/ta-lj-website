@@ -25,12 +25,12 @@ export default function AddRoleModal({ open, onClose }) {
     const submitForm = (e) => {
         e.preventDefault()
 
-        const data = {
+        const formData = {
             name: role.name,
             description: role.desc
         }
 
-         
+        axiosInstance.post(API_ROLE, formData)
         .then((res) => {
             if(res.status === 201) {
                 dispatch(setOpenAlert(true))
@@ -48,7 +48,7 @@ export default function AddRoleModal({ open, onClose }) {
             handleClose={onClose}
             title='Tambah Role'
         >
-            <form onSubmit={submitForm}>
+            <div>
                 <div className={styles.formSection}>
                     <div>
                         <label className={styles.inputLabel}>Role</label>
@@ -73,9 +73,9 @@ export default function AddRoleModal({ open, onClose }) {
                 </div>
                 <div className={styles.actionBtn}>
                     <button onClick={onClose} className={cn(styles.cancelBtn, 'btn btn-ghost')}>Batal</button>
-                    <button type='submit' className={cn(styles.saveBtn, 'btn btn-primary blue')}>Simpan</button>
+                    <button onClick={submitForm} className={cn(styles.saveBtn, 'btn btn-primary blue')}>Simpan</button>
                 </div>
-            </form>
+            </div>
         </FrameModal>
     </>)
 }
