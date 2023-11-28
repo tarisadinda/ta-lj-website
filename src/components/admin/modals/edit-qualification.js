@@ -76,7 +76,7 @@ export default function EditQualificationModal({ open, onClose, id }) {
             handleClose={onClose}
             title='Edit Kualifikasi Pekerjaan'
         >
-            <form onSubmit={submitForm}>
+            <div>
                 <div className={styles.formSection}>
                     <div>
                         <label className={styles.inputLabel}>Kualifikasi</label>
@@ -89,9 +89,9 @@ export default function EditQualificationModal({ open, onClose, id }) {
                 </div>
                 <div className={styles.actionBtn}>
                     <button onClick={onClose} className={cn(styles.cancelBtn, 'btn btn-ghost')}>Batal</button>
-                    <button type='submit' className={cn(styles.saveBtn, 'btn btn-primary blue')}>Simpan</button>
+                    <button onClick={submitForm} className={cn(styles.saveBtn, 'btn btn-primary blue')}>Simpan</button>
                 </div>
-            </form>
+            </div>
         </FrameModal>
     </>)
 }
