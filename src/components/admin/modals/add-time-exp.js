@@ -4,8 +4,12 @@ import React from 'react'
 import cn from 'classnames'
 import { axiosInstance } from 'src/utils/axios'
 import { API_TIME_EXP } from 'src/utils/api'
+import { useDispatch } from 'react-redux'
+import { setMessage, setOpenAlert, setSeverity } from 'src/redux/common/alertSlice'
 
 export default function AddTimeModal({ open, onClose }) {
+    const dispatch = useDispatch()
+
     const [experience, setExperience] = React.useState({
         range: '',
         desc: ''
@@ -30,6 +34,11 @@ export default function AddTimeModal({ open, onClose }) {
         axiosInstance.post(API_TIME_EXP, data)
         .then((res) => {
             console.log(res)
+            dispatch(setOpenAlert(true))
+            dispatch(setMessage('Data berhasil ditambahkan'))
+            dispatch(setSeverity('success'))
+
+            onClose()
         }).catch((err) => {
             console.log(err)
         })
@@ -41,7 +50,7 @@ export default function AddTimeModal({ open, onClose }) {
             handleClose={onClose}
             title='Tambah Tahun Pengalaman'
         >
-            <form onSubmit={submitForm}>
+            <div>
                 <div className={styles.formSection}>
                     <div>
                         <label className={styles.inputLabel}>Tahun Pengalaman</label>
@@ -57,7 +66,7 @@ export default function AddTimeModal({ open, onClose }) {
                         <label className={styles.inputLabel}>Deskripsi Tahun Pengalaman</label>
                         <input 
                             type='text' 
-                            placeholder='Masukkan deskripsi tahun'
+                            placeholder='Masukkan deskripsi'
                             className='form-control' 
                             name='desc' 
                             onChange={handleChange} 
@@ -66,9 +75,9 @@ export default function AddTimeModal({ open, onClose }) {
                 </div>
                 <div className={styles.actionBtn}>
                     <button onClick={onClose} className={cn(styles.cancelBtn, 'btn btn-ghost')}>Batal</button>
-                    <button type='submit' className={cn(styles.saveBtn, 'btn btn-primary blue')}>Simpan</button>
+                    <button onClick={submitForm} className={cn(styles.saveBtn, 'btn btn-primary blue')}>Simpan</button>
                 </div>
-            </form>
+            </div>
         </FrameModal>
     </>)
 }
