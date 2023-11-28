@@ -1,7 +1,7 @@
 import React from 'react'
 import cn from 'classnames'
 import FrameModal from '@/components/common/frame-modal'
-import styles from '@/styles/components/admin/modals/AddCategoryModal.module.scss'
+import styles from '@/styles/components/admin/modals/CustomModal.module.scss'
 import { axiosInstance } from 'src/utils/axios'
 import { API_ROLE } from 'src/utils/api'
 

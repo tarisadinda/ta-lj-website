@@ -1,5 +1,5 @@
 import FrameModal from '@/components/common/frame-modal'
-import styles from '@/styles/components/admin/modals/AddCategoryModal.module.scss'
+import styles from '@/styles/components/admin/modals/CustomModal.module.scss'
 import cn from 'classnames'
 import React from 'react'
 import { API_PERMISSION, API_ROLE_PERMISSION } from 'src/utils/api'

@@ -1,4 +1,4 @@
-import styles from '@/styles/components/admin/modals/AddCategoryModal.module.scss'
+import styles from '@/styles/components/admin/modals/CustomModal.module.scss'
 import FrameModal from "@/components/common/frame-modal"
 import cn from 'classnames'
 import React from 'react'
