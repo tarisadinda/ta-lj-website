@@ -7,10 +7,12 @@ import styles from "@/styles/pages/candidate/Home.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser, setUser } from "src/redux/common/userSlice";
 import { axiosInstance } from "src/utils/axios";
+import { setCookie } from "cookies-next";
 
 export default function Home() {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
+  setCookie("user", user)
 
   const [isLoading, setIsLoading] = useState(false);
   const [jobList, setJobList] = useState([]);
