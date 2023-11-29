@@ -11,6 +11,7 @@ import SVGEye from '@/public/icons/eye.svg'
 import SVGEyeClose from '@/public/icons/eye-closed.svg'
 import CustomAlert from "@/components/common/alert"
 import { API_LOGIN } from "src/utils/api"
+import { setCookie } from "cookies-next"
 
 export default function Login() {
     const router = useRouter()
@@ -48,6 +49,7 @@ export default function Login() {
             if(res.status == 200) {
                 setToken(res.data.data.accessToken)
                 setErrorMsg(res.data.message)
+                setCookie("access_token", res.data.data.accessToken)
                 setSeverity('success')
                 setOpenAlert(true)
 
