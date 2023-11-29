@@ -5,7 +5,7 @@ import cn from 'classnames'
 import React from 'react'
 import { CustomChip } from '@/components/common/chip'
 import { axiosInstance } from 'src/utils/axios'
-import { API_JOBS, API_JOB_TYPE, API_QUALIFICATION, API_TIME_EXP } from 'src/utils/api'
+import { API_JOBS, API_JOB_TYPE, API_QUALIFICATION, API_TIME_EXP, API_SKILL, API_CAREER_LEVEL } from 'src/utils/api'
 import CustomAlert from '@/components/common/alert'
 import { alertMessage, openAlert, setMessage, setOpenAlert, setSeverity, severity } from 'src/redux/common/alertSlice'
 import { useDispatch, useSelector } from 'react-redux'
@@ -21,6 +21,8 @@ export default function JobVacancyForm() {
     const filteredQualifications = qualifications.filter((item) => item.status != false)
     const [years, setYears] = React.useState([])
     const [jobType, setJobType] = React.useState([])
+    const [skill, setSkill] = React.useState([])
+    const [level, setLevel] = React.useState([])
     const [jobForm, setJobForm] = React.useState({
         name: '',
         description: '',
@@ -65,11 +67,33 @@ export default function JobVacancyForm() {
         })
     }
 
+    const getSkill = () => {
+        axiosInstance.get(API_SKILL)
+        .then((res) => {
+            console.log(res)
+            setSkill(res.data.data.data)
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
+
+    const getLevel = () => {
+        axiosInstance.get(API_CAREER_LEVEL)
+        .then((res) => {
+            console.log(res)
+            setLevel(res.data.data.data)
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
+
     console.log(years)
     React.useEffect(() => {
         getQualifications()
         getYear()
         getJobType()
+        getSkill()
+        getLevel()
     }, [])
 
     const selectSkill = (e) => {
@@ -207,24 +231,14 @@ export default function JobVacancyForm() {
                         <div className='col'>
                             <label className="form-label">Level Pekerjaan</label>
                             <div className={styles.optionRow} onChange={handleChange}>
-                                <div className="form-check">
-                                    <input className="form-check-input" type="radio" name="career_level" value="1" />
-                                    <label className="form-check-label" htmlFor="exampleRadios1">
-                                        Full time
-                                    </label>
-                                </div>
-                                <div className="form-check">
-                                    <input className="form-check-input" type="radio" name="career_level" value="2" />
-                                    <label className="form-check-label" htmlFor="exampleRadios2">
-                                        Part time
-                                    </label>
-                                </div>
-                                <div className="form-check">
-                                    <input className="form-check-input" type="radio" name="career_level" value="3" />
-                                    <label className="form-check-label" htmlFor="exampleRadios2">
-                                        Kontrak
-                                    </label>
-                                </div>
+                                {level.map((item, index) => (
+                                    <div className="form-check">
+                                        <input className="form-check-input" type="radio" name="career_level" value={item.id} />
+                                        <label className="form-check-label" htmlFor="exampleRadios1">
+                                            {item.name}
+                                        </label>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </div>
@@ -260,9 +274,9 @@ export default function JobVacancyForm() {
                             <label className="form-label">Skill</label>
                             <select onChange={selectSkill} className={cn(styles.selectWidth, "form-select")}>
                                 <option selected disabled>Pilih skill</option>
-                                <option value="1">PHP</option>
-                                <option value="2">Javascript</option>
-                                <option value="3">Laravel Framework</option>
+                                {skill.map((item, index) => (
+                                    <option value={item.id}>{item.name}</option>
+                                ))}
                             </select>
                         </div>
                         <div className={styles.selectedList}>
