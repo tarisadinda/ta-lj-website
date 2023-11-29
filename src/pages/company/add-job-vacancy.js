@@ -5,7 +5,7 @@ import cn from 'classnames'
 import React from 'react'
 import { CustomChip } from '@/components/common/chip'
 import { axiosInstance } from 'src/utils/axios'
-import { API_JOBS } from 'src/utils/api'
+import { API_JOBS, API_JOB_TYPE, API_QUALIFICATION, API_TIME_EXP } from 'src/utils/api'
 import CustomAlert from '@/components/common/alert'
 import { alertMessage, openAlert, setMessage, setOpenAlert, setSeverity, severity } from 'src/redux/common/alertSlice'
 import { useDispatch, useSelector } from 'react-redux'
@@ -17,6 +17,10 @@ export default function JobVacancyForm() {
     const alertMsg = useSelector(alertMessage)
     const alertSeverity = useSelector(severity)
 
+    const [qualifications, setQualifications] = React.useState([])
+    const filteredQualifications = qualifications.filter((item) => item.status != false)
+    const [years, setYears] = React.useState([])
+    const [jobType, setJobType] = React.useState([])
     const [jobForm, setJobForm] = React.useState({
         name: '',
         description: '',
@@ -30,6 +34,43 @@ export default function JobVacancyForm() {
         end_date: ''
     })
     const [skillList, setSkillList] = React.useState([])
+
+    const getQualifications = () => {
+        axiosInstance.get(API_QUALIFICATION)
+        .then((res) => {
+            console.log(res)
+            setQualifications(res.data.data.data)
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
+
+    const getYear = () => {
+        axiosInstance.get(API_TIME_EXP)
+        .then((res) => {
+            console.log(res)
+            setYears(res.data.data.data)
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
+
+    const getJobType = () => {
+        axiosInstance.get(API_JOB_TYPE)
+        .then((res) => {
+            console.log(res)
+            setJobType(res.data.data.data)
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
+
+    console.log(years)
+    React.useEffect(() => {
+        getQualifications()
+        getYear()
+        getJobType()
+    }, [])
 
     const selectSkill = (e) => {
         if(!(skillList.includes(e.target.value))) {
@@ -125,9 +166,9 @@ export default function JobVacancyForm() {
                             <label className="form-label">Kualifikasi</label>
                             <select name='qualification' className={cn(styles.selectWidth, "form-select")} onChange={handleChange}>
                                 <option selected disabled>Pilih kualifikasi</option>
-                                <option value="1">SMK</option>
-                                <option value="2">Diploma 3</option>
-                                <option value="3">Diploma 4</option>
+                                {filteredQualifications.map((item, index) => (
+                                    <option value={item.id}>{item.name}</option>
+                                ))}
                             </select>
                         </div>
                     </div>
@@ -135,19 +176,19 @@ export default function JobVacancyForm() {
                         <div className='col'>
                             <label className="form-label">Gaji</label>
                             <div className={styles.salary}>
-                                <select name='salary_min' className={cn(styles.selectWidth, "form-select")} onChange={handleChange}>
-                                    <option selected disabled>Pilih gaji minimal</option>
-                                    <option value="500.000">Rp 500.000</option>
-                                    <option value="1.000.000">Rp 1.000.000</option>
-                                    <option value="2.000.000">Rp 2.000.000</option>
-                                </select>
+                                <input type="text" 
+                                    className="form-control" 
+                                    placeholder="Gaji minimal" 
+                                    name='salary_min' 
+                                    onChange={handleChange}
+                                />
                                 <div className='mx-3'>-</div>
-                                <select name='salary_max' className={cn(styles.selectWidth, "form-select")} onChange={handleChange}>
-                                    <option selected disabled>Pilih gaji maksimal</option>
-                                    <option value="1.500.000">Rp 1.500.000</option>
-                                    <option value="2.500.000">Rp 2.500.000</option>
-                                    <option value="3.500.000">Rp 3.500.000</option>
-                                </select>
+                                <input type="text" 
+                                    className="form-control" 
+                                    placeholder="Gaji maksimal" 
+                                    name='salary_max' 
+                                    onChange={handleChange}
+                                />
                             </div>
                         </div>
                     </div>
@@ -156,9 +197,9 @@ export default function JobVacancyForm() {
                             <label className="form-label">Lama Pengalaman Kerja</label>
                             <select name='time_experiences' className={cn(styles.selectWidth, "form-select")} onChange={handleChange}>
                                 <option selected disabled>Pilih tahun</option>
-                                <option value="1">Kurang dari setahun</option>
-                                <option value="2">1 - 3 tahun</option>
-                                <option value="3">4 - 6 tahun</option>
+                                {years.map((item, index) => (
+                                    <option value={item.id}>{item.name}</option>
+                                ))}
                             </select>
                         </div>
                     </div>
@@ -191,24 +232,14 @@ export default function JobVacancyForm() {
                         <div className='col'>
                             <label className="form-label">Tipe Kerja</label>
                             <div className={styles.optionRow} onChange={handleChange}>
-                                <div className="form-check">
-                                    <input className="form-check-input" type="radio" name="job_type" value="1" />
-                                    <label className="form-check-label" htmlFor="method1">
-                                        Work from office
-                                    </label>
-                                </div>
-                                <div className="form-check">
-                                    <input className="form-check-input" type="radio" name="job_type" value="2" />
-                                    <label className="form-check-label" htmlFor="method2">
-                                        Hybrid
-                                    </label>
-                                </div>
-                                <div className="form-check">
-                                    <input className="form-check-input" type="radio" name="job_type" value="3" />
-                                    <label className="form-check-label" htmlFor="method1">
-                                        Work from home
-                                    </label>
-                                </div>
+                                {jobType.map((item, index) => (
+                                    <div className="form-check">
+                                        <input className="form-check-input" type="radio" name="job_type" value={item.id} />
+                                        <label className="form-check-label" htmlFor="method1">
+                                            {item.name}
+                                        </label>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </div>
