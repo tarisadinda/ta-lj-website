@@ -14,6 +14,7 @@ export default function AddPermissionModal({ open, onClose }) {
     const [idRole, setIdRole] = React.useState(0)
     const [permissionsList, setPermissionList] = React.useState([])
     const [accessList, setAccessList] = React.useState([])
+    const [checkData, setCheckData] = React.useState(false)
 
     const getRole = () => {
         axiosInstance.get(API_ROLE)
@@ -36,18 +37,29 @@ export default function AddPermissionModal({ open, onClose }) {
 
     console.log(accessList)
     console.log(idRole)
-    const handleChange = (e) => {
+    const handleChange = (item) => (e) => {
         const { value, checked } = e.target;
 
-        if (checked) {
+        if(accessList.includes(item)) {
+            setAccessList([accessList.filter((item) => item !== value)])
+        } else {
             setAccessList((prevData) => [
                 ...prevData,
                 value
             ])
-        } else {
-            setAccessList([accessList.filter((e) => e !== value)])
         }
+        // if (checked) {
+        //     setAccessList([...accessList, value])
+        // } else {
+        //     setAccessList([accessList.filter((e) => e !== value)])
+        // }
     }
+
+    React.useEffect(() => {
+        accessList.forEach((item) => {
+            console.log(item)
+        })
+    }, [accessList])
 
     React.useEffect(() => {
         getRole()
@@ -56,8 +68,7 @@ export default function AddPermissionModal({ open, onClose }) {
 
     const submitPermission = () => {
         const formData = {
-            access: ["can_show_job_type_work",
-                    "can_show_qualification"]
+            access: accessList
         }
 
         axiosInstance.post(API_ROLE_PERMISSION + "/" + idRole, formData)
@@ -92,8 +103,8 @@ export default function AddPermissionModal({ open, onClose }) {
                         <label style={{ fontWeight: 600, marginBottom: '6px' }}>Everything</label>
                         {permissionsList.everything?.map((item, index) => (
                             <div key={index} className="form-check">
-                                <input onChange={handleChange} className="form-check-input" type="checkbox" value={item} id={item} />
-                                <label className="form-check-label" for={item}>{item}</label>
+                                <input onChange={handleChange(item)} className="form-check-input" type="checkbox" value={item} id={item} />
+                                <label className="form-check-label" for={item}>{item.replace(/_/g, ' ')}</label>
                             </div>
                         ))}
                     </div>
@@ -102,8 +113,8 @@ export default function AddPermissionModal({ open, onClose }) {
                         <div className={styles.checkList}>
                             {permissionsList.master_role?.map((item, index) => (
                                 <div key={index} className="form-check">
-                                    <input onChange={handleChange} className="form-check-input" type="checkbox" value={item} id={item} />
-                                    <label className="form-check-label" for={item}>{item}</label>
+                                    <input onChange={handleChange(item)} className="form-check-input" type="checkbox" value={item} id={item} />
+                                    <label className="form-check-label" for={item}>{item.replace(/_/g, ' ')}</label>
                                 </div>
                             ))}
                         </div>
@@ -113,8 +124,8 @@ export default function AddPermissionModal({ open, onClose }) {
                         <div className={styles.checkList}>
                             {permissionsList.master_skill?.map((item, index) => (
                                 <div key={index} className="form-check">
-                                    <input onChange={handleChange} className="form-check-input" type="checkbox" value={item} id={item} />
-                                    <label className="form-check-label" for={item}>{item}</label>
+                                    <input onChange={handleChange(item)} className="form-check-input" type="checkbox" value={item} id={item} />
+                                    <label className="form-check-label" for={item}>{item.replace(/_/g, ' ')}</label>
                                 </div>
                             ))}
                         </div>
@@ -124,8 +135,8 @@ export default function AddPermissionModal({ open, onClose }) {
                         <div className={styles.checkList}>
                             {permissionsList.master_permission?.map((item, index) => (
                                 <div key={index} className="form-check">
-                                    <input onChange={handleChange} className="form-check-input" type="checkbox" value={item} id={item} />
-                                    <label className="form-check-label" for={item}>{item}</label>
+                                    <input onChange={handleChange(item)} className="form-check-input" type="checkbox" value={item} id={item} />
+                                    <label className="form-check-label" for={item}>{item.replace(/_/g, ' ')}</label>
                                 </div>
                             ))}
                         </div>
@@ -135,8 +146,8 @@ export default function AddPermissionModal({ open, onClose }) {
                         <div className={styles.checkList}>
                             {permissionsList.master_qualification?.map((item, index) => (
                                 <div key={index} className="form-check">
-                                    <input onChange={handleChange} className="form-check-input" type="checkbox" value={item} id={item} />
-                                    <label className="form-check-label" for={item}>{item}</label>
+                                    <input onChange={handleChange(item)} className="form-check-input" type="checkbox" value={item} id={item} />
+                                    <label className="form-check-label" for={item}>{item.replace(/_/g, ' ')}</label>
                                 </div>
                             ))}
                         </div>
@@ -146,8 +157,8 @@ export default function AddPermissionModal({ open, onClose }) {
                         <div className={styles.checkList}>
                             {permissionsList.master_job_type_work?.map((item, index) => (
                                 <div key={index} className="form-check">
-                                    <input onChange={handleChange} className="form-check-input" type="checkbox" value={item} id={item} />
-                                    <label className="form-check-label" for={item}>{item}</label>
+                                    <input onChange={handleChange(item)} className="form-check-input" type="checkbox" value={item} id={item} />
+                                    <label className="form-check-label" for={item}>{item.replace(/_/g, ' ')}</label>
                                 </div>
                             ))}
                         </div>
@@ -157,8 +168,8 @@ export default function AddPermissionModal({ open, onClose }) {
                         <div className={styles.checkList}>
                             {permissionsList.master_time_experience?.map((item, index) => (
                                 <div key={index} className="form-check">
-                                    <input onChange={handleChange} className="form-check-input" type="checkbox" value={item} id={item} />
-                                    <label className="form-check-label" for={item}>{item}</label>
+                                    <input onChange={handleChange(item)} className="form-check-input" type="checkbox" value={item} id={item} />
+                                    <label className="form-check-label" for={item}>{item.replace(/_/g, ' ')}</label>
                                 </div>
                             ))}
                         </div>
@@ -168,8 +179,8 @@ export default function AddPermissionModal({ open, onClose }) {
                         <div className={styles.checkList}>
                             {permissionsList.master_career_level?.map((item, index) => (
                                 <div key={index} className="form-check">
-                                    <input onChange={handleChange} className="form-check-input" type="checkbox" value={item} id={item} />
-                                    <label className="form-check-label" for={item}>{item}</label>
+                                    <input onChange={handleChange(item)} className="form-check-input" type="checkbox" value={item} id={item} />
+                                    <label className="form-check-label" for={item}>{item.replace(/_/g, ' ')}</label>
                                 </div>
                             ))}
                         </div>
@@ -179,8 +190,8 @@ export default function AddPermissionModal({ open, onClose }) {
                         <div className={styles.checkList}>
                             {permissionsList.master_job?.map((item, index) => (
                                 <div key={index} className="form-check">
-                                    <input onChange={handleChange} className="form-check-input" type="checkbox" value={item} id={item} />
-                                    <label className="form-check-label" for={item}>{item}</label>
+                                    <input onChange={handleChange(item)} className="form-check-input" type="checkbox" value={item} id={item} />
+                                    <label className="form-check-label" for={item}>{item.replace(/_/g, ' ')}</label>
                                 </div>
                             ))}
                         </div>
@@ -190,8 +201,8 @@ export default function AddPermissionModal({ open, onClose }) {
                         <div className={styles.checkList}>
                             {permissionsList.candidate_behavior?.map((item, index) => (
                                 <div key={index} className="form-check">
-                                    <input onChange={handleChange} className="form-check-input" type="checkbox" value={item} id={item} />
-                                    <label className="form-check-label" for={item}>{item}</label>
+                                    <input onChange={handleChange(item)} className="form-check-input" type="checkbox" value={item} id={item} />
+                                    <label className="form-check-label" for={item}>{item.replace(/_/g, ' ')}</label>
                                 </div>
                             ))}
                         </div>
@@ -199,10 +210,10 @@ export default function AddPermissionModal({ open, onClose }) {
                     <div>
                         <label style={{ fontWeight: 600, marginBottom: '6px' }}>Company Behavior</label>
                         <div className={styles.checkList}>
-                            {permissionsList.candidate_behavior?.map((item, index) => (
+                            {permissionsList.company_behavior?.map((item, index) => (
                                 <div key={index} className="form-check">
-                                    <input onChange={handleChange} className="form-check-input" type="checkbox" value={item} id={item} />
-                                    <label className="form-check-label" for={item}>{item}</label>
+                                    <input onChange={handleChange(item)} className="form-check-input" type="checkbox" value={item} id={item} />
+                                    <label className="form-check-label" for={item}>{item.replace(/_/g, ' ')}</label>
                                 </div>
                             ))}
                         </div>

@@ -1,13 +1,13 @@
 import { useDispatch } from "react-redux"
-import React from 'react'
 import styles from '@/styles/components/admin/modals/CustomModal.module.scss'
 import cn from 'classnames'
 import FrameModal from "@/components/common/frame-modal"
 import { axiosInstance } from "src/utils/axios"
+import React from "react"
 import { API_CAREER_LEVEL } from "src/utils/api"
 import { setMessage, setOpenAlert, setSeverity } from "src/redux/common/alertSlice"
 
-export default function AddLevelModal({ open, onClose }) {
+export default function EditCareerLevel({ open, onClose, id }) {
     const dispatch = useDispatch()
 
     const [data, setData] = React.useState({
@@ -15,30 +15,48 @@ export default function AddLevelModal({ open, onClose }) {
         desc: ''
     })
 
-    console.log(data)
     const handleChange = (e) => {
         setData({
-            ...data,
+            ...data, 
             [e.target.name]: e.target.value
         })
     }
 
-    const submitForm = () => {
-        const formData = {
+    const getDetailLevel = () => {
+        axiosInstance.get(API_CAREER_LEVEL + "/" + id)
+        .then((res) => {
+            console.log(res)
+            setData({
+                name: res.data.data.name,
+                desc: res.data.data.description
+            })
+        }).catch((err) => console.log(err))
+    }
+
+    React.useEffect(() => {
+        if(open) {
+            getDetailLevel()
+        }
+    }, [open])
+
+    const submitForm = (e) => {
+        e.preventDefault()
+
+        const inputForm = {
             name: data.name,
             description: data.desc
         }
 
-        axiosInstance.post(API_CAREER_LEVEL, formData)
+        axiosInstance.put(API_CAREER_LEVEL + "/" + id, inputForm)
         .then((res) => {
             console.log(res)
-            if(res) {
+            if(res.status == 200) {
                 dispatch(setOpenAlert(true))
-                dispatch(setMessage('Data berhasil ditambahkan'))
+                dispatch(setMessage('Data berhasil diperbarui'))
                 dispatch(setSeverity('success'))
-
-                onClose()
             }
+
+            onClose()
         }).catch((err) => console.log(err))
     }
 
@@ -46,29 +64,17 @@ export default function AddLevelModal({ open, onClose }) {
         <FrameModal
             open={open}
             handleClose={onClose}
-            title='Tambah Kategori Kerja'
+            title='Edit Kategori Kerja'
         >
             <div>
                 <div className={styles.formSection}>
                     <div>
                         <label className={styles.inputLabel}>Kategori Kerja</label>
-                        <input 
-                            type='text' 
-                            placeholder='Masukkan kategori kerja'
-                            className='form-control' 
-                            name='name' 
-                            onChange={handleChange} 
-                        />
+                        <input type='text' className='form-control' name='name' value={data.name} onChange={handleChange} />
                     </div>
                     <div>
                         <label className={styles.inputLabel}>Deskripsi Kategori Kerja</label>
-                        <input 
-                            type='text' 
-                            placeholder='Masukkan kategori kerja'
-                            className='form-control' 
-                            name='desc' 
-                            onChange={handleChange} 
-                        />
+                        <input type='text' className='form-control' name='desc' value={data.desc} onChange={handleChange} />
                     </div>
                 </div>
                 <div className={styles.actionBtn}>
