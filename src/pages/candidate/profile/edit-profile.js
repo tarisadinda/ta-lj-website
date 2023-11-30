@@ -93,7 +93,7 @@ export default function EditProfil() {
 
   const cancelBtn = (e) => {
     e.preventDefault();
-    router.push("/profile");
+    router.back()
   };
 
   return (

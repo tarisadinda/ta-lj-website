@@ -3,8 +3,10 @@ import cn from 'classnames'
 import styles from '@/styles/pages/company/vacancy-list/VacancyDetail.module.scss'
 import { CustomChip } from '@/components/common/chip'
 import CustomTable from '@/components/common/table'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+import { axiosInstance } from 'src/utils/axios'
+import { API_JOBS } from 'src/utils/api'
 
 const colNames = [
     {
@@ -48,23 +50,32 @@ const dummyData = [
 
 export default function VacancyDetail() {
     const router = useRouter()
-    const {job_id} = router.query
+    const { slug } = router.query
     
+    const [jobVacancy, setJobVacancy] = useState()
+
     const detailBtn = () => {
         router.push('/company/applicant-list/detail-applicant')
     } 
 
+    useEffect(() => {
+        axiosInstance.get(`${API_JOBS}/slug/${slug}`)
+        .then((res) => {
+            console.log(res)
+            setJobVacancy(res.data.data)
+        }).catch((err) => console.log(err))
+    }, [])
+
     return(<>
         <div>
             <div className={cn(styles.groupRole, 'mb-2')}>
-                <h3 className='mb-0'><b>UI/UX Designer</b></h3>
+                <h3 className='mb-0'><b>{jobVacancy?.name}</b></h3>
                 <CustomChip label="Lowongan Dibuka" bgcolor='#1C55FF'  />
             </div>
             <p className={cn(styles.date, 'mb-0')}>Lowongan dibuka: 4 September 2022</p>
             <p className={cn(styles.date, 'mb-0')}>Lowongan ditutup: 10 Oktober 2022</p>
         </div>
         <div className='mt-4'>
-            <p className='mb-2'>Teknologi</p>
             <p><b>15 Lamaran masuk</b></p>
         </div>
         <div>

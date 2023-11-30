@@ -35,6 +35,8 @@ export default function Profile() {
     setModalAddSkill(true);
   };
 
+  console.log(userData)
+
   return (
     <>
       <div style={{ marginBottom: 40 }}>
@@ -57,7 +59,7 @@ export default function Profile() {
             <h4>
               <b>{userData?.full_name}</b>
             </h4>
-            <p className={cn(styles.levelGroup, "mb-0")}>{userData?.email}</p>
+            <p className={cn(styles.levelGroup, "mb-0")}>{userData?.username}</p>
           </div>
         </div>
       </div>
@@ -80,12 +82,6 @@ export default function Profile() {
               <b>Nomor Handphone</b>
               <p>{userData?.candidate_detail?.phone_number}</p>
             </div>
-            {userData?.candidate_detail?.address && (
-              <div className={styles.skillSection}>
-                <b>Kota/Kabupaten</b>
-                <p>{userData?.candidate_detail?.address}</p>
-              </div>
-            )}
           </div>
           <div className={styles.group}>
             <button className={cn(styles.skillBtn, "btn")} onClick={editInfo}>

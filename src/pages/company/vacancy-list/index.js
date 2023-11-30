@@ -61,6 +61,7 @@ export default function VacancyList() {
                 id: value.id,
                 position: value.name,
                 status: true ? "Buka" : "Tutup",
+                slug: value.slug,
                 applicantAccepted: "-",
                 entryApplication: "-"
               };
@@ -75,9 +76,11 @@ export default function VacancyList() {
     getAllJobs();
   }, []);
 
-  const detailBtn = (id) => {
-    console.log(id);
-    router.push(`/company/vacancy-list/${id}`);
+  const detailBtn = (slug) => {
+    router.push({
+      pathname: '/company/vacancy-list/[slug]',
+      query: { slug: slug }
+    });
   };
 
   const newJobVacancy = () => {
@@ -119,7 +122,7 @@ export default function VacancyList() {
         <div className="mt-3">
           <CustomTable
             columns={colNames}
-            idKey="id"
+            idKey="slug"
             data={listJob}
             deleteFunc={deleteJob}
             detailFunc={detailBtn}
