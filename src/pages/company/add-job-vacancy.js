@@ -2,13 +2,14 @@ import styles from '@/styles/pages/company/AddJobVacancy.module.scss'
 import CustomCard from "@/components/common/card"
 import LayoutMain from "@/components/company/layouts/main"
 import cn from 'classnames'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { CustomChip } from '@/components/common/chip'
 import { axiosInstance } from 'src/utils/axios'
 import { API_JOBS, API_JOB_TYPE, API_QUALIFICATION, API_TIME_EXP, API_SKILL, API_CAREER_LEVEL } from 'src/utils/api'
 import CustomAlert from '@/components/common/alert'
 import { alertMessage, openAlert, setMessage, setOpenAlert, setSeverity, severity } from 'src/redux/common/alertSlice'
 import { useDispatch, useSelector } from 'react-redux'
+import { formatJsDate } from 'src/utils/date-formatter'
 
 export default function JobVacancyForm() {
     const dispatch = useDispatch()
@@ -26,17 +27,25 @@ export default function JobVacancyForm() {
     const [jobForm, setJobForm] = React.useState({
         name: '',
         description: '',
-        qualification: 0,
+        qualification_id: 0,
         salary_min: 0,
         salary_max: 0,
         time_experiences: 0,
-        career_level: 0,
+        career_level_id: 0,
         job_type: 0,
         start_date: '',
         end_date: ''
     })
     const [skillList, setSkillList] = React.useState([])
 
+    useEffect(() => {
+        if(jobForm) {
+            console.log(formatJsDate(jobForm.start_date, "MM-DD-YYYY"))
+            console.log(jobForm.start_date)
+        }
+    }, [jobForm])
+
+    console.log(jobForm)
     const getQualifications = () => {
         axiosInstance.get(API_QUALIFICATION)
         .then((res) => {
@@ -125,37 +134,37 @@ export default function JobVacancyForm() {
             description: jobForm.description,
             salary_min: jobForm.salary_min,
             salary_max: jobForm.salary_max,
-            start_date: jobForm.start_date,
-            end_date: jobForm.end_date,
+            start_date: formatJsDate(jobForm.start_date, "MM-DD-YYYY"),
+            end_date: formatJsDate(jobForm.end_date, "MM-DD-YYYY"),
             time_experiences_id: jobForm.time_experiences,
             job_type_work_id: jobForm.job_type,
+            career_level_id: jobForm.career_level_id,
+            qualification_id: jobForm.qualification_id,
             skill: skillList
         }
 
-        axiosInstance.post(API_JOBS, formData, {
-            headers: {
-                "Content-Type": "application/json"
-            }
-        }).then((res) => {
-            if(res.status == 201) {
-                dispatch(setOpenAlert(true))
-                dispatch(setMessage('Data berhasil ditambahkan'))
-                dispatch(setSeverity('success'))
+        console.log(formData)
+        // axiosInstance.post(API_JOBS, formData)
+        // .then((res) => {
+        //     if(res.status == 201) {
+        //         dispatch(setOpenAlert(true))
+        //         dispatch(setMessage('Data berhasil ditambahkan'))
+        //         dispatch(setSeverity('success'))
 
-                setJobForm({
-                    name: '',
-                    description: '',
-                    salary_min: '',
-                    salary_max: '',
-                    start_date: '',
-                    end_date: '',
-                    time_experiences_id: '',
-                    job_type_work_id: '',
+        //         setJobForm({
+        //             name: '',
+        //             description: '',
+        //             salary_min: '',
+        //             salary_max: '',
+        //             start_date: '',
+        //             end_date: '',
+        //             time_experiences_id: '',
+        //             job_type_work_id: '',
 
-                })
-                setSkillList([])
-            }
-        }).catch((err) => console.log(err))
+        //         })
+        //         setSkillList([])
+        //     }
+        // }).catch((err) => console.log(err))
     }
 
     return(<>
@@ -188,7 +197,7 @@ export default function JobVacancyForm() {
                     <div className='row'>
                         <div className='col'>
                             <label className="form-label">Kualifikasi</label>
-                            <select name='qualification' className={cn(styles.selectWidth, "form-select")} onChange={handleChange}>
+                            <select name='qualification_id' className={cn(styles.selectWidth, "form-select")} onChange={handleChange}>
                                 <option selected disabled>Pilih kualifikasi</option>
                                 {filteredQualifications.map((item, index) => (
                                     <option value={item.id}>{item.name}</option>
@@ -233,8 +242,8 @@ export default function JobVacancyForm() {
                             <div className={styles.optionRow} onChange={handleChange}>
                                 {level.map((item, index) => (
                                     <div className="form-check">
-                                        <input className="form-check-input" type="radio" name="career_level" value={item.id} />
-                                        <label className="form-check-label" htmlFor="exampleRadios1">
+                                        <input id={item.id} className="form-check-input" type="radio" name="career_level_id" value={item.id} />
+                                        <label className="form-check-label" htmlFor={item.id}>
                                             {item.name}
                                         </label>
                                     </div>
@@ -248,8 +257,8 @@ export default function JobVacancyForm() {
                             <div className={styles.optionRow} onChange={handleChange}>
                                 {jobType.map((item, index) => (
                                     <div className="form-check">
-                                        <input className="form-check-input" type="radio" name="job_type" value={item.id} />
-                                        <label className="form-check-label" htmlFor="method1">
+                                        <input key={index} id={item.id} className="form-check-input" type="radio" name="job_type" value={item.id} />
+                                        <label className="form-check-label" htmlFor={item.id}>
                                             {item.name}
                                         </label>
                                     </div>

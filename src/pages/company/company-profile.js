@@ -67,7 +67,7 @@ export default function CompanyProfile() {
             <h3><b>Profil Perusahaan</b></h3>
             <div className={styles.profileCol}>
                 <div className={styles.avaSection}>
-                    <Avatar src={`http://localhost:3000/images/${dataCompany?.img}`} sx={{ width: 120, height: 120 }} />
+                    <Avatar src={dataCompany?.img} sx={{ width: 120, height: 120 }} />
                     <IconBtn
                         title="Edit Profil"
                         onClick={editBtn}

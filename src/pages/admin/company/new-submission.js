@@ -6,37 +6,30 @@ import CheckIcon from '@mui/icons-material/Check'
 import ClearIcon from '@mui/icons-material/Clear'
 import { useRouter } from "next/router"
 import TrueFalseModal from "@/components/common/true-false-modal"
+import { axiosInstance } from 'src/utils/axios'
+import { API_UNVERIF_COMPANY } from 'src/utils/api'
+import { convertDate } from 'src/utils/convert-date'
 
 const colList = [
     {
-        id: 'company_name',
+        id: 'full_name',
         label: 'Nama Perusahaan',
-        render: (data) => <span>{data.company_name}</span>
+        render: (data) => <span>{data.full_name}</span>
     },
     {
-        id: 'address',
+        id: 'email',
+        label: 'Email',
+        render: (data) => <span>{data.email}</span>
+    },
+    {
+        id: 'company_detail.address',
         label: 'Alamat',
-        render: (data) => <span>{data.address}</span>
+        render: (data) => <span>{data.company_detail?.address}</span>
     },
     {
-        id: 'date',
+        id: 'company_detail.createdAt',
         label: 'Tanggal Mendaftar',
-        render: (data) => <span>{data.date}</span>
-    },
-    {
-        id: 'status',
-        label: 'Status',
-        render: (data) => <span>{data.status}</span>
-    },
-]
-
-const dummyData = [
-    {
-        id: 1,
-        company_name: 'PT Indonesia Sejahtera',
-        address: 'Titan Center | Jl. Boulevard Bintaro Blok B7/B1 No. 5 Bintaro Jaya Sektor 7, South Tangerang, Banten, Indonesia',
-        date: '10/9/2022',
-        status: 'Belum Terverifikasi'
+        render: (data) => <span>{convertDate(data.company_detail?.createdAt)}</span>
     },
 ]
 
@@ -44,14 +37,35 @@ export default function NewSubmission() {
     const router = useRouter()
 
     const [openModal, setOpenModal] = React.useState(false)
+    const [companyList, setCompanyList] = React.useState([])
 
-    const detailBtn = (id) => {
-        router.push('/admin/company/detail-verification')
+    const detailBtn = (username) => {
+        console.log(username)
+        router.push({
+            pathname: '/admin/company/detail-verification/[username]',
+            query: { username: username }
+        })
     }
 
-    const acceptBtn = (id) => {
-        setOpenModal(!openModal)
+    const getCompanyList = () => {
+        axiosInstance.get(API_UNVERIF_COMPANY)
+        .then((res) => {
+            console.log(res)
+            setCompanyList(res.data.data.data)
+        }).catch((err) => {
+            console.log(err)
+        })
     }
+
+    const acceptBtn = (username) => {
+        console.log(username)
+        // setOpenModal(!openModal)
+    }
+
+    React.useEffect(() => {
+        getCompanyList()
+    }, [])
+
     const actionBtn = [
         {
             icon: <VisibilityIcon />,
@@ -63,18 +77,15 @@ export default function NewSubmission() {
             id: 'accept',
             function: (id) => acceptBtn(id)
         },
-        {
-            icon: <ClearIcon />,
-            id: 'decline',
-        },
     ]
 
     return(<>
         <h4><b>Akun Perusahaan yang Belum Diverifikasi</b></h4>
         <div className="mt-3">
             <CustomTable 
+                idKey='username'
                 columns={colList}
-                data={dummyData}
+                data={companyList}
                 actionButton={actionBtn}
             />
         </div>
