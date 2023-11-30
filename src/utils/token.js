@@ -1,17 +1,17 @@
 export const getToken = () => {
-    const token = typeof window !== "undefined" ? sessionStorage.getItem('user_token') : null
+    const token = typeof window !== "undefined" ? sessionStorage.getItem('access_token') : null
 
     return token
 }
 
 export const setToken = (token) => {
     if(typeof window !== undefined) {
-        sessionStorage.setItem('user_token', token)
+        sessionStorage.setItem('access_token', token)
     }
 }
 
 export const removeToken = () => {
     if(typeof window !== undefined) {
-        sessionStorage.removeItem('user_token')
+        sessionStorage.removeItem('access_token')
     }
 }
