@@ -17,6 +17,7 @@ import ExpandMore from '@mui/icons-material/ExpandMore'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { deleteCookie } from 'cookies-next'
 
 const drawerWidth = 240
 
@@ -34,7 +35,8 @@ export default function Navbar() {
   }
 
   const handleLogout = () => {
-    sessionStorage.removeItem('user_token')
+    sessionStorage.removeItem("access_token")
+    deleteCookie("access_token")
     router.push('/login')
   }
 
@@ -112,7 +114,7 @@ export default function Navbar() {
             </Collapse>
             <Link href='/admin/employee/all' className={styles.link}>
                 <ListItemButton>
-                    <ListItemText primary="Semua Pekerja" />
+                    <ListItemText primary="Semua Kandidat" />
                 </ListItemButton>
             </Link>
             <Link href='/admin/role' className={styles.link}>

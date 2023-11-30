@@ -19,6 +19,8 @@ import ExpandLess from '@mui/icons-material/ExpandLess'
 import ExpandMore from '@mui/icons-material/ExpandMore'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import Link from 'next/link'
+import { deleteCookie } from 'cookies-next'
+import { dataCompany } from 'src/utils/data-cookies'
 
 const drawerWidth = 240
 
@@ -26,8 +28,18 @@ const drawerWidth = 240
 export default function Navbar() {
   const handleLogout = () => {
     sessionStorage.clear()
+    deleteCookie("access_token")
+    deleteCookie("company_detail")
   }
   
+  const [isVerified, setIsVerified] = React.useState(false)
+
+  React.useEffect(() => {
+    if(dataCompany !== null) {
+      setIsVerified(dataCompany?.company_detail.status_verif)
+    }
+  }, [dataCompany])
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -36,7 +48,7 @@ export default function Navbar() {
           <div>
             <Link href='/company/company-profile' className={styles.link}>
               <AccountCircleIcon sx={{ fontSize: 40 }} />
-              <p className={styles.name}>PT Perusahaan</p>
+              <p className={styles.name}>Profil Perusahaan</p>
             </Link>
           </div>
         </Toolbar>
@@ -57,9 +69,9 @@ export default function Navbar() {
                 <ListItemText primary='Dashboard' />
               </ListItemButton>
             </Link>
-            <Link href='/company/vacancy-list'>
-              <ListItemButton>
-                <ListItemText primary='Daftar Lowongan' />
+            <Link href={isVerified == false ? '' : '/company/vacancy-list'}>
+              <ListItemButton disabled={isVerified == false ? true : false}>
+                <ListItemText primary='Data Lowongan' />
               </ListItemButton>
             </Link>
             <Link href='/company/applicant-list'>
