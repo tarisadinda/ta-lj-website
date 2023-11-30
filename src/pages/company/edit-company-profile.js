@@ -1,5 +1,5 @@
-import LayoutMain from "@/components/layouts/main"
-import styles from '@/styles/pages/EditCompanyProfile.module.scss'
+import LayoutMain from "@/components/company/layouts/main"
+import styles from '@/styles/pages/company/EditCompanyProfile.module.scss'
 import { Avatar } from "@mui/material"
 import cn from 'classnames'
 import { useRouter } from "next/router"
