@@ -34,23 +34,6 @@ const colNames = [
   },
 ];
 
-const dummyData = [
-  {
-    id: 1,
-    position: "UI/UX Designer",
-    status: "Buka",
-    applicantAccepted: "-",
-    entryApplication: "15",
-  },
-  {
-    id: 2,
-    position: "Mobile Developer",
-    status: "Tutup",
-    applicantAccepted: "3",
-    entryApplication: "12",
-  },
-];
-
 export default function VacancyList() {
   const router = useRouter();
 
@@ -78,6 +61,8 @@ export default function VacancyList() {
                 id: value.id,
                 position: value.name,
                 status: true ? "Buka" : "Tutup",
+                applicantAccepted: "-",
+                entryApplication: "-"
               };
             })
           );
