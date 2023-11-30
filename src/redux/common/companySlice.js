@@ -13,6 +13,7 @@ const initialState = {
       about_company: "",
       phone_number: "",
       status_disband: false,
+      status_verif: false,
       status_completed: false,
       createdAt: "",
       updateAt: "",

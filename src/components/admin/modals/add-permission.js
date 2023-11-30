@@ -72,10 +72,7 @@ export default function AddPermissionModal({ open, onClose }) {
         }
 
         console.log(formData)
-        axiosInstance.post(API_ROLE_PERMISSION + "/" + idRole, {
-            data: {
-                access: accessList,
-            },
+        axiosInstance.post(API_ROLE_PERMISSION + "/" + idRole, formData, {
             headers: {
                 'Content-Type': 'application/json',
             },

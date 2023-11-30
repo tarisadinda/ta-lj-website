@@ -2,12 +2,16 @@ import LayoutMain from "@/components/admin/layouts/main"
 import CustomTable from "@/components/common/table"
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import { useRouter } from "next/router"
+import { useEffect, useState } from "react"
+import { API_CANDIDATE } from "src/utils/api"
+import { axiosInstance } from "src/utils/axios"
+import { convertDate } from "src/utils/convert-date"
 
 const colNames = [
     {
-        id: 'name',
+        id: 'full_name',
         label: 'Nama Lengkap',
-        render: (data) => <span>{data.name}</span>
+        render: (data) => <span>{data.full_name}</span>
     },
     {
         id: 'email',
@@ -15,64 +19,39 @@ const colNames = [
         render: (data) => <span>{data.email}</span>
     },
     {
-        id: 'date',
+        id: 'candidate_detail.createdAt',
         label: 'Tanggal Mendaftar',
-        render: (data) => <span>{data.date}</span>
+        render: (data) => <span>{convertDate(data.candidate_detail?.createdAt)}</span>
     },
-    {
-        id: 'skill',
-        label: 'Keahlian',
-        render: (data) => <span>{data.skill}</span>
-    },
-]
-
-const dummyData = [
-    {
-        id: 1,
-        name: 'Christian Wijaya',
-        email: 'christian_wijaya@gmail.com',
-        date: '10/9/2022',
-        skill: 'Mobile developer'
-    },
-    {
-        id: 2,
-        name: 'Nila Kartika Sari',
-        email: 'nila123@gmail.com',
-        date: '10/9/2022',
-        skill: '-'
-    },
-    {
-        id: 3,
-        name: 'Andira',
-        email: 'andira2001@gmail.com',
-        date: '14/9/2022',
-        skill: '-'
-    }
 ]
 
 export default function NewAccountList() {
     const router = useRouter()
 
-    const detailBtn = (id) => {
-        console.log(id)
+    const [users, setUsers] = useState([])
+
+    const getUserList = () => {
+        axiosInstance.get(API_CANDIDATE)
+        .then((res) => {
+            setUsers(res.data.data.data)
+        }).catch((err) => console.log(err))
+    }
+
+    useEffect(() => {
+        getUserList()
+    }, [])
+
+    const detailData = () => {
         router.push('/admin/employee/detail')
     }
 
-    const actionBtn = [
-        {
-            icon: <VisibilityIcon />,
-            id: 'detail',
-            function: (id) => detailBtn(id)
-        }
-    ]
-
     return(<>
-        <h4><b>Kelola Pengguna</b></h4>
+        <h4><b>Kelola Kandidat</b></h4>
         <div className="mt-3">
             <CustomTable 
                 columns={colNames}
-                data={dummyData}
-                actionButton={actionBtn}
+                data={users}
+                detailFunc={detailData}
             />
         </div>
     </>)
