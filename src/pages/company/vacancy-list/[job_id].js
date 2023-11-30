@@ -57,7 +57,7 @@ export default function VacancyDetail() {
     return(<>
         <div>
             <div className={cn(styles.groupRole, 'mb-2')}>
-                <h3 className='mb-0'><b>UI/UX Designer - Level 1</b></h3>
+                <h3 className='mb-0'><b>UI/UX Designer</b></h3>
                 <CustomChip label="Lowongan Dibuka" bgcolor='#1C55FF'  />
             </div>
             <p className={cn(styles.date, 'mb-0')}>Lowongan dibuka: 4 September 2022</p>

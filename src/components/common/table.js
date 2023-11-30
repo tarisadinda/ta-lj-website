@@ -34,7 +34,7 @@ const CustomTableRow = styled(TableRow)(({ theme }) => ({
 }))
 
 export default function CustomTable({columns, data, deleteFunc,
-    editFunc, idKey, detailFunc}) {
+    editFunc, detailFunc, idKey, actionButton}) {
     return(<>
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -72,6 +72,11 @@ export default function CustomTable({columns, data, deleteFunc,
                                                 <DeleteIcon />
                                             </IconButton>
                                         }
+                                        {actionButton != undefined && actionButton.map((btn, index) => (
+                                            <IconButton key={index} onClick={() => btn.function(idKey == undefined ? item.company_detail.id : item[idKey])}>
+                                                {btn.icon}
+                                            </IconButton>
+                                        ))}
                                     </div>
                                 </CustomTableCell>
                             </CustomTableRow>
