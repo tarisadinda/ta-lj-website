@@ -2,6 +2,8 @@ import Navbar from "@/components/candidate/navbar"
 import cn from 'classnames'
 import styles from '@/styles/components/candidate/layouts/SkillLayout.module.scss'
 import SideMenu from "@/components/candidate/side-menu"
+import { Provider } from "react-redux";
+import { store } from "src/redux/store"
 
 export default function SkillLayout({ children }) {
     const MenuData = [
@@ -18,20 +20,23 @@ export default function SkillLayout({ children }) {
     ]
 
     return (<>
-    <Navbar />
-    <div 
-        className={cn(styles.wrapper,"container")}
-        style={{
-            paddingTop: '80px',
-            marginBottom: '40px'
-        }}
-    >
-        <div>
-            <SideMenu data={MenuData} />
+    <Provider store={store}>
+        <Navbar />
+        <div 
+            className={cn(styles.wrapper,"container")}
+            style={{
+                paddingTop: '80px',
+                marginBottom: '40px'
+            }}
+        >
+            <div>
+                <SideMenu data={MenuData} />
+            </div>
+            <main>
+                {children}
+            </main>
         </div>
-        <main>
-            {children}
-        </main>
-    </div>
+    </Provider>
+    
     </>)
 }
