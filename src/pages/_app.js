@@ -15,7 +15,7 @@ export default function App({ Component, pageProps }) {
 
   const theme = createTheme({
     typography: {
-      fontFamily: inter,
+      fontFamily: inter.style.fontFamily,
     },
   })
 
