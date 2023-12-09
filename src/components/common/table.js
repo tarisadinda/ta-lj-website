@@ -104,7 +104,7 @@ export default function CustomTable({columns, data, deleteFunc,
                         count={Math.ceil(totalData / rowsPerPage)}
                         page={currPage}
                         onChange={handleChangePage}
-                        disabled={getPage != undefined ? false : true}
+                        disabled={getPage == undefined ? true : false}
                     />
                 </div>
             }

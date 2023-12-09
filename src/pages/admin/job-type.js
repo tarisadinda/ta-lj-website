@@ -110,7 +110,7 @@ export default function JobType() {
     }
     
     return(<>
-        <h4><b>Tipe Pekerjaan</b></h4>
+        <h4><b>Kelola Tipe Pekerjaan</b></h4>
         <div className={styles.addBtn}>
             <IconBtn 
                 title='Tipe Kerja' 
@@ -125,6 +125,7 @@ export default function JobType() {
             idKey='id'
             deleteFunc={modalDelete}
             editFunc={modalEdit}
+            rowsPerPage='10'
         />
         <AddJobType
             open={openAddModal}
