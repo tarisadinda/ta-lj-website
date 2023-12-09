@@ -12,22 +12,26 @@ import { alertMessage, openAlert, setMessage, setOpenAlert, setSeverity, severit
 import CustomAlert from '@/components/common/alert'
 import ConfirmDeleteModal from '@/components/common/confirm-delete'
 import EditCareerLevel from '@/components/admin/modals/edit-career-level'
+import { careerLevelData, fetchCareerLevel } from 'src/redux/admin/careerLevelSlice'
 
 const colList = [
     {
         id: 'name',
         label: 'Nama',
-        render: (data) => <span>{data.name}</span>
+        render: (data) => <span>{data.name}</span>,
+        width: 200
     },
     {
         id: 'slug',
         label: 'Slug',
-        render: (data) => <span>{data.slug}</span>
+        render: (data) => <span>{data.slug}</span>,
+        width: 150
     },
     {
         id: 'description',
         label: 'Deskripsi',
-        render: (data) => <span>{data.description}</span>
+        render: (data) => <span>{data.description}</span>,
+        width: 300
     },
     {
         id: 'updatedAt',
@@ -37,7 +41,8 @@ const colList = [
     {
         id: 'status',
         label: 'Status',
-        render: (data) => <span>{data.status == true ? 'Aktif' : 'Non-aktif'}</span>
+        render: (data) => <span>{data.status == true ? 'Aktif' : 'Non-aktif'}</span>,
+        width: 120
     },
 ]
 
@@ -52,7 +57,12 @@ export default function CareerLevel() {
     const [openEditModal, setOpenEditModal] = React.useState(false)
     const [askDelete, setAskDelete] = React.useState(false)
     const [itemId, setItemId] = React.useState(false)
-    const [levelList, setLevelList] = React.useState([])
+    const [page, setPage] = React.useState(0)
+    const levelList = useSelector(careerLevelData)
+
+    const getCurrPage = (p) => {
+        setPage(p)
+    }
 
     const deleteModal = (id) => {
         setItemId(id)
@@ -64,17 +74,9 @@ export default function CareerLevel() {
         setOpenEditModal(true)
     }
 
-    const getCareelLevel = () => {
-        axiosInstance.get(API_CAREER_LEVEL)
-        .then((res) => {
-            console.log(res)
-            setLevelList(res.data.data.data)
-        }).catch((err) => console.log(err))
-    }
-
     React.useEffect(() => {
-        getCareelLevel()
-    }, [])
+        dispatch(fetchCareerLevel(page))
+    }, [page])
 
     const deleteItem = () => {
         if(itemId != '') {
@@ -118,10 +120,13 @@ export default function CareerLevel() {
         <div>
             <CustomTable
                 columns={colList}
-                data={levelList}
+                data={levelList.levels ? levelList.levels?.data?.data : []}
                 idKey='id'
                 deleteFunc={deleteModal}
                 editFunc={editModal}
+                getPage={getCurrPage}
+                rowsPerPage='5'
+                totalData={levelList.levels?.data?.pagination.total}
             />
         </div>
         <AddLevelModal
