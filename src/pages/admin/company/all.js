@@ -7,44 +7,15 @@ import CustomTable from '@/components/common/table'
 import CustomDropdown from '@/components/common/dropdown'
 import { useRouter } from 'next/router'
 import { axiosInstance } from 'src/utils/axios'
-import { API_COMPANY, API_USERS } from 'src/utils/api'
-
-const dummyData = [
-    {
-        id: 1,
-        name: 'PT Metanesia Indonesia',
-        logo: 'logo.jpg',
-        address: 'Titan Center | Jl. Boulevard Bintaro Blok B7/B1 No. 5 Bintaro Jaya Sektor 7, South Tangerang, Banten, Indonesia',
-        status: 'Terverifikasi'
-    },
-    {
-        id: 2,
-        name: 'PT Metanesia Indonesia',
-        logo: 'logo.jpg',
-        address: 'Titan Center | Jl. Boulevard Bintaro Blok B7/B1 No. 5 Bintaro Jaya Sektor 7, South Tangerang, Banten, Indonesia',
-        status: 'Terverifikasi'
-    },
-    {
-        id: 3,
-        name: 'PT Metanesia Indonesia',
-        logo: 'logo.jpg',
-        address: 'Titan Center | Jl. Boulevard Bintaro Blok B7/B1 No. 5 Bintaro Jaya Sektor 7, South Tangerang, Banten, Indonesia',
-        status: 'Terverifikasi'
-    },
-    {
-        id: 4,
-        name: 'PT Metanesia Indonesia',
-        logo: 'logo.jpg',
-        address: 'Titan Center | Jl. Boulevard Bintaro Blok B7/B1 No. 5 Bintaro Jaya Sektor 7, South Tangerang, Banten, Indonesia',
-        status: 'Terverifikasi'
-    },
-]
+import { API_COMPANY, API_VERIF_COMPANY, API_USERS } from 'src/utils/api'
+import { convertDate } from 'src/utils/convert-date'
 
 const colNames = [
     {
         id: 'full_name',
         label: 'Nama Perusahaan',
-        render: (data) => <span>{data.full_name}</span>
+        render: (data) => <span>{data.full_name}</span>,
+        width: 300
     },
     {
         id: 'email',
@@ -52,9 +23,9 @@ const colNames = [
         render: (data) => <span>{data.email}</span>
     },
     {
-        id: 'status',
-        label: 'Status',
-        render: (data) => <span>{data.status == true ? '1' : '0'}</span>
+        id: 'createdAt',
+        label: 'Tanggal Registrasi',
+        render: (data) => <span>{convertDate(data.createdAt)}</span>
     },
 ]
 
@@ -78,6 +49,12 @@ export default function AllCompany() {
 
     const [status, setStatus] = React.useState('all')
     const [companyList, setCompanyList] = React.useState([])
+    const [totalUnverif, setTotalUnverif] = React.useState(0)
+    const [page, setPage] = React.useState(0)
+
+    const getCurrPage = (number) => {
+        setPage(number)
+    }
 
     const handleStatus = (e) => {
         setStatus(e.target.value)
@@ -92,7 +69,6 @@ export default function AllCompany() {
     }
     
     const modalDetail = (id) => {
-        console.log(id)
         router.push({
             pathname: '/admin/company/detail-company/[id]',
             query: { id: id }
@@ -102,36 +78,33 @@ export default function AllCompany() {
     const getListCompany = () => {
         axiosInstance.get(API_USERS, {
             params: {
-                role_id: 2
+                role_id: 2,
+                size: 10, 
+                page: page
             }
         }).then((res) => {
             console.log(res)
             setCompanyList(res.data.data.user.data)
-            // res.data.map((item) => {
-            //     setCompanyList((prevData) => [
-            //         ...prevData,
-            //         {
-            //             id: item.id,
-            //             name: item.name,
-            //             email: item.email,
-            //             status: item.status === "0" ? 'Belum Terverifikasi' : 'Terverifikasi'
-            //         }
-            //     ])
-            // })
         })
     }
 
-    console.log(companyList)
+    const getTotalUnverif = () => {
+        axiosInstance.get(API_VERIF_COMPANY)
+        .then((res) => { 
+            setTotalUnverif(res.data.data.data.length)
+        }).catch(err => {throw err})
+    }
 
     React.useEffect(() => {
         getListCompany()
+        getTotalUnverif()
     }, [])
 
     return(<>
         <div>
             <BlueCard className={styles.countCard}>
                 <div className={styles.textWrap}>
-                    <h2 className={cn(styles.count, 'm-0')}><b>4</b></h2>
+                    <h2 className={cn(styles.count, 'm-0')}><b>{totalUnverif}</b></h2>
                     <p className='m-0'>Perusahaan Belum Terverifikasi</p>
                 </div>
             </BlueCard>
@@ -146,6 +119,9 @@ export default function AllCompany() {
                     deleteFunc={modalDelete}
                     editFunc={modalEdit}
                     detailFunc={modalDetail}
+                    rowsPerPage='10'
+                    totalData={companyList.length}
+                    getPage={getCurrPage}
                 />
             </div>
         </div>

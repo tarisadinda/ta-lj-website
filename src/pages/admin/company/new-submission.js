@@ -7,14 +7,25 @@ import ClearIcon from '@mui/icons-material/Clear'
 import { useRouter } from "next/router"
 import TrueFalseModal from "@/components/common/true-false-modal"
 import { axiosInstance } from 'src/utils/axios'
-import { API_UNVERIF_COMPANY } from 'src/utils/api'
+import { API_VERIF_COMPANY } from 'src/utils/api'
 import { convertDate } from 'src/utils/convert-date'
+import CustomAlert from '@/components/common/alert'
+import { useDispatch, useSelector } from 'react-redux'
+import { alertMessage, openAlert, setMessage, setOpenAlert, setSeverity, severity } from 'src/redux/common/alertSlice'
+import { fetchUnverifList, unverifCompanyList } from 'src/redux/admin/companySlice'
 
 const colList = [
     {
         id: 'full_name',
         label: 'Nama Perusahaan',
-        render: (data) => <span>{data.full_name}</span>
+        render: (data) => <span>{data.full_name}</span>,
+        width: 300
+    },
+    {
+        id: 'username',
+        label: 'Username',
+        render: (data) => <span>{data.username}</span>,
+        width: 180
     },
     {
         id: 'email',
@@ -22,9 +33,9 @@ const colList = [
         render: (data) => <span>{data.email}</span>
     },
     {
-        id: 'company_detail.address',
-        label: 'Alamat',
-        render: (data) => <span>{data.company_detail?.address}</span>
+        id: 'status_completed',
+        label: 'Status Data',
+        render: (data) => <span>{data.status_completed == true ? 'Lengkap' : 'Belum lengkap'}</span>
     },
     {
         id: 'company_detail.createdAt',
@@ -35,9 +46,20 @@ const colList = [
 
 export default function NewSubmission() {
     const router = useRouter()
+    const dispatch = useDispatch()
+
+    const isOpenAlert = useSelector(openAlert)
+    const alertMsg = useSelector(alertMessage)
+    const alertSeverity = useSelector(severity)
 
     const [openModal, setOpenModal] = React.useState(false)
-    const [companyList, setCompanyList] = React.useState([])
+    const [page, setPage] = React.useState(0)
+    const [itemUname, setItemUname] = React.useState('')
+    const companyList = useSelector(unverifCompanyList)
+
+    const getCurrPage = (number) => {
+        setPage(number)
+    }
 
     const detailBtn = (username) => {
         console.log(username)
@@ -47,24 +69,35 @@ export default function NewSubmission() {
         })
     }
 
-    const getCompanyList = () => {
-        axiosInstance.get(API_UNVERIF_COMPANY)
-        .then((res) => {
-            console.log(res)
-            setCompanyList(res.data.data.data)
-        }).catch((err) => {
-            console.log(err)
-        })
-    }
-
     const acceptBtn = (username) => {
         console.log(username)
-        // setOpenModal(!openModal)
+        setItemUname(username)
+        setOpenModal(true)
+    }
+
+    const verifyBtn = () => {
+        if(itemUname != '') {
+            axiosInstance.put(`${API_VERIF_COMPANY}/${itemUname}`, {
+                status: true
+            }).then((res) => {
+                if(res) {
+                    setOpenModal(false)
+                    dispatch(fetchUnverifList())
+
+                    dispatch(setOpenAlert(true))
+                    dispatch(setMessage(res.data.message))
+                    dispatch(setSeverity('success'))
+                }
+            }).catch((err) => { 
+                setOpenModal(false)
+                throw err 
+            })
+        }
     }
 
     React.useEffect(() => {
-        getCompanyList()
-    }, [])
+        dispatch(fetchUnverifList(page))
+    }, [page])
 
     const actionBtn = [
         {
@@ -85,16 +118,26 @@ export default function NewSubmission() {
             <CustomTable 
                 idKey='username'
                 columns={colList}
-                data={companyList}
+                data={companyList.unverifData.data?.data}
                 actionButton={actionBtn}
+                rowsPerPage='10'
+                getPage={getCurrPage}
+                totalData={companyList.unverifData.data?.data.length}
             />
         </div>
         <TrueFalseModal 
             title='Apakah anda yakin untuk menerima pengajuan akun ini?'
             desc='Pastikan sudah mengecek informasi dengan benar.'
             open={openModal} 
-            onClose={acceptBtn} 
-            acceptBtn={acceptBtn} 
+            declineBtn={() => setOpenModal(false)} 
+            acceptBtn={verifyBtn} 
+        />
+        <CustomAlert
+            open={isOpenAlert} 
+            severity={alertSeverity}
+            text={alertMsg}
+            duration={2800} 
+            onClose={() => dispatch(setOpenAlert(false))} 
         />
     </>)
 }
