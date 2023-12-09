@@ -5,6 +5,7 @@ import userSlice from "./common/userSlice"
 import companySlice from "./common/companySlice"
 import careerLevelSlice from "./admin/careerLevelSlice"
 import { thunk } from "redux-thunk"
+import unverifListSlice from "./admin/companySlice"
 
 export const store = configureStore({
     reducer: {
@@ -12,7 +13,8 @@ export const store = configureStore({
         modal: modalSlice,
         user: userSlice,
         company: companySlice,
-        level: careerLevelSlice
+        level: careerLevelSlice,
+        unverifList: unverifListSlice
     },
     middleware: [thunk]
 })
