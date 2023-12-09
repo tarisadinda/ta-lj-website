@@ -7,7 +7,7 @@ import CustomTable from '@/components/common/table'
 import CustomDropdown from '@/components/common/dropdown'
 import { useRouter } from 'next/router'
 import { axiosInstance } from 'src/utils/axios'
-import { API_COMPANY } from 'src/utils/api'
+import { API_COMPANY, API_USERS } from 'src/utils/api'
 
 const dummyData = [
     {
@@ -42,9 +42,9 @@ const dummyData = [
 
 const colNames = [
     {
-        id: 'name',
-        label: 'Nama',
-        render: (data) => <span>{data.name}</span>
+        id: 'full_name',
+        label: 'Nama Perusahaan',
+        render: (data) => <span>{data.full_name}</span>
     },
     {
         id: 'email',
@@ -54,7 +54,7 @@ const colNames = [
     {
         id: 'status',
         label: 'Status',
-        render: (data) => <span>{data.status}</span>
+        render: (data) => <span>{data.status == true ? '1' : '0'}</span>
     },
 ]
 
@@ -100,20 +100,24 @@ export default function AllCompany() {
     }
 
     const getListCompany = () => {
-        axiosInstance.get(API_COMPANY)
-        .then((res) => {
-            console.log(res.data)
-            res.data.map((item) => {
-                setCompanyList((prevData) => [
-                    ...prevData,
-                    {
-                        id: item.id,
-                        name: item.name,
-                        email: item.email,
-                        status: item.status === "0" ? 'Belum Terverifikasi' : 'Terverifikasi'
-                    }
-                ])
-            })
+        axiosInstance.get(API_USERS, {
+            params: {
+                role_id: 2
+            }
+        }).then((res) => {
+            console.log(res)
+            setCompanyList(res.data.data.user.data)
+            // res.data.map((item) => {
+            //     setCompanyList((prevData) => [
+            //         ...prevData,
+            //         {
+            //             id: item.id,
+            //             name: item.name,
+            //             email: item.email,
+            //             status: item.status === "0" ? 'Belum Terverifikasi' : 'Terverifikasi'
+            //         }
+            //     ])
+            // })
         })
     }
 

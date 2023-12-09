@@ -6,6 +6,7 @@ import FrameModal from "@/components/common/frame-modal"
 import { axiosInstance } from "src/utils/axios"
 import { API_CAREER_LEVEL } from "src/utils/api"
 import { setMessage, setOpenAlert, setSeverity } from "src/redux/common/alertSlice"
+import { fetchCareerLevel } from "src/redux/admin/careerLevelSlice"
 
 export default function AddLevelModal({ open, onClose }) {
     const dispatch = useDispatch()
@@ -15,7 +16,6 @@ export default function AddLevelModal({ open, onClose }) {
         desc: ''
     })
 
-    console.log(data)
     const handleChange = (e) => {
         setData({
             ...data,
@@ -31,13 +31,13 @@ export default function AddLevelModal({ open, onClose }) {
 
         axiosInstance.post(API_CAREER_LEVEL, formData)
         .then((res) => {
-            console.log(res)
             if(res) {
                 dispatch(setOpenAlert(true))
                 dispatch(setMessage('Data berhasil ditambahkan'))
                 dispatch(setSeverity('success'))
 
                 onClose()
+                dispatch(fetchCareerLevel())
             }
         }).catch((err) => console.log(err))
     }
