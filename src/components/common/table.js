@@ -12,6 +12,7 @@ import IconButton from '@mui/material/IconButton'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
 import VisibilityIcon from '@mui/icons-material/Visibility'
+import { Pagination } from '@mui/material'
 
 const CustomTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -34,7 +35,16 @@ const CustomTableRow = styled(TableRow)(({ theme }) => ({
 }))
 
 export default function CustomTable({columns, data, deleteFunc,
-    editFunc, detailFunc, idKey, actionButton}) {
+    editFunc, detailFunc, idKey, actionButton, totalData, getPage, rowsPerPage}) {
+    const [currPage, setCurrPage] = React.useState(1);
+
+    const handleChangePage = (event, newPage) => {
+        setCurrPage(newPage);
+        getPage(newPage - 1)
+    };
+    
+    const startIndex = (currPage - 1) * rowsPerPage;
+
     return(<>
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -42,7 +52,7 @@ export default function CustomTable({columns, data, deleteFunc,
                     <TableRow>
                         <CustomTableCell>No</CustomTableCell>
                         {columns.length > 0 && columns.map((column, index) => (
-                            <CustomTableCell key={index} className={styles.column}>{column.label}</CustomTableCell>
+                            <CustomTableCell width={column.width ? column.width : 200} key={index} className={styles.column}>{column.label}</CustomTableCell>
                         ))}
                         <CustomTableCell>Aksi</CustomTableCell>
                     </TableRow>
@@ -51,9 +61,9 @@ export default function CustomTable({columns, data, deleteFunc,
                     {data && data.length > 0 ? 
                         data.map((item, index) => (
                             <CustomTableRow key={index}>
-                                <CustomTableCell>{index+1}</CustomTableCell>
+                                <CustomTableCell>{startIndex + index + 1}</CustomTableCell>
                                 {columns.map((col, index) => (
-                                    <CustomTableCell key={index}>{col.render(item)}</CustomTableCell>
+                                    <CustomTableCell width={col.width ? col.width : 200} key={index}>{col.render(item)}</CustomTableCell>
                                 ))}
                                 <CustomTableCell>
                                     <div className={styles.actions}>
@@ -87,6 +97,17 @@ export default function CustomTable({columns, data, deleteFunc,
                     }
                 </TableBody>
             </Table>
+            {totalData != undefined &&
+                <div className={styles.pagination}>
+                    <Pagination 
+                        color="primary"
+                        count={Math.ceil(totalData / rowsPerPage)}
+                        page={currPage}
+                        onChange={handleChangePage}
+                        disabled={getPage != undefined ? false : true}
+                    />
+                </div>
+            }
         </TableContainer>
     </>)
 }
