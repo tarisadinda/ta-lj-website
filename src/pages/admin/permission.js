@@ -68,6 +68,7 @@ export default function Permission() {
             idKey="id"
             data={permissionsList}
             editFunc={editModal}
+            rowsPerPage='10'
         />
         <AddPermissionModal
             open={newPermission}

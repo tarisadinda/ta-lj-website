@@ -16,22 +16,26 @@ const colList = [
     {
         id: 'name',
         label: 'Nama',
-        render: (data) => <span>{data.name}</span>
+        render: (data) => <span>{data.name}</span>,
+        width: 200
     },
     {
         id: 'slug',
         label: 'Slug',
-        render: (data) => <span>{data.slug}</span>
+        render: (data) => <span>{data.slug}</span>,
+        width: 180
     },
     {
         id: 'description',
         label: 'Deskripsi',
-        render: (data) => <span>{data.description}</span>
+        render: (data) => <span>{data.description}</span>,
+        width: 350
     },
     {
         id: 'status',
         label: 'Status',
-        render: (data) => <span>{data.status == true ? 'Aktif' : 'Non-aktif'}</span>
+        render: (data) => <span>{data.status == true ? 'Aktif' : 'Non-aktif'}</span>,
+        width: 100
     },
 ]
 
@@ -47,12 +51,17 @@ export default function Skills() {
     const [askDelete, setAskDelete] = React.useState(false)
     const [dataList, setDataList] = React.useState([])
     const [itemId, setItemId] = React.useState('')
+    const [page, setPage] = React.useState(0)
 
     const getSkill = () => {
-        axiosInstance.get(API_SKILL)
-        .then((res) => {
+        axiosInstance.get(API_SKILL, {
+            params: {
+                size: 3,
+                page: page
+            },
+        }).then((res) => {
             console.log(res)
-            setDataList(res.data.data.data)
+            setDataList(res.data.data)
         }).catch((err) => {
             console.log(err)
         })
@@ -60,7 +69,7 @@ export default function Skills() {
 
     React.useEffect(() => {
         getSkill()
-    }, [])
+    }, [page])
 
     const editModal = (id) => {
         setItemId(id)
@@ -94,6 +103,9 @@ export default function Skills() {
         }
     }
 
+    const getCurrPage = (p) => {
+        setPage(p)
+    }
     console.log(itemId)
     return(<>
         <h4><b>Kelola Keahlian</b></h4>
@@ -108,10 +120,13 @@ export default function Skills() {
         <div>
             <CustomTable
                 columns={colList}
-                data={dataList}
+                data={dataList.data}
+                totalData={dataList.pagination?.total}
                 idKey='id'
                 deleteFunc={deleteModal}
                 editFunc={editModal}
+                getPage={getCurrPage}
+                rowsPerPage='3'
             />
         </div>
         <EditSkillModal
