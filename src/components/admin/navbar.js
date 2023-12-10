@@ -45,12 +45,14 @@ export default function Navbar() {
       <CssBaseline />
       <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
         <Toolbar>
-          <Link href='/' className={styles.link}>
+          {/* <Link href='/' className={styles.link}> */}
+          <div className={styles.link}>
             <div className={styles.profileBtn}>
               <AccountCircleIcon sx={{ fontSize: 40 }} />
               <p className={styles.name}>Admin</p>
             </div>
-          </Link>
+          </div>
+          {/* </Link> */}
         </Toolbar>
       </AppBar>
       <Drawer
