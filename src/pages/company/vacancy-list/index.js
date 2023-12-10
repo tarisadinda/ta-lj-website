@@ -10,6 +10,7 @@ import IconBtn from "@/components/common/icon-button";
 import SVGAdd from "@/public/icons/add.svg";
 import { axiosInstance } from "src/utils/axios";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
 const colNames = [
   {
@@ -36,6 +37,7 @@ const colNames = [
 
 export default function VacancyList() {
   const router = useRouter();
+  const dispatch = useDispatch()
 
   const [pagination, setPagination] = useState({
     size: 10,
@@ -124,6 +126,7 @@ export default function VacancyList() {
             columns={colNames}
             idKey="slug"
             data={listJob}
+            rowsPerPage='10'
             deleteFunc={deleteJob}
             detailFunc={detailBtn}
             editFunc={editJob}

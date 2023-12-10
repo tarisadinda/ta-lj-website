@@ -47,7 +47,7 @@ export default function ApplyJob() {
       type_request: type,
     };
     axiosInstance
-      .post(`/candidateJob/${slug}`, data)
+      .post(`/candidateJob/applyJob/${slug}`, data)
       .then((res) => {
         if (res) {
           setClickSend(true);
