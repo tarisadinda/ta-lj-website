@@ -112,6 +112,7 @@ export default function Role() {
                 idKey='id'
                 deleteFunc={deleteModal}
                 editFunc={editModal}
+                rowsPerPage='10'
             />
         </div>
         <AddRoleModal

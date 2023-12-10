@@ -18,6 +18,11 @@ const colNames = [
         width: 300
     },
     {
+        id: 'username',
+        label: 'Username',
+        render: (data) => <span>{data.username}</span>,
+    },
+    {
         id: 'email',
         label: 'Email',
         render: (data) => <span>{data.email}</span>

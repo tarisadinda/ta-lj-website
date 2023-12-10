@@ -20,7 +20,7 @@ export default function Login() {
     const [openAlert, setOpenAlert] = React.useState(false)
     const [seePassword, setSeePassword] = React.useState(false)
     const [userAccount, setUserAccount] = React.useState({
-        username: 'min',
+        username: '',
         password: ''
     })
 

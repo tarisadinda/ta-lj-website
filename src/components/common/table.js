@@ -43,6 +43,7 @@ export default function CustomTable({columns, data, deleteFunc,
         getPage(newPage - 1)
     };
     
+    console.log(totalData)
     const startIndex = (currPage - 1) * rowsPerPage;
 
     return(<>
@@ -101,10 +102,10 @@ export default function CustomTable({columns, data, deleteFunc,
                 <div className={styles.pagination}>
                     <Pagination 
                         color="primary"
-                        count={Math.ceil(totalData / rowsPerPage)}
+                        count={totalData == 0 ? 1 : Math.ceil(totalData / rowsPerPage)}
                         page={currPage}
                         onChange={handleChangePage}
-                        disabled={getPage == undefined ? true : false}
+                        disabled={getPage == undefined || totalData == 0 ? true : false}
                     />
                 </div>
             }
