@@ -1,7 +1,7 @@
 import LayoutMain from "@/components/admin/layouts/main"
 import cn from 'classnames'
 import styles from '@/styles/pages/admin/company/DetailVerification.module.scss'
-import { Avatar, Card } from '@mui/material'
+import { Avatar, Card, Chip } from '@mui/material'
 import PlaceIcon from '@mui/icons-material/Place'
 import Laptop from '@/public/laptop-work.png'
 import Image from "next/image"
@@ -11,18 +11,70 @@ import { API_VERIF_COMPANY } from "src/utils/api"
 import React, { useEffect } from "react"
 import { useRouter } from "next/router"
 import { formatJsDate } from "src/utils/date-formatter"
+import CheckCircleIcon from '@mui/icons-material/CheckCircle'
+import CancelIcon from '@mui/icons-material/Cancel'
+import CustomAlert from "@/components/common/alert"
+import { useDispatch, useSelector } from "react-redux"
+import { alertMessage, openAlert, setMessage, setOpenAlert, setSeverity, severity } from "src/redux/common/alertSlice"
 
 export default function DetailVerification() {
     const router = useRouter()
-    const [data, setData] = React.useState()
+    const dispatch = useDispatch()
+
     const pathUser = router.query.username
+    const isOpenAlert = useSelector(openAlert)
+    const alertMsg = useSelector(alertMessage)
+    const alertSeverity = useSelector(severity)
+    const [data, setData] = React.useState()
+    const [isVerified, setIsVerified] = React.useState(false)
+    const [isClicked, setIsClicked] = React.useState(false)
+
     console.log(router.query.username)
+    const verifyBtn = () => {
+        axiosInstance.put(`${API_VERIF_COMPANY}/${pathUser}`, {
+            status: true
+        }).then((res) => {
+            if(res) {
+                setIsVerified(true)
+                setIsClicked(true)
+            }
+        }).catch((err) => {
+            dispatch(setOpenAlert(true))
+            dispatch(setMessage(err.response.data.message))
+            dispatch(setSeverity('error'))
+        })
+    }
+    
+    const declineBtn = () => {
+        axiosInstance.put(`${API_VERIF_COMPANY}/${pathUser}`, {
+            status: false
+        }).then((res) => {
+            if(res) {
+                setIsVerified(false)
+                setIsClicked(true)
+            }
+        }).catch((err) => {
+            dispatch(setOpenAlert(true))
+            dispatch(setMessage(err.response.data.message))
+            dispatch(setSeverity('error'))
+        })
+    }
+
     const getDetail = () => {
         axiosInstance.get(API_VERIF_COMPANY + "/" + pathUser)
         .then((res) => {
             console.log(res)
             setData(res.data.data)
-        }).catch((err) => console.log(err))
+        }).catch((err) => {
+            console.log(err)
+            if(err.response.data.message == "User Company Tidak ada") {
+                dispatch(setOpenAlert(true))
+                dispatch(setMessage(err.response.data.message))
+                dispatch(setSeverity('error'))
+
+                router.push('/admin/company/new-submission')
+            }
+        })
     }
 
     useEffect(() => {
@@ -52,8 +104,24 @@ export default function DetailVerification() {
                     </p>
                 </div>
                 <div className={styles.actionBtn}>
-                    <button className={cn(styles.button, "btn btn-primary blue")}>Terima</button>
-                    <button className={cn(styles.button, "btn btn-secondary blue")}>Tolak</button>
+                    {isClicked ? 
+                        isVerified ? 
+                            <Chip 
+                                icon={<CheckCircleIcon />} 
+                                label="Perusahaan berhasil diverifikasi" 
+                                color="success" 
+                            /> :
+                            <Chip 
+                                icon={<CancelIcon />} 
+                                label="Perusahaan ditolak" 
+                                color="error" 
+                            /> 
+                        :
+                        <>
+                            <button onClick={verifyBtn} className={cn(styles.button, "btn btn-primary blue")}>Terima</button>
+                            <button onClick={declineBtn} className={cn(styles.button, "btn btn-secondary blue")}>Tolak</button>
+                        </>
+                    }
                 </div>
             </div>
         </Card>
@@ -70,6 +138,13 @@ export default function DetailVerification() {
                 </div>
             </div>
         </div>
+        <CustomAlert
+            open={isOpenAlert} 
+            severity={alertSeverity}
+            text={alertMsg}
+            duration={2800} 
+            onClose={() => dispatch(setOpenAlert(false))} 
+        />
     </>)
 }
 
