@@ -8,6 +8,7 @@ import { thunk } from "redux-thunk"
 import unverifListSlice from "./admin/companySlice"
 import qualificationSlice from "./admin/qualificationSlice"
 import rolePermissionSlice from "./admin/permissionSlice"
+import candidateListSlice from "./company/candidateSlice"
 
 export const store = configureStore({
     reducer: {
@@ -18,7 +19,8 @@ export const store = configureStore({
         level: careerLevelSlice,
         unverifList: unverifListSlice,
         qualifications: qualificationSlice,
-        rolePermission: rolePermissionSlice
+        rolePermission: rolePermissionSlice,
+        candidateAppliedList: candidateListSlice
     },
     middleware: [thunk]
 })
