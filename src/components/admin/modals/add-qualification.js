@@ -7,6 +7,7 @@ import { axiosInstance } from 'src/utils/axios'
 import { useState } from 'react'
 import { API_QUALIFICATION } from 'src/utils/api'
 import { setMessage, setOpenAlert, setSeverity } from 'src/redux/common/alertSlice'
+import { fetchQualification } from 'src/redux/admin/qualificationSlice'
 
 export default function AddQualificationModal({ open, onClose }) {
     const dispatch = useDispatch()
@@ -31,6 +32,7 @@ export default function AddQualificationModal({ open, onClose }) {
                 dispatch(setSeverity('success'))
             }
 
+            dispatch(fetchQualification())
             onClose()
         }).catch((err) => {
             if(err.status == 400) {

@@ -6,6 +6,7 @@ import { API_QUALIFICATION } from 'src/utils/api'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { setMessage, setOpenAlert, setSeverity } from 'src/redux/common/alertSlice'
+import { fetchQualification } from 'src/redux/admin/qualificationSlice'
 
 export default function EditQualificationModal({ open, onClose, id }) {
     const dispatch = useDispatch()
@@ -14,8 +15,6 @@ export default function EditQualificationModal({ open, onClose, id }) {
         name: '',
         desc: ''
     })
-
-    console.log(qualification)
 
     const handleChange = (e) => {
         setQualification({
@@ -58,6 +57,7 @@ export default function EditQualificationModal({ open, onClose, id }) {
                 dispatch(setSeverity('success'))
             }
 
+            dispatch(fetchQualification())
             onClose()
         }).catch((err) => {
             dispatch(setMessage(err.response?.message))

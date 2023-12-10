@@ -12,6 +12,7 @@ import CustomAlert from '@/components/common/alert'
 import ConfirmDeleteModal from '@/components/common/confirm-delete'
 import AddQualificationModal from '@/components/admin/modals/add-qualification'
 import EditQualificationModal from '@/components/admin/modals/edit-qualification'
+import { fetchQualification, qualificationData } from 'src/redux/admin/qualificationSlice'
 
 const colList = [
     {
@@ -27,12 +28,14 @@ const colList = [
     {
         id: 'description',
         label: 'Deskripsi',
-        render: (data) => <span>{data.description}</span>
+        render: (data) => <span>{data.description}</span>,
+        width: 300
     },
     {
         id: 'status',
         label: 'Status',
-        render: (data) => <span>{data.status == true ? 'Aktif' : 'Non-aktif'}</span>
+        render: (data) => <span>{data.status == true ? 'Aktif' : 'Non-aktif'}</span>,
+        width: 150
     },
 ]
 
@@ -50,25 +53,15 @@ export default function Qualification() {
     const [deleteId, setDeleteId] = React.useState('')
     const [editId, setEditId] = React.useState('')
     const [openEditModal, setOpenEditModal] = React.useState(false)
-    const [qualification, setQualification] = useState([])
+    const qualification = useSelector(qualificationData)
+    const [page, setPage] = React.useState(0)
 
-    const getQualifications = () => {
-        axiosInstance.get(API_QUALIFICATION)
-        .then((res) => {
-            console.log(res.data.data.data)
-            setQualification(res.data.data.data)
-        }).catch((err) => console.log(err))
+    const getCurrPage = (number) => {
+        setPage(number)
     }
 
-    console.log(qualification)
     React.useEffect(() => {
-        if (effectRan.current === false) {
-            getQualifications()
-
-            return () => {
-                effectRan.current === true
-            }
-        }
+        dispatch(fetchQualification())
     }, [])
 
     const deleteModal = (id) => {
@@ -123,10 +116,13 @@ export default function Qualification() {
         <div>
             <CustomTable
                 columns={colList}
-                data={qualification}
+                data={qualification.qualification.data?.data}
                 idKey='id'
                 deleteFunc={deleteModal}
                 editFunc={editModal}
+                rowsPerPage='10'
+                totalData={qualification.qualification.data?.data.length}
+                getPage={getCurrPage}
             />
         </div>
         <AddQualificationModal
