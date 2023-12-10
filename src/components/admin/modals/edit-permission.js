@@ -2,32 +2,40 @@ import FrameModal from '@/components/common/frame-modal'
 import styles from '@/styles/components/admin/modals/CustomModal.module.scss'
 import cn from 'classnames'
 import React from 'react'
+import { useDispatch } from 'react-redux'
+import { fetchRolePermission } from 'src/redux/admin/permissionSlice'
+import { setMessage, setOpenAlert, setSeverity } from 'src/redux/common/alertSlice'
 import { API_PERMISSION, API_ROLE_PERMISSION } from 'src/utils/api'
 import { axiosInstance } from 'src/utils/axios'
 
 export default function EditPermissionModal({ open, onClose, id }) {
+    const dispatch = useDispatch()
+
     const [permissionsList, setPermissionList] = React.useState([])
     const [userPermission, setUserPermission] = React.useState([])
     const [access, setAccess] = React.useState([])
     const [detailPermission, setDetailPermission] = React.useState()
 
     console.log(userPermission)
-    
+    console.log(access)
+
     const handleChange = (e) => {
         const { value, checked } = e.target;
 
-        if (checked) {
-            setAccess([...access, value])
-        } else {
-            setAccess([access.filter((e) => e !== value)])
-        }
+        setUserPermission((prevData) => {
+            if (checked) {
+                return [...prevData, value]
+            } else {
+                return userPermission.filter((item) => item !== value)
+            }
+        })
     }
 
     const getDetailPermission = () => {
         axiosInstance.get(API_ROLE_PERMISSION + "/" + id)
         .then((res) => {
             setDetailPermission(res.data.data)
-            setUserPermission(res.data.data.permission)
+            setUserPermission(res.data.data.permission.map(item => item.access))
         }).catch((err) => console.log(err))
     }
 
@@ -50,13 +58,33 @@ export default function EditPermissionModal({ open, onClose, id }) {
         getListPermission()
     }, [])
 
+    const updatePermission = () => {
+        const formData = {
+            access: userPermission
+        }
+
+        axiosInstance.post(`${API_ROLE_PERMISSION}/${id}`, formData, {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }).then((res) => {
+            onClose()
+            dispatch(setOpenAlert(true))
+            dispatch(setMessage('Hak akses berhasil diperbarui'))
+            dispatch(setSeverity('success'))
+            dispatch(fetchRolePermission())
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
+
     return(<>
         <FrameModal
             open={open}
             handleClose={onClose}
             title='Edit Hak Akses'
         >
-            <form>
+            <div>
                 <div className={styles.formSection}>
                     <div>
                         <label className={styles.inputLabel}>Role</label>
@@ -69,7 +97,7 @@ export default function EditPermissionModal({ open, onClose, id }) {
                             {permissionsList.everything?.map((item, index) => (
                                 <div key={index} className="form-check">
                                     <input 
-                                        checked={userPermission.some(data => data.access == item)}
+                                        checked={userPermission.some(data => data == item)}
                                         onChange={handleChange} className="form-check-input" 
                                         type="checkbox" value={item} id={item} 
                                     />
@@ -83,9 +111,9 @@ export default function EditPermissionModal({ open, onClose, id }) {
                                 {permissionsList.master_role?.map((item, index) => (
                                     <div key={index} className="form-check">
                                         <input 
-                                            checked={userPermission.some(data => data.access == item)}
+                                            checked={userPermission.some(data => data == item)}
                                             onChange={handleChange} className="form-check-input" 
-                                            type="checkbox" value={item} id={item} 
+                                            type="checkbox" value={item} id={item}
                                         />
                                         <label className="form-check-label" for={item}>{item}</label>
                                     </div>
@@ -109,7 +137,7 @@ export default function EditPermissionModal({ open, onClose, id }) {
                                 {permissionsList.master_permission?.map((item, index) => (
                                     <div key={index} className="form-check">
                                         <input 
-                                            checked={userPermission.some(data => data.access == item)}
+                                            checked={userPermission.some(data => data == item)}
                                             onChange={handleChange} className="form-check-input" 
                                             type="checkbox" value={item} id={item} 
                                         />
@@ -124,7 +152,7 @@ export default function EditPermissionModal({ open, onClose, id }) {
                                 {permissionsList.master_qualification?.map((item, index) => (
                                     <div key={index} className="form-check">
                                         <input 
-                                            checked={userPermission.some(data => data.access == item)}
+                                            checked={userPermission.some(data => data == item)}
                                             onChange={handleChange} className="form-check-input" 
                                             type="checkbox" value={item} id={item} 
                                         />
@@ -139,7 +167,7 @@ export default function EditPermissionModal({ open, onClose, id }) {
                                 {permissionsList.master_job_type_work?.map((item, index) => (
                                     <div key={index} className="form-check">
                                         <input 
-                                            checked={userPermission.some(data => data.access == item)}
+                                            checked={userPermission.some(data => data == item)}
                                             onChange={handleChange} className="form-check-input" 
                                             type="checkbox" value={item} id={item} 
                                         />
@@ -154,7 +182,7 @@ export default function EditPermissionModal({ open, onClose, id }) {
                                 {permissionsList.master_time_experience?.map((item, index) => (
                                     <div key={index} className="form-check">
                                         <input 
-                                            checked={userPermission.some(data => data.access == item)}
+                                            checked={userPermission.some(data => data == item)}
                                             onChange={handleChange} className="form-check-input" 
                                             type="checkbox" value={item} id={item} 
                                         />
@@ -169,7 +197,7 @@ export default function EditPermissionModal({ open, onClose, id }) {
                                 {permissionsList.master_career_level?.map((item, index) => (
                                     <div key={index} className="form-check">
                                         <input 
-                                            checked={userPermission.some(data => data.access == item)}
+                                            checked={userPermission.some(data => data == item)}
                                             onChange={handleChange} className="form-check-input" 
                                             type="checkbox" value={item} id={item} 
                                         />
@@ -184,7 +212,7 @@ export default function EditPermissionModal({ open, onClose, id }) {
                                 {permissionsList.master_job?.map((item, index) => (
                                     <div key={index} className="form-check">
                                         <input 
-                                            checked={userPermission.some(data => data.access == item)}
+                                            checked={userPermission.some(data => data == item)}
                                             onChange={handleChange} className="form-check-input" 
                                             type="checkbox" value={item} id={item} 
                                         />
@@ -199,7 +227,7 @@ export default function EditPermissionModal({ open, onClose, id }) {
                                 {permissionsList.candidate_behavior?.map((item, index) => (
                                     <div key={index} className="form-check">
                                         <input
-                                            checked={userPermission.some(data => data.access == item)} 
+                                            checked={userPermission.some(data => data == item)} 
                                             onChange={handleChange} className="form-check-input" 
                                             type="checkbox" value={item} id={item} 
                                         />
@@ -211,10 +239,10 @@ export default function EditPermissionModal({ open, onClose, id }) {
                         <div>
                             <label style={{ fontWeight: 600, marginBottom: '6px' }}>Company Behavior</label>
                             <div className={styles.checkList}>
-                                {permissionsList.candidate_behavior?.map((item, index) => (
+                                {permissionsList.company_behavior?.map((item, index) => (
                                     <div key={index} className="form-check">
                                         <input 
-                                            checked={userPermission.some(data => data.access == item)}
+                                            checked={userPermission.some(data => data == item)}
                                             onChange={handleChange} className="form-check-input" 
                                             type="checkbox" value={item} id={item} 
                                         />
@@ -227,9 +255,9 @@ export default function EditPermissionModal({ open, onClose, id }) {
                 </div>
                 <div className={styles.actionBtn}>
                     <button onClick={onClose} className={cn(styles.cancelBtn, 'btn btn-ghost')}>Batal</button>
-                    <button type='submit' className={cn(styles.saveBtn, 'btn btn-primary blue')}>Simpan</button>
+                    <button onClick={updatePermission} className={cn(styles.saveBtn, 'btn btn-primary blue')}>Simpan</button>
                 </div>
-            </form>
+            </div>
         </FrameModal>
     </>)
 }

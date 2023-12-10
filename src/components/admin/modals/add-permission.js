@@ -6,7 +6,8 @@ import React from 'react'
 import { axiosInstance } from 'src/utils/axios'
 import { API_PERMISSION, API_ROLE, API_ROLE_PERMISSION, API_SALARY } from 'src/utils/api'
 import { useDispatch } from 'react-redux';
-import { setMessage, setOpenAlert } from 'src/redux/common/alertSlice';
+import { setMessage, setOpenAlert, setSeverity } from 'src/redux/common/alertSlice';
+import { fetchRolePermission } from 'src/redux/admin/permissionSlice'
 
 export default function AddPermissionModal({ open, onClose }) {
     const dispatch = useDispatch()
@@ -14,12 +15,11 @@ export default function AddPermissionModal({ open, onClose }) {
     const [idRole, setIdRole] = React.useState(0)
     const [permissionsList, setPermissionList] = React.useState([])
     const [accessList, setAccessList] = React.useState([])
-    const [checkData, setCheckData] = React.useState(false)
 
     const getRole = () => {
-        axiosInstance.get(API_ROLE)
+        axiosInstance.get(API_ROLE_PERMISSION)
         .then((res) => {
-            setRole(res.data.data.data)
+            setRole(res.data.data.filter((item) => item.permission.length == 0))
         }).catch((err) => console.log(err))
     }
 
@@ -40,19 +40,13 @@ export default function AddPermissionModal({ open, onClose }) {
     const handleChange = (item) => (e) => {
         const { value, checked } = e.target;
 
-        if(accessList.includes(item)) {
-            setAccessList([accessList.filter((item) => item !== value)])
-        } else {
-            setAccessList((prevData) => [
-                ...prevData,
-                value
-            ])
-        }
-        // if (checked) {
-        //     setAccessList([...accessList, value])
-        // } else {
-        //     setAccessList([accessList.filter((e) => e !== value)])
-        // }
+        setAccessList((prevData) => {
+            if(checked) {
+                return [...prevData, value]
+            } else {
+                return prevData.filter((item) => item !== value)
+            }
+        })
     }
 
     React.useEffect(() => {
@@ -71,7 +65,6 @@ export default function AddPermissionModal({ open, onClose }) {
             access: accessList
         }
 
-        console.log(formData)
         axiosInstance.post(API_ROLE_PERMISSION + "/" + idRole, formData, {
             headers: {
                 'Content-Type': 'application/json',
@@ -80,6 +73,11 @@ export default function AddPermissionModal({ open, onClose }) {
         .then((res) => {
             console.log(res)
             onClose()
+
+            dispatch(setOpenAlert(true))
+            dispatch(setMessage('Berhasil membuat hak akses!'))
+            dispatch(setSeverity('success'))
+            dispatch(fetchRolePermission())
         })
         .catch((err) => console.log(err))
     }
@@ -95,6 +93,7 @@ export default function AddPermissionModal({ open, onClose }) {
                 <div>
                     <label style={{ fontWeight: 600, marginBottom: '6px' }}>Pilih Role</label>
                     <select className="form-select" onChange={selectRole}>
+                        <option disabled selected>Pilih role</option>
                         {
                             role.map((item, index) => (
                                 <option value={item.id} key={index}>{item.name}</option>

@@ -1,12 +1,14 @@
 import LayoutMain from "@/components/admin/layouts/main"
 import AddPermissionModal from "@/components/admin/modals/add-permission"
 import EditPermissionModal from "@/components/admin/modals/edit-permission"
+import CustomAlert from "@/components/common/alert"
 import IconBtn from "@/components/common/icon-button"
 import CustomTable from "@/components/common/table"
 import SVGAdd from '@/public/icons/add.svg'
 import React from "react"
-import { API_ROLE_PERMISSION } from "src/utils/api"
-import { axiosInstance } from "src/utils/axios"
+import { useDispatch, useSelector } from "react-redux"
+import { fetchRolePermission, rolePermissionList } from "src/redux/admin/permissionSlice"
+import { alertMessage, openAlert, setOpenAlert, severity } from "src/redux/common/alertSlice"
 
 const colList = [
     {
@@ -17,7 +19,8 @@ const colList = [
     {
         id: 'description',
         label: 'Deskripsi',
-        render: (data) => <span>{data.description}</span>
+        render: (data) => <span>{data.description}</span>,
+        width: 250
     },
     {
         id: 'permission_list',
@@ -25,32 +28,32 @@ const colList = [
         render: (data) => <span>{
                 data.permission.length == 0 ? 'Hak akses belum diatur' : 
                 data.permission.map((item) => item?.access + ', ')}
-            </span>
+            </span>,
+        width: 400
     },
 ]
 
 export default function Permission() {
-    const [permissionsList,setPermissionList] = React.useState([])
+    const dispatch = useDispatch()
+
+    const isOpenAlert = useSelector(openAlert)
+    const alertMsg = useSelector(alertMessage)
+    const alertSeverity = useSelector(severity)
+    const tempPermissionsList = useSelector(rolePermissionList)
+
+    const permissionsList = tempPermissionsList.permissionData.data?.filter((item) => item.permission.length != 0)
     const [newPermission, setNewPermission] = React.useState(false)
     const [openEditModal, setOpenEditModal] = React.useState(false)
     const [selectId, setSelectid] = React.useState(0)
 
-    const getList = () => {
-        axiosInstance.get(API_ROLE_PERMISSION)
-        .then((res) => {
-            setPermissionList(res.data.data)
-        })
-    }
-
-    console.log(permissionsList)
     React.useEffect(() => {
-        getList()
+        dispatch(fetchRolePermission())
     }, [])
 
     const editModal = (id) => {
         setSelectid(id)
         setOpenEditModal(true)
-        console.log('edit')
+        // console.log('edit')
     }
 
     return(<>
@@ -78,6 +81,13 @@ export default function Permission() {
             open={openEditModal}
             id={selectId}
             onClose={() => setOpenEditModal(false)}
+        />
+        <CustomAlert 
+            open={isOpenAlert} 
+            severity={alertSeverity}
+            text={alertMsg}
+            duration={2800} 
+            onClose={() => dispatch(setOpenAlert(false))} 
         />
     </>)
 }
