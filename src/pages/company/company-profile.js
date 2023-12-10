@@ -11,6 +11,7 @@ import { axiosInstance } from 'src/utils/axios'
 import { API_COMPANY_PROFILE } from 'src/utils/api'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { setCookie } from 'cookies-next'
 
 export default function CompanyProfile() {
     const router = useRouter()
@@ -48,6 +49,11 @@ export default function CompanyProfile() {
             if(dataCompany.company_detail.status_verif == true) {
                 setisVerified(true)
             }
+            
+            setCookie(
+                "company_detail",
+                JSON.stringify(dataCompany)
+            )
         }
     }, [dataCompany])
 
@@ -57,7 +63,8 @@ export default function CompanyProfile() {
                 <Collapse in={true} sx={{ marginBottom: '20px' }}>
                     <Alert severity="warning"> 
                         <AlertTitle>Info</AlertTitle>
-                        Silahkan lengkapi profil anda untuk bisa membuat lowongan pekerjaan.{" "}<strong><Link href='/company/edit-company-profile'>Lengkapi sekarang.</Link></strong>
+                        Silahkan lengkapi profil anda untuk bisa membuat lowongan pekerjaan.{" "}<strong>
+                        <Link href='/company/edit-company-profile' style={{ textDecoration: 'underline' }}>Lengkapi sekarang.</Link></strong>
                     </Alert>
                 </Collapse>
             }
@@ -85,20 +92,20 @@ export default function CompanyProfile() {
                         <span className="col-6">{dataCompany?.email}</span>
                     </div>
                     <div className={cn(styles.inputGroup, 'row')}>
-                        <label className="col-4">Alamat Perusahaan</label>
-                        <span className="col-6">{dataCompany?.company_detail?.address}</span>
-                    </div>
-                    <div className={cn(styles.inputGroup, 'row')}>
-                        <label className="col-4">Tentang Perusahaan</label>
-                        <span className="col-6">{dataCompany?.company_detail?.about_company}</span>
+                        <label className="col-4">Nomor Telepon</label>
+                        <span className="col-6">{dataCompany?.company_detail?.phone_number}</span>
                     </div>
                     <div className={cn(styles.inputGroup, 'row')}>
                         <label className="col-4">Username</label>
                         <span className="col-6">{dataCompany?.username}</span>
                     </div>
                     <div className={cn(styles.inputGroup, 'row')}>
-                        <label className="col-4">Website</label>
-                        <span className="col-6">metanesia.com</span>
+                        <label className="col-4">Alamat Perusahaan</label>
+                        <span className="col-6">{dataCompany?.company_detail?.address}</span>
+                    </div>
+                    <div className={cn(styles.inputGroup, 'row')}>
+                        <label className="col-4">Tentang Perusahaan</label>
+                        <span className="col-6">{dataCompany?.company_detail?.about_company}</span>
                     </div>
                 </div>
             </div>

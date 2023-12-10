@@ -90,13 +90,20 @@ export default function Dashboard() {
     getAllJobs();
   }, []);
 
+  useEffect(() => {
+    setCookie(
+      "company_detail",
+      JSON.stringify(company)
+    )
+  }, [company])
+
   return (
     <>
       {company.company_detail.status_completed == true ? <></> :
         <Collapse in={true} sx={{ marginBottom: '20px' }}>
           <Alert severity="warning"> 
               <AlertTitle>Info</AlertTitle>
-              Silahkan lengkapi profil anda untuk bisa membuat lowongan pekerjaan.{" "}<strong><Link href='/company/edit-company-profile'>Lengkapi sekarang.</Link></strong>
+              Silahkan lengkapi profil anda untuk bisa membuat lowongan pekerjaan.{" "}<strong><Link href='/company/edit-company-profile' style={{ textDecoration: 'underline' }}>Lengkapi sekarang.</Link></strong>
           </Alert>
         </Collapse>
       }
