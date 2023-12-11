@@ -54,7 +54,10 @@ export default function ApplicantList() {
     }
 
     const detailData = (id) => {
-        router.push('/company/applicant-list/detail-applicant')
+        router.push({
+            pathname: '/company/applicant-list/detail-applicant/[id]',
+            query: { id: id }
+        })
     }
 
     const deleteData = (id) => {
@@ -73,7 +76,6 @@ export default function ApplicantList() {
 
     return(<>
         <div className="d-flex gap-3 mb-5">
-            <CountingCard total='12' title='Pelamar baru untuk direview' />
             <CountingCard total='4' title='Pelamar dalam tahap seleksi' />
             <CountingCard total='2' title='Pelamar yang direach' />
         </div>

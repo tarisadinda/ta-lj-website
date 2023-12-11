@@ -42,8 +42,7 @@ export default function CustomTable({columns, data, deleteFunc,
         setCurrPage(newPage);
         getPage(newPage - 1)
     };
-    
-    console.log(totalData)
+
     const startIndex = (currPage - 1) * rowsPerPage;
 
     return(<>
