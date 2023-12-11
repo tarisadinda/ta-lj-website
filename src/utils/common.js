@@ -8,12 +8,15 @@ export const chipApplyJob = (status) => {
             )
         case "rejected":
             return (
-                <CustomChip label="Ditolak" bgcolor="#17AD47" />
+                <CustomChip label="Ditolak" bgcolor="#D41C1D" />
             )
         case "accepted":
+            return (
+                <CustomChip label="Diterima" bgcolor="#17AD47" />
+            )
         case "complete":
             return (
-                <CustomChip label="Diterima" bgcolor="#D41C1D" />
+                <CustomChip label="Diterima" bgcolor="#17AD47" />
             )
         default:
             break

@@ -32,6 +32,13 @@
 .btnIcon {
     display: flex;
     align-items: center;
+    column-gap: 25px;
+    width: max-content;
+}
+
+.leftSide {
+    display: flex;
+    align-items: center;
     column-gap: 10px;
 }
 

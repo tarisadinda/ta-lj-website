@@ -11,8 +11,9 @@ import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile'
 import { useDispatch, useSelector } from 'react-redux'
 import ModalEditStatus from '@/components/company/modal/edit-application-status'
 import { useRouter } from 'next/router'
-import { axiosInstance } from 'src/utils/axios'
-import { API_CANDIDATE_JOB } from 'src/utils/api'
+import { candidateDetailData, fetchDetailCandidate } from 'src/redux/company/candidateDetailSlice'
+import Link from 'next/link'
+import LaunchIcon from '@mui/icons-material/Launch'
 
 export default function DetailApplicant() {
     const dispatch = useDispatch()
@@ -20,26 +21,18 @@ export default function DetailApplicant() {
 
     const userId = router.query.id
 
-    const [userData, setUserData] = React.useState('')
+    // const [userData, setUserData] = React.useState('')
+    const tempData = useSelector(candidateDetailData)
+    const userData = tempData.dataCandidate.data
     const [editStatus, setEditStatus] = React.useState(false)
 
     const handleStatusModal = () => {
         setEditStatus(true)
     }
 
-    const getDetailApplicant = () => {
-        if(userId != undefined) {
-            axiosInstance.get(`${API_CANDIDATE_JOB}/detail/${userId}`)
-            .then((res) => {
-                console.log(res)
-                setUserData(res.data.data)
-            }).catch((err) => console.log(err))
-        }
-    }
-
     React.useEffect(() => {
-        getDetailApplicant()
-    }, [])
+        dispatch(fetchDetailCandidate(userId))
+    }, [userId])
 
     console.log(userData)
     return(<>
@@ -48,17 +41,22 @@ export default function DetailApplicant() {
                 <h4><b>Informasi Pelamar</b></h4>
                 <BlueCard className={styles.applicantInfo}>
                     <div className={styles.wrapper}>
-                        <Avatar sx={{width: 100, height: 100}} src={userData.CandidateDetail?.user.img} />
+                        <Avatar sx={{width: 100, height: 100}} src={userData?.CandidateDetail?.user.img} />
                         <div className={styles.textWrap}>
-                            <p><b>{userData.CandidateDetail?.user.full_name}</b></p>
-                            <p>{userData.CandidateDetail?.phone_number}</p>
+                            <p><b>{userData?.CandidateDetail?.user.full_name}</b></p>
+                            <p>{userData?.CandidateDetail?.phone_number}</p>
                         </div>
                     </div>
                     <div className={styles.btnSection}>
-                        <button className={cn(styles.btnIcon, 'btn btn-primary blue')}>
-                            <InsertDriveFileIcon />
-                            CV - {userData.CandidateDetail?.cv.split('/').pop()}
-                        </button>
+                        <Link href={userData != undefined? userData?.CandidateDetail?.cv : ""} target='_blank'>
+                            <button className={cn(styles.btnIcon, 'btn btn-primary blue')}>
+                                <div className={styles.leftSide}>
+                                    <InsertDriveFileIcon />
+                                    <span>CV - {userData?.CandidateDetail?.cv.split('/').pop()}</span>
+                                </div>
+                                <LaunchIcon sx={{ fontSize: 15 }} />
+                            </button>
+                        </Link>
                     </div>
                 </BlueCard>
             </div>
@@ -72,19 +70,23 @@ export default function DetailApplicant() {
                         className='btn btn-secondary blue'
                     />
                 </div>
-                <CustomChip label="Dalam Review" bgcolor='#F1C93A' />
+                {userData?.status == "accepted" ? 
+                    <CustomChip label="Diterima" bgcolor='#17AD47' /> :
+                    userData?.status == "processed" ?
+                    <CustomChip label="Dalam Review" bgcolor='#F1C93A' /> :
+                    <CustomChip label="Ditolak" bgcolor='#D41C1D' />
+                }
             </div>
         </div>
         <div className='mt-5'>
             <h4><b>Informasi Posisi</b></h4>
             <p className={cn(styles.date, 'mb-2')}>Tanggal melamar: 5/10/2022</p>
             <BlueCard className={styles.positionInfo}>
-                <p><b>{userData.job?.name}</b></p>
-                <p>Teknologi</p>
-                <p>Fulltime - WFO</p>
+                <p><b>{userData?.job?.name}</b></p>
+                <p>{userData?.job?.career_level.name} - {userData?.job?.job_type_work.name}</p>
             </BlueCard>
         </div>
-        <ModalEditStatus open={editStatus} handleClose={() => setEditStatus(false)} />
+        <ModalEditStatus id={userId} open={editStatus} handleClose={() => setEditStatus(false)} />
     </>)
 }
 

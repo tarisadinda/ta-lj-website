@@ -9,6 +9,7 @@ import unverifListSlice from "./admin/companySlice"
 import qualificationSlice from "./admin/qualificationSlice"
 import rolePermissionSlice from "./admin/permissionSlice"
 import candidateListSlice from "./company/candidateSlice"
+import candidateDetailSlice from "./company/candidateDetailSlice"
 
 export const store = configureStore({
     reducer: {
@@ -20,7 +21,8 @@ export const store = configureStore({
         unverifList: unverifListSlice,
         qualifications: qualificationSlice,
         rolePermission: rolePermissionSlice,
-        candidateAppliedList: candidateListSlice
+        candidateAppliedList: candidateListSlice,
+        candidateDetail: candidateDetailSlice
     },
     middleware: [thunk]
 })
