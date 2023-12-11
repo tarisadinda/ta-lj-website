@@ -47,21 +47,7 @@ export default function SearchEmployeeDetail() {
                 <p className={styles.pdf}>CV - Ryan.pdf</p>
             </div>
         </div>
-        <div className={styles.historySection}>
-            <p><b>Riwayat Pendaftaran</b></p>
-            <ul>
-                <li className={styles.itemHistory}>
-                    <p>Digital Marketing - PT Sentosa Mandiri</p>
-                    <p><b>Ditolak</b></p>
-                    <p>Dilamar pada 8 Februari 2022</p>
-                </li>
-                <li className={styles.itemHistory}>
-                    <p>Digital Marketing - PT Sentosa Mandiri</p>
-                    <p><b>Ditolak</b></p>
-                    <p>Dilamar pada 8 Februari 2022</p>
-                </li>
-            </ul>
-        </div>
+        
     </>)
 }
 

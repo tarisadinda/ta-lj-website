@@ -1,6 +1,8 @@
 import ProfileLayout from "@/components/candidate/layouts/profile-layout";
 import OfferingCard from "@/components/candidate/offering/offering-card";
+import CustomAlert from "@/components/common/alert";
 import styles from "@/styles/pages/candidate/OfferingList.module.scss";
+import { getCookie, getCookies } from "cookies-next";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { axiosInstance } from "src/utils/axios";
@@ -14,6 +16,13 @@ export default function OfferingList() {
     type_request: "given_offer",
   });
   const [listApply, setListApply] = useState([]);
+  const [listJob, setListJob] = useState([]);
+  const cookieUser = getCookie("user");
+  const user = !!cookieUser && JSON.parse(cookieUser);
+  const userSkill = user?.candidate_detail?.skill?.map(
+    (value) => value?.combination_candidate_skills?.skill_id
+  );
+  const skillIds = userSkill?.map((skillId) => `skill=${skillId}`).join("&");
 
   const getApplyJob = () => {
     axiosInstance
@@ -29,8 +38,22 @@ export default function OfferingList() {
       .catch((err) => console.log(err));
   };
 
+  const getRecomendationJob = () => {
+    axiosInstance
+      .get(`/jobs?size=${3}&${skillIds}`)
+      .then((res) => {
+        if (res) {
+          const data = res?.data?.data?.data;
+          setListJob(data);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
+  
   useEffect(() => {
     getApplyJob();
+    getRecomendationJob();
   }, []);
 
   return (
@@ -39,12 +62,18 @@ export default function OfferingList() {
         <b>Penawaran Saya</b>
       </h2>
       <div className={styles.cardList}>
-      {listApply?.map((value, index) => (
-        <Link href="/candidate/offer-detail">
-          <OfferingCard data={value} />
-        </Link>
-      ))}
+        <p>Lowongan kerja yang cocok dengan keahlian anda</p>
+        {listJob?.map((value, index) => (
+          <OfferingCard key={index} isRecomendation={true} data={value} />
+        ))}
+        <p>Daftar Perusahaan yang menawarkan pekerjaan</p>
+        {listApply?.map((value, index) => (
+          <Link key={index} href="/candidate/offer-detail">
+            <OfferingCard data={value} />
+          </Link>
+        ))}
       </div>
+
     </>
   );
 }

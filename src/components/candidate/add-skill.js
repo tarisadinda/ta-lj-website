@@ -86,8 +86,14 @@ const AddSkill = ({ open, onClose }) => {
   };
 
   const handleSaveSkill = () => {
+    const formData = new FormData();
+
+    const data = selectedSkills.forEach((skillId) => {
+      formData.append("skill", JSON.stringify(skillId));
+    });
+
     axiosInstance
-      .post("/candidateDetail/addSkill", { skill: selectedSkills })
+      .post("/candidateDetail/addSkill", { skill: data })
       .then((res) => {
         if (res) {
           dispatch(setOpenAlert(true));

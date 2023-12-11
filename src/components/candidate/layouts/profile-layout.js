@@ -12,7 +12,7 @@ export default function ProfileLayout({ children }) {
     {
       label: "Lamaran Saya",
       value: 1,
-      path: "/candidate/application-list",
+      path: "/candidate/application",
     },
     // {
     //   label: "Keahlian Saya",

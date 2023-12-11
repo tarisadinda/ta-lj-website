@@ -41,7 +41,7 @@ export default function ApplicationList() {
       </h2>
       <div className={styles.cardList}>
         {listApply?.map((value, index) => (
-          <Link key={index + 1} href="/candidate/application-detail">
+          <Link key={index + 1} href={`/candidate/application/${value?.id}`}>
             <CompanyCard data={value} />
           </Link>
         ))}

@@ -7,7 +7,7 @@ export default function Filter({ pagination, setPagination }) {
     const checkedValue = parseInt(e.target.value); // Mengubah nilai string menjadi angka
     const isChecked = e.target.checked;
 
-    let updatedJobTypes = pagination?.career_levels?.slice(); // Duplicating the array
+    let updatedJobTypes = pagination?.job_type_works?.slice(); // Duplicating the array
 
     // Menambah atau menghapus nilai tergantung pada apakah checkbox dicentang atau tidak
     if (isChecked) {
@@ -18,7 +18,7 @@ export default function Filter({ pagination, setPagination }) {
       );
     }
 
-    setPagination({ ...pagination, career_levels: updatedJobTypes });
+    setPagination({ ...pagination, job_type_works: updatedJobTypes });
   };
 
   return (

@@ -7,14 +7,6 @@ import BorderColorIcon from "@mui/icons-material/BorderColor";
 import React, { useEffect, useState } from "react";
 import SubmitApplication from "@/components/candidate/apply-job/submit-application";
 import CustomAlert from "@/components/common/alert";
-import {
-  alertMessage,
-  openAlert,
-  setMessage,
-  setOpenAlert,
-  setSeverity,
-  severity,
-} from "src/redux/common/alertSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { axiosInstance } from "src/utils/axios";
@@ -28,14 +20,11 @@ export default function ApplyJob() {
   const type = "candidate_propose";
   const { slug } = router.query;
 
-  const isOpenAlert = useSelector(openAlert);
-  const alertMsg = useSelector(alertMessage);
-  const alertSeverity = useSelector(severity);
-
   const [clickSend, setClickSend] = useState(false);
   const [editApplication, setEditApplication] = useState(false);
   const [detailApply, setDetailApply] = useState({});
   const [description, setDescription] = useState("");
+  const [alert, setAlert] = useState(false);
 
   const modalEdit = () => {
     setEditApplication(true);
@@ -52,10 +41,8 @@ export default function ApplyJob() {
         if (res) {
           setClickSend(true);
 
-          dispatch(setOpenAlert(true));
-          dispatch(setMessage("Lamaran berhasil dikirim!"));
-          dispatch(setSeverity("success"));
-          router.push("/candidate/application-list");
+          setAlert(true);
+          router.push("/candidate/application");
         } else {
           setClickSend(false);
         }
@@ -153,14 +140,13 @@ export default function ApplyJob() {
         data={user}
         setDescription={setDescription}
         description={description}
-        
       />
       <CustomAlert
-        open={isOpenAlert}
-        severity={alertSeverity}
-        text={alertMsg}
+        open={alert}
+        severity={"success"}
+        text={"Lamaran Berhasil Dikirim!"}
         duration={3000}
-        onClose={() => dispatch(setOpenAlert(false))}
+        onClose={() => setAlert(false)}
       />
     </>
   );
