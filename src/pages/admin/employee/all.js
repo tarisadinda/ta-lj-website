@@ -41,16 +41,21 @@ export default function NewAccountList() {
         getUserList()
     }, [])
 
-    const detailData = () => {
-        router.push('/admin/employee/detail')
+    const detailData = (id) => {
+        router.push({
+            pathname: '/admin/employee/[id]',
+            query: { id: id }
+        }, `/admin/employee/${id}`, { shallow: true })
     }
 
     return(<>
         <h4><b>Kelola Kandidat</b></h4>
         <div className="mt-3">
             <CustomTable 
+                idKey="id"
                 columns={colNames}
                 data={users}
+                rowsPerPage='10'
                 detailFunc={detailData}
             />
         </div>

@@ -10,7 +10,6 @@ import EditIcon from '@mui/icons-material/Edit'
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile'
 import { useDispatch, useSelector } from 'react-redux'
 import ModalEditStatus from '@/components/company/modal/edit-application-status'
-import { openAlert, setOpenAlert } from 'src/redux/common/alertSlice'
 import { useRouter } from 'next/router'
 import { axiosInstance } from 'src/utils/axios'
 import { API_CANDIDATE_JOB } from 'src/utils/api'
@@ -21,11 +20,11 @@ export default function DetailApplicant() {
 
     const userId = router.query.id
 
-    const seeAlert = useSelector(openAlert)
     const [userData, setUserData] = React.useState('')
+    const [editStatus, setEditStatus] = React.useState(false)
 
     const handleStatusModal = () => {
-        dispatch(setOpenAlert(true))
+        setEditStatus(true)
     }
 
     const getDetailApplicant = () => {
@@ -85,7 +84,7 @@ export default function DetailApplicant() {
                 <p>Fulltime - WFO</p>
             </BlueCard>
         </div>
-        <ModalEditStatus open={seeAlert} handleClose={() => dispatch(setOpenModal(false))} />
+        <ModalEditStatus open={editStatus} handleClose={() => setEditStatus(false)} />
     </>)
 }
 
