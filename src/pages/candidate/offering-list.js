@@ -2,6 +2,7 @@ import ProfileLayout from "@/components/candidate/layouts/profile-layout";
 import OfferingCard from "@/components/candidate/offering/offering-card";
 import CustomAlert from "@/components/common/alert";
 import styles from "@/styles/pages/candidate/OfferingList.module.scss";
+import { Alert, AlertTitle } from "@mui/material";
 import { getCookie, getCookies } from "cookies-next";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -62,11 +63,20 @@ export default function OfferingList() {
         <b>Penawaran Saya</b>
       </h2>
       <div className={styles.cardList}>
-        <p>Lowongan kerja yang cocok dengan keahlian anda</p>
-        {listJob?.map((value, index) => (
-          <OfferingCard key={index} isRecomendation={true} data={value} />
-        ))}
-        <p>Daftar Perusahaan yang menawarkan pekerjaan</p>
+        <p className="mb-1"><b>Lowongan kerja yang cocok dengan keahlian anda</b></p>
+        {listJob.length == 0? 
+          <Alert severity="info">
+            <AlertTitle>Info</AlertTitle>
+            Belum ada lowongan yang sesuai dengan keahlian anda. Silahkan lengkap daftar keahlian anda untuk bisa mendapatkan rekomendasi lowongan kerja.
+          </Alert> :
+          listJob?.map((value, index) => (
+            <OfferingCard key={index} isRecomendation={true} data={value} />
+          ))
+        }
+        <p className="mb-1"><b>Daftar Perusahaan yang menawarkan pekerjaan</b></p>
+        <div className="card">
+          <p className={styles.noList}>Belum ada tawaran pekerjaan</p>
+        </div>
         {listApply?.map((value, index) => (
           <Link key={index} href="/candidate/offer-detail">
             <OfferingCard data={value} />

@@ -58,7 +58,7 @@ export default function SubmitApplication({
                 onChange={handleChange}
               />
               <div>
-                <p className={styles.fileName}>{data?.candidate_detail?.cv}</p>
+                <p className={styles.fileName}>{data?.candidate_detail?.cv?.split('/').pop()}</p>
                 <p className={styles.fileSize}>3MB</p>
               </div>
               <button

@@ -28,6 +28,7 @@ export default function ApplyJob() {
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("")
 
+  // console.log(detailApply)
   const modalEdit = () => {
     setEditApplication(true);
   };
@@ -75,7 +76,12 @@ export default function ApplyJob() {
     <>
       <div className={cn(styles.companyCard, "card")}>
         <div className={styles.companyInfo}>
-          <Avatar variant="rounded" sx={{ width: 120, height: 120 }} />
+          <Avatar 
+            src={detailApply.company_detail != undefined || null ? 
+              detailApply?.company_detail?.user?.img : ""}
+            variant="rounded" 
+            sx={{ width: 120, height: 120 }} 
+          />
           <div>
             <h3>
               <b>{detailApply?.name}</b>
@@ -105,8 +111,8 @@ export default function ApplyJob() {
             <p className="mb-2">
               <b>Curriculum Vitae/Resume</b>
             </p>
-            <Link href="#" className={styles.fileCV}>
-              {user?.candidate_detail?.cv}
+            <Link href={user.candidate_detail != undefined ? user?.candidate_detail?.cv : ""} className={styles.fileCV} target="_blank">
+              {user?.candidate_detail?.cv?.split('/').pop()}
             </Link>
             <span>
               Diupload pada{" "}
