@@ -36,8 +36,20 @@ export default function SearchEmployee() {
       .catch((err) => console.log(err));
   };
 
+  const getAllJobs = () => {
+    axiosInstance
+      .get(
+        `/jobs?size=${pagination.size}&page=${pagination.page}&search=${pagination.search}`
+      )
+      .then((res) => console.log(res))
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   useEffect(() => {
     getAllCandidate();
+    getAllJobs()
   }, []);
 
   const onSearchCandidate = () => {
@@ -63,7 +75,7 @@ export default function SearchEmployee() {
           </select>
           {isFilter && (
             <>
-              <select className="form-select">
+              <select disabled className="form-select">
                 <option value="1">Sma/Smk</option>
                 <option value="2">Diploma 3</option>
                 <option value="2">Strata 1</option>

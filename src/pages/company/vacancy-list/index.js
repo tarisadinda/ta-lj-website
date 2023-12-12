@@ -94,7 +94,7 @@ export default function VacancyList() {
   };
 
   const editJob = (id) => {
-    router.push("/edit-job-vacancy");
+    router.push("/company/edit-job-vacancy");
     console.log(id);
   };
 

@@ -25,6 +25,7 @@ export default function ApplyJob() {
   const [detailApply, setDetailApply] = useState({});
   const [description, setDescription] = useState("");
   const [alert, setAlert] = useState(false);
+  const [error, setError] = useState(false);
 
   const modalEdit = () => {
     setEditApplication(true);
@@ -45,9 +46,10 @@ export default function ApplyJob() {
           router.push("/candidate/application");
         } else {
           setClickSend(false);
+          setError(true);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => setError(true));
   };
 
   const getJobBySlug = () => {
@@ -145,6 +147,13 @@ export default function ApplyJob() {
         open={alert}
         severity={"success"}
         text={"Lamaran Berhasil Dikirim!"}
+        duration={3000}
+        onClose={() => setAlert(false)}
+      />
+      <CustomAlert
+        open={error}
+        severity={"error"}
+        text={"Lamaran Gagal Dikirim!"}
         duration={3000}
         onClose={() => setAlert(false)}
       />

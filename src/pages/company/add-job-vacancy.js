@@ -180,7 +180,7 @@ export default function JobVacancyForm() {
                             <label className="form-label">Posisi</label>
                             <input type="text" 
                                 className="form-control" 
-                                placeholder="Mobile Developer" 
+                                placeholder="Masukan posisi pekerjaan" 
                                 name='name' 
                                 onChange={handleChange}
                             />

@@ -15,11 +15,9 @@ import Link from "next/link";
 export default function Dashboard() {
   const dispatch = useDispatch();
   const company = useSelector(selectCompany);
-
-  const [pagination, setPagination] = useState({
-    size: 10,
-    page: 0,
-    search: "",
+  const [countJob, setCountJob] = useState({
+    total_job_active: 0,
+    total_all_job: 0,
   });
 
   const getProfileCompany = () => {
@@ -43,7 +41,7 @@ export default function Dashboard() {
             createdAt: data?.company_detail?.createdAt,
             updateAt: data?.company_detail?.updateAt,
           },
-        }
+        };
 
         dispatch(
           setCompany({
@@ -66,20 +64,22 @@ export default function Dashboard() {
           })
         );
 
-        setCookie(
-          "company_detail",
-          JSON.stringify(cookieData)
-        )
+        setCookie("company_detail", JSON.stringify(cookieData));
       }
     });
   };
 
-  const getAllJobs = () => {
+  const getCountJob = () => {
     axiosInstance
-      .get(
-        `/jobs?size=${pagination.size}&page=${pagination.page}&search=${pagination.search}`
-      )
-      .then((res) => console.log(res))
+      .get(`/companyDetail/getCountJob`)
+      .then((res) => {
+        const data = res?.data?.data;
+        setCountJob({
+          ...countJob,
+          total_all_job: data?.total_all_job,
+          total_job_active: data?.total_job_active_before_job_end,
+        });
+      })
       .catch((err) => {
         console.log(err);
       });
@@ -87,31 +87,38 @@ export default function Dashboard() {
 
   useEffect(() => {
     getProfileCompany();
-    getAllJobs();
+    getCountJob();
   }, []);
 
   useEffect(() => {
-    setCookie(
-      "company_detail",
-      JSON.stringify(company)
-    )
-  }, [company])
+    setCookie("company_detail", JSON.stringify(company));
+  }, [company]);
 
   return (
     <>
-      {company.company_detail.status_completed == true ? <></> :
-        <Collapse in={true} sx={{ marginBottom: '20px' }}>
-          <Alert severity="warning"> 
-              <AlertTitle>Info</AlertTitle>
-              Silahkan lengkapi profil anda untuk bisa membuat lowongan pekerjaan.{" "}<strong><Link href='/company/edit-company-profile' style={{ textDecoration: 'underline' }}>Lengkapi sekarang.</Link></strong>
+      {company.company_detail.status_completed == true ? (
+        <></>
+      ) : (
+        <Collapse in={true} sx={{ marginBottom: "20px" }}>
+          <Alert severity="warning">
+            <AlertTitle>Info</AlertTitle>
+            Silahkan lengkapi profil anda untuk bisa membuat lowongan pekerjaan.{" "}
+            <strong>
+              <Link
+                href="/company/edit-company-profile"
+                style={{ textDecoration: "underline" }}
+              >
+                Lengkapi sekarang.
+              </Link>
+            </strong>
           </Alert>
         </Collapse>
-      }
+      )}
       <CustomCard className={styles.card}>
         <Avatar sx={{ bgcolor: "#FFC68E" }}>
           <WorkIcon />
         </Avatar>
-        <p className="mb-0">5 Lowongan kerja di buka</p>
+        <p className="mb-0">{countJob.total_all_job} Lowongan kerja di buka</p>
       </CustomCard>
       <CustomCard className={styles.cardStatistic}>
         <Avatar sx={{ bgcolor: "#FFC68E" }}>

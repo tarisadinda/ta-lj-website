@@ -22,18 +22,20 @@ export default function OfferingCard({ data, isRecomendation, onClick }) {
     axiosInstance
       .post(`/candidateJob/applyJob/${data?.slug}`, dataUser)
       .then((res) => {
-        try {
-          setOpenAlert(true);
+        if (res.status === 201) {
+          setOpenAlert(true); // Tampilkan alert ketika respons 201 diterima
           setClickSend(true);
-        } catch (error) {
-          console.log(error);
-        } finally {
-          setOpenAlert(false);
+        } else {
+          setOpenAlert(false); // Tutup alert jika respons bukan 201
           setClickSend(false);
-          setError(false);
+          setError(true); // Set error jika respons bukan 201
         }
       })
-      .catch((err) => setError(true));
+      .catch((err) => {
+        setOpenAlert(false); // Tutup alert jika terjadi error
+        setClickSend(false);
+        setError(true); // Set error jika terjadi error
+      });
   };
 
   return (
