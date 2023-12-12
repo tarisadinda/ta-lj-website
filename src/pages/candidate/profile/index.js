@@ -99,27 +99,31 @@ export default function Profile() {
             </div>
           )}
         </div>
-        <div className="mt-2">
-          <b>Deskripsi diri</b>
-          <p>{userData?.candidate_detail?.description}</p>
-        </div>
-        <div className="mt-2 d-flex flex-column">
-          <b>CV</b>
-          <Link href={userData?.candidate_detail?.cv} target="_blank">
-            <Button
-              onClick={openCV}
-              endIcon={<LaunchIcon fontSize="small" />}
-              sx={{
-                width: 'max-content',
-                borderRadius: '50px',
-                paddingLeft: '20px',
-                paddingRight: '20px'
-              }}
-            >
-              {userData?.candidate_detail?.cv?.split('/').pop()}
-            </Button>
-          </Link>
-        </div>
+        {userData?.candidate_detail?.description != undefined &&
+          <div className="mt-2">
+            <b>Deskripsi diri</b>
+            <p>{userData?.candidate_detail?.description}</p>
+          </div>
+        }
+        {userData?.candidate_detail?.cv != undefined &&
+          <div className="mt-2 d-flex flex-column">
+            <b>CV</b>
+            <Link href={userData?.candidate_detail?.cv} target="_blank">
+              <Button
+                onClick={openCV}
+                endIcon={<LaunchIcon fontSize="small" />}
+                sx={{
+                  width: 'max-content',
+                  borderRadius: '50px',
+                  paddingLeft: '20px',
+                  paddingRight: '20px'
+                }}
+              >
+                {userData?.candidate_detail?.cv?.split('/').pop()}
+              </Button>
+            </Link>
+          </div>
+        }
         {userData?.email &&
           userData?.candidate_detail?.address === null &&
           userData?.candidate_detail?.phone_number && (
