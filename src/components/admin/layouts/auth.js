@@ -18,16 +18,16 @@ export default function LayoutAuth({ children }) {
   return (
     <>
       <style jsx global>{`
-        .auth-wrap {
-            height: 100%;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            display: flex;
-            flex-direction: column;
-            padding: 50px 0px 30px 0px;
-        }
+        // .auth-wrap {
+        //     height: 100%;
+        //     position: absolute;
+        //     top: 50%;
+        //     left: 50%;
+        //     transform: translate(-50%, -50%);
+        //     display: flex;
+        //     flex-direction: column;
+        //     padding: 50px 0px 30px 0px;
+        // }
 
         .main {
             height: auto;
@@ -38,9 +38,9 @@ export default function LayoutAuth({ children }) {
       `}</style>
       <ThemeProvider theme={theme}>
         <div className={inter.className}>
-          <div className='container auth-wrap'>
+          <div className='container'>
             <main className='main flex-grow-1'>{children}</main>
-            <div className='mt-5'>
+            <div className='mt-4'>
               <Footer />
             </div>
           </div>

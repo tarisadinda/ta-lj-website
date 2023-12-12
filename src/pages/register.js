@@ -102,6 +102,8 @@ export default function Register() {
                 setValue('password', '')
                 setValue('confirm_pass', '')
             }
+
+            setTimeout(router.push('/login'), 2000)
         }).catch((err) => {
             console.log(err)
             if(err.response.status == 400) {
@@ -112,12 +114,12 @@ export default function Register() {
         })
     }
 
-    React.useEffect(() => {
-        if(!openAlert && clickSend) {
-            router.push('/login')
-            setClickSend(false)
-        }
-    }, [openAlert, clickSend])
+    // React.useEffect(() => {
+    //     if(!openAlert && clickSend) {
+    //         router.push('/login')
+    //         setClickSend(false)
+    //     }
+    // }, [openAlert, clickSend])
     console.log(errors) 
     console.log(userAccount)
     console.log(roleId)
@@ -230,16 +232,13 @@ export default function Register() {
             </form>
             <span className={cn(styles.loginWrap, "mt-3 mb-4")}>Sudah punya akun? <Link className={styles.loginBtn} href='/login'>Login</Link></span>
         </div>
-        <div>
-            <CustomAlert
-                open={openAlert}
-                onClose={() => setOpenAlert(false)}
-                duration={1700}
-                severity={severity}
-                text={errorMsg}
-            />
-        </div>
-        
+        <CustomAlert
+            open={openAlert}
+            onClose={() => setOpenAlert(false)}
+            duration={2000}
+            severity={severity}
+            text={errorMsg}
+        />
     </>)
 }
 
