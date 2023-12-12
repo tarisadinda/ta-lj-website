@@ -3,7 +3,7 @@ import CustomTable from "@/components/common/table"
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
-import { API_CANDIDATE } from "src/utils/api"
+import { API_CANDIDATE, API_USERS } from "src/utils/api"
 import { axiosInstance } from "src/utils/axios"
 import { convertDate } from "src/utils/convert-date"
 
@@ -19,27 +19,36 @@ const colNames = [
         render: (data) => <span>{data.email}</span>
     },
     {
-        id: 'candidate_detail.createdAt',
+        id: 'createdAt',
         label: 'Tanggal Mendaftar',
-        render: (data) => <span>{convertDate(data.candidate_detail?.createdAt)}</span>
+        render: (data) => <span>{convertDate(data.createdAt)}</span>
     },
 ]
 
 export default function NewAccountList() {
     const router = useRouter()
 
+    const [page, setPage] = useState(0)
     const [users, setUsers] = useState([])
 
     const getUserList = () => {
-        axiosInstance.get(API_CANDIDATE)
-        .then((res) => {
-            setUsers(res.data.data.data)
+        axiosInstance.get(API_USERS, {
+            params: {
+                size: 10,
+                page: page,
+                role_id: 3
+            }
+        }).then((res) => {
+            console.log(res.data.data.user.data)
+            setUsers(res.data.data.user.data)
         }).catch((err) => console.log(err))
     }
 
     useEffect(() => {
         getUserList()
     }, [])
+
+    console.log(users)
 
     const detailData = (id) => {
         router.push({
