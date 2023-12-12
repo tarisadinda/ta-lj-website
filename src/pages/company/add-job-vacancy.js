@@ -158,36 +158,11 @@ export default function JobVacancyForm() {
         skillList.forEach((skillId) => {
             formData.append('skill', skillId);
         });
-        console.log(formData)
-        // axiosInstance.post(API_JOBS, formData)
-        // .then((res) => {
-        //     if(res.status == 201) {
-        //         dispatch(setOpenAlert(true))
-        //         dispatch(setMessage('Data berhasil ditambahkan'))
-        //         dispatch(setSeverity('success'))
-
-        //         setJobForm({
-        //             name: '',
-        //             description: '',
-        //             salary_min: '',
-        //             salary_max: '',
-        //             start_date: '',
-        //             end_date: '',
-        //             time_experiences_id: '',
-        //             job_type_work_id: '',
-
-        //         })
-        //         setSkillList([])
-        //     }
-        // }).catch((err) => console.log(err))
 
         axiosInstance({
             method: 'post',
             url: API_JOBS,
             data: formData,
-            // headers: {
-            //     'Content-Type': 'application/json',
-            // }
         }).then((res) => {
             console.log(res)
         }).catch((err) => {
