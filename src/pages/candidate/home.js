@@ -20,10 +20,11 @@ export default function Home() {
     size: 10,
     page: 0,
     search: "",
-    career_levels: [],
-    job_type_works: null,
+    career_levels: null,
+    job_type_works: [],
   });
 
+  console.log(pagination)
   const getProfile = () => {
     axiosInstance
       .get("/candidateDetail")
@@ -62,24 +63,45 @@ export default function Home() {
   };
 
   const getJobs = () => {
-    axiosInstance
-      .get(`/jobs`, {
-        params: {
-          size: pagination.size,
-          page: pagination.page,
-          search: pagination.search,
-          career_levels: pagination.career_levels,
-          job_type_works:
-            pagination.job_type_works !== null ? pagination.job_type_works : "",
-        },
-      })
-      .then((res) => {
-        const data = res?.data?.data?.data;
-        if (res) {
-          setJobList(data);
-        }
-      })
-      .catch((err) => console.log(err));
+    axiosInstance({
+      method: "get",
+      url: "/jobs",
+      params: {
+        size: pagination.size,
+        page: pagination.page,
+        search: pagination.search,
+        career_levels: pagination.career_levels,
+        ...pagination.job_type_works.reduce((acc, value, index) => {
+          acc[`job_type_works`] = value;
+          return acc;
+        }, {})
+      },
+    })
+    .then((res) => {
+      const data = res?.data?.data?.data;
+      if (res) {
+        setJobList(data);
+      }
+    })
+    .catch((err) => console.log(err));
+    // axiosInstance
+    //   .get(`/jobs`, {
+    //     params: {
+    //       size: pagination.size,
+    //       page: pagination.page,
+    //       search: pagination.search,
+    //       career_levels: pagination.career_levels,
+    //       job_type_works:
+    //         pagination.job_type_works.length != 0 ? pagination.job_type_works : "",
+    //     },
+    //   })
+    //   .then((res) => {
+    //     const data = res?.data?.data?.data;
+    //     if (res) {
+    //       setJobList(data);
+    //     }
+    //   })
+    //   .catch((err) => console.log(err));
   };
 
   useEffect(() => {

@@ -88,25 +88,28 @@ const AddSkill = ({ open, onClose }) => {
   const handleSaveSkill = () => {
     const formData = new FormData();
 
-    const data = selectedSkills.forEach((skillId) => {
+    selectedSkills.forEach((skillId) => {
       formData.append("skill", JSON.stringify(skillId));
     });
 
-    axiosInstance
-      .post("/candidateDetail/addSkill", { skill: data })
-      .then((res) => {
-        if (res) {
-          dispatch(setOpenAlert(true));
-          dispatch(setMessage("Profile berhasil diperbarui!"));
-          dispatch(setSeverity("success"));
-          setTimeout(onClose, 2000);
-        }
-      })
-      .catch((err) => {
+    axiosInstance({
+      method: "post",
+      url: '/candidateDetail/addSkill',
+      data: formData
+    })
+    .then((res) => {
+      if (res) {
         dispatch(setOpenAlert(true));
-        dispatch(setMessage(err?.response?.data?.message));
-        dispatch(setSeverity("error"));
-      });
+        dispatch(setMessage("Keahlian berhasil ditambahkan!"));
+        dispatch(setSeverity("success"));
+        setTimeout(onClose, 2000);
+      }
+    })
+    .catch((err) => {
+      dispatch(setOpenAlert(true));
+      dispatch(setMessage(err?.response?.data?.message));
+      dispatch(setSeverity("error"));
+    });
   };
 
   return (
