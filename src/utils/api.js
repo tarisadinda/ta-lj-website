@@ -1,6 +1,7 @@
 export const API_REGIS = '/users/register'
 export const API_LOGIN = '/users/login'
 export const API_USERS = '/users'
+export const API_USER_DETAIL = '/candidateDetail'
 export const API_CATEGORY_LIST = '/operation/category/index'
 export const API_ADD_CAT = '/job-type-work'
 export const API_EDIT_CAT = '/operation/category/update/'

@@ -10,6 +10,8 @@ import qualificationSlice from "./admin/qualificationSlice"
 import rolePermissionSlice from "./admin/permissionSlice"
 import candidateListSlice from "./company/candidateSlice"
 import candidateDetailSlice from "./company/candidateDetailSlice"
+import profileSlice from "./candidate/profileSlice"
+import jobTypeSlice from "./admin/jobTypeSlice"
 
 export const store = configureStore({
     reducer: {
@@ -22,7 +24,9 @@ export const store = configureStore({
         qualifications: qualificationSlice,
         rolePermission: rolePermissionSlice,
         candidateAppliedList: candidateListSlice,
-        candidateDetail: candidateDetailSlice
+        candidateDetail: candidateDetailSlice,
+        profile: profileSlice,
+        jobType: jobTypeSlice
     },
     middleware: [thunk]
 })
