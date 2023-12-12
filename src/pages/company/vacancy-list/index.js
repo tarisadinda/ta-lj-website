@@ -11,6 +11,7 @@ import SVGAdd from "@/public/icons/add.svg";
 import { axiosInstance } from "src/utils/axios";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import ModalDeleteJob from "@/components/company/modal/delete-job";
 
 const colNames = [
   {
@@ -37,8 +38,10 @@ const colNames = [
 
 export default function VacancyList() {
   const router = useRouter();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
+  const [modalDelete, setModalDelete] = useState(false);
+  const [id, setId] = useState()
   const [pagination, setPagination] = useState({
     size: 10,
     page: 0,
@@ -47,8 +50,8 @@ export default function VacancyList() {
   const [listJob, setListJob] = useState({});
   const [job, setJob] = useState({
     totalJob: null,
-    openJob: null
-  })
+    openJob: null,
+  });
 
   const getAllJobs = () => {
     axiosInstance
@@ -56,7 +59,11 @@ export default function VacancyList() {
       .then((res) => {
         if (res) {
           const data = res?.data?.data;
-          setJob({...job, totalJob: data?.pagination?.total, openJob: data?.data?.map((value) => value.status)})
+          setJob({
+            ...job,
+            totalJob: data?.pagination?.total,
+            openJob: data?.data?.map((value) => value.status),
+          });
           setListJob(
             data?.data.map((value) => {
               return {
@@ -65,7 +72,7 @@ export default function VacancyList() {
                 status: true ? "Buka" : "Tutup",
                 slug: value.slug,
                 applicantAccepted: "-",
-                entryApplication: "-"
+                entryApplication: "-",
               };
             })
           );
@@ -80,8 +87,8 @@ export default function VacancyList() {
 
   const detailBtn = (slug) => {
     router.push({
-      pathname: '/company/vacancy-list/[slug]',
-      query: { slug: slug }
+      pathname: "/company/vacancy-list/[slug]",
+      query: { slug: slug },
     });
   };
 
@@ -90,11 +97,12 @@ export default function VacancyList() {
   };
 
   const deleteJob = (id) => {
-    console.log(id);
+    setModalDelete(true);
+    setId(id)
   };
 
   const editJob = (id) => {
-    router.push("/company/edit-job-vacancy");
+    router.push(`/company/${id}`);
     console.log(id);
   };
 
@@ -124,15 +132,16 @@ export default function VacancyList() {
         <div className="mt-3">
           <CustomTable
             columns={colNames}
-            idKey="slug"
+            idKey="id"
             data={listJob}
-            rowsPerPage='10'
+            rowsPerPage="10"
             deleteFunc={deleteJob}
             detailFunc={detailBtn}
             editFunc={editJob}
           />
         </div>
       </div>
+      <ModalDeleteJob open={modalDelete} handleClose={() => setModalDelete(false)} id={id} getAllJobs={getAllJobs} />
     </>
   );
 }

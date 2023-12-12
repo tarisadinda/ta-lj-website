@@ -26,6 +26,7 @@ export default function ApplyJob() {
   const [description, setDescription] = useState("");
   const [alert, setAlert] = useState(false);
   const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("")
 
   const modalEdit = () => {
     setEditApplication(true);
@@ -49,7 +50,9 @@ export default function ApplyJob() {
           setError(true);
         }
       })
-      .catch((err) => setError(true));
+      .catch((err) => {
+        setErrorMessage(err?.response?.data?.message)
+        setError(true)});
   };
 
   const getJobBySlug = () => {
@@ -147,15 +150,15 @@ export default function ApplyJob() {
         open={alert}
         severity={"success"}
         text={"Lamaran Berhasil Dikirim!"}
-        duration={3000}
+        duration={1500}
         onClose={() => setAlert(false)}
       />
       <CustomAlert
         open={error}
         severity={"error"}
-        text={"Lamaran Gagal Dikirim!"}
-        duration={3000}
-        onClose={() => setAlert(false)}
+        text={errorMessage ? errorMessage : "Lamaran Gagal Dikirim!"}
+        duration={1500}
+        onClose={() => setError(false)}
       />
     </>
   );

@@ -11,6 +11,7 @@ import { axiosInstance } from "src/utils/axios";
 export default function OfferingCard({ data, isRecomendation, onClick }) {
   const [openAlert, setOpenAlert] = useState(false);
   const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [clickSend, setClickSend] = useState(false);
   const type = "candidate_propose";
 
@@ -34,6 +35,7 @@ export default function OfferingCard({ data, isRecomendation, onClick }) {
       .catch((err) => {
         setOpenAlert(false); // Tutup alert jika terjadi error
         setClickSend(false);
+        setErrorMessage(err?.response?.data?.message);
         setError(true); // Set error jika terjadi error
       });
   };
@@ -94,7 +96,7 @@ export default function OfferingCard({ data, isRecomendation, onClick }) {
         <CustomAlert
           open={error}
           severity={"error"}
-          text={"Lamaran Gagal dikirim!"}
+          text={errorMessage ? errorMessage : "Lamaran Gagal dikirim!"}
           duration={1500}
           onClose={() => {
             setError(false);
