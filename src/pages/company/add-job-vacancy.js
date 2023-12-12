@@ -10,9 +10,11 @@ import CustomAlert from '@/components/common/alert'
 import { alertMessage, openAlert, setMessage, setOpenAlert, setSeverity, severity } from 'src/redux/common/alertSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { formatJsDate } from 'src/utils/date-formatter'
+import { useRouter } from 'next/router'
 
 export default function JobVacancyForm() {
     const dispatch = useDispatch()
+    const router = useRouter()
 
     const isOpenAlert = useSelector(openAlert)
     const alertMsg = useSelector(alertMessage)
@@ -69,7 +71,6 @@ export default function JobVacancyForm() {
     const getJobType = () => {
         axiosInstance.get(API_JOB_TYPE)
         .then((res) => {
-            console.log(res)
             setJobType(res.data.data.data)
         }).catch((err) => {
             console.log(err)
@@ -97,6 +98,7 @@ export default function JobVacancyForm() {
     }
 
     console.log(skillList)
+    console.log(skill)
     React.useEffect(() => {
         getQualifications()
         getYear()
@@ -108,8 +110,10 @@ export default function JobVacancyForm() {
     const selectSkill = (e) => {
         if(!(skillList.includes(e.target.value))) {
             setSkillList((prevData) => [
-                ...prevData,
-                e.target.value
+                ...prevData, {
+                    id: e.target.value,
+                    label: e.target.options[event.target.selectedIndex].text
+                }
             ])
         }
     }
@@ -155,8 +159,9 @@ export default function JobVacancyForm() {
         formData.append('career_level_id', jobForm.career_level_id);
         formData.append('qualification_id', jobForm.qualification_id);
 
+        console.log(formData)
         skillList.forEach((skillId) => {
-            formData.append('skill', skillId);
+            formData.append('skill', skillId.id);
         });
 
         axiosInstance({
@@ -167,13 +172,20 @@ export default function JobVacancyForm() {
             console.log(res)
         }).catch((err) => {
             console.log(err)
+            dispatch(setOpenAlert(true))
+            dispatch(setMessage(err.response.data.message))
+            dispatch(setSeverity('error'))
         })
     }
 
+    const cancelBtn = () => {
+        router.back()
+    }
+    console.log(skillList)
     return(<>
         <CustomCard sx={{ width: '100%', padding: '60px' }}>
             <h4 className='d-flex justify-content-center mb-5'><b>Tambah Lowongan Baru</b></h4>
-            <form onSubmit={submitForm}>
+            <div>
                 <div className={styles.inputWrapper}>
                     <div className='row'>
                         <div className='col'>
@@ -294,8 +306,8 @@ export default function JobVacancyForm() {
                         <div className={styles.selectedList}>
                             {skillList.map((item, index) => (
                                 <CustomChip
-                                    key={item}
-                                    label={item?.name}
+                                    key={index}
+                                    label={item?.label}
                                     onDelete={() => deleteSkill(index)}
                                     bgcolor='#FF9D3E'
                                 />
@@ -304,16 +316,16 @@ export default function JobVacancyForm() {
                     </div>
                 </div>
                 <div className={styles.actionBtn}>
-                    <button className={cn(styles.cancelBtn, 'btn btn-secondary blue')}>Batal</button>
-                    <button type='submit' className={cn(styles.uploadBtn, 'btn btn-primary blue')}>Unggah Pekerjaan</button>
+                    <button onClick={cancelBtn} className={cn(styles.cancelBtn, 'btn btn-secondary blue')}>Batal</button>
+                    <button onClick={submitForm} className={cn(styles.uploadBtn, 'btn btn-primary blue')}>Unggah Pekerjaan</button>
                 </div>
-            </form>
+            </div>
         </CustomCard>
         <CustomAlert
             open={isOpenAlert} 
             severity={alertSeverity}
             text={alertMsg}
-            duration={3000} 
+            duration={2800} 
             onClose={() => dispatch(setOpenAlert(false))} 
         />
     </>)
