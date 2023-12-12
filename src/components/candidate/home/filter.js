@@ -6,7 +6,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchJobType, jobTypeData } from "src/redux/admin/jobTypeSlice";
 
-export default function Filter({ pagination, setPagination }) {
+export default function Filter({ pagination, setPagination, resetBtn }) {
   const dispatch = useDispatch()
 
   const tempLevel = useSelector(careerLevelData)
@@ -16,12 +16,10 @@ export default function Filter({ pagination, setPagination }) {
   const tempJobType = useSelector(jobTypeData)
   const jobTypeList = tempJobType.jobType?.data?.data
 
-  console.log(jobTypeList)
   const handleCheckboxChange = (e) => {
-    const checkedValue = e.target.value; // Mengubah nilai string menjadi angka
+    const checkedValue =  parseInt(e.target.value); // Mengubah nilai string menjadi angka
     const isChecked = e.target.checked;
 
-    console.log(checkedValue)
     let updatedJobTypes = pagination?.job_type_works?.slice(); // Duplicating the array
 
     // Menambah atau menghapus nilai tergantung pada apakah checkbox dicentang atau tidak
@@ -33,10 +31,10 @@ export default function Filter({ pagination, setPagination }) {
       );
     }
 
-    console.log(updatedJobTypes)
     setPagination({ ...pagination, job_type_works: updatedJobTypes });
   };
 
+  console.log(pagination)
   React.useEffect(() => {
     dispatch(fetchCareerLevel())
     dispatch(fetchJobType())
@@ -54,7 +52,7 @@ export default function Filter({ pagination, setPagination }) {
         <div className={styles.category}>
           <p>Tipe Pekerjaan</p>
           {jobTypeList?.map((item, index) => (
-            <div className="form-check">
+            <div className="form-check" key={index}>
               <input
                 name="time"
                 className="form-check-input"
@@ -78,17 +76,21 @@ export default function Filter({ pagination, setPagination }) {
                 className="form-check-input"
                 type="radio"
                 value={item.id}
-                id={index}
+                id={`level-${item.id}`}
                 onChange={(e) =>
                   setPagination({ ...pagination, career_levels: e.target.value })
                 }
+                checked={pagination.career_levels == item.id ? true : false}
               />
-              <label className="form-check-label" htmlFor={index}>
+              <label className="form-check-label" htmlFor={`level-${item.id}`}>
                 {item.name}
               </label>
             </div>
           ))}
         </div>
+        <button onClick={resetBtn} className={cn(styles.filterBtn, "btn btn-primary blue")}>
+          Reset
+        </button>
       </div>
     </>
   );

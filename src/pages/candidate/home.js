@@ -8,12 +8,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectUser, setUser } from "src/redux/common/userSlice";
 import { axiosInstance } from "src/utils/axios";
 import { setCookie } from "cookies-next";
+import SortByCard from "@/components/candidate/home/sort-by-card";
 
 export default function Home() {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
   setCookie("user", user)
 
+  const [sortBy, setSortBy] = useState("updates")
   const [isLoading, setIsLoading] = useState(false);
   const [jobList, setJobList] = useState([]);
   const [pagination, setPagination] = useState({
@@ -25,6 +27,22 @@ export default function Home() {
   });
 
   console.log(pagination)
+  const handleSort = (val) => {
+    setSortBy(val)
+  }
+
+  const resetBtn = () => {
+    setSortBy("updates")
+  }
+
+  const resetFilter = () => {
+    setPagination({
+      ...pagination,
+      career_levels: null,
+      job_type_works: [],
+    })
+  }
+
   const getProfile = () => {
     axiosInstance
       .get("/candidateDetail")
@@ -70,6 +88,7 @@ export default function Home() {
         size: pagination.size,
         page: pagination.page,
         search: pagination.search,
+        order_by: sortBy,
         career_levels: pagination.career_levels,
         ...pagination.job_type_works.reduce((acc, value, index) => {
           acc[`job_type_works`] = value;
@@ -84,29 +103,11 @@ export default function Home() {
       }
     })
     .catch((err) => console.log(err));
-    // axiosInstance
-    //   .get(`/jobs`, {
-    //     params: {
-    //       size: pagination.size,
-    //       page: pagination.page,
-    //       search: pagination.search,
-    //       career_levels: pagination.career_levels,
-    //       job_type_works:
-    //         pagination.job_type_works.length != 0 ? pagination.job_type_works : "",
-    //     },
-    //   })
-    //   .then((res) => {
-    //     const data = res?.data?.data?.data;
-    //     if (res) {
-    //       setJobList(data);
-    //     }
-    //   })
-    //   .catch((err) => console.log(err));
   };
 
   useEffect(() => {
     getJobs();
-  }, [pagination]);
+  }, [pagination, sortBy]);
 
   const onSearchJob = () => {
     if (pagination.search === "") {
@@ -136,7 +137,10 @@ export default function Home() {
           />
         </div>
         <div className={styles.mainContent}>
-          <Filter pagination={pagination} setPagination={setPagination} />
+          <div>
+            <SortByCard setSort={handleSort} resetBtn={resetBtn} sortBy={sortBy} />
+            <Filter pagination={pagination} setPagination={setPagination} resetBtn={resetFilter} />
+          </div>
           <div className={styles.jobList}>
             {jobList &&
               jobList?.map((value, index) => (

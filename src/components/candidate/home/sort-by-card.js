@@ -19,7 +19,6 @@ export default function SortByCard({ setSort, resetBtn, sortBy }) {
         setSort(e.target.value)
     }
 
-    console.log(sortBy)
     return(<>
         <div className={cn(styles.filterWrap, "card mb-3")}>
             <b>Urutkan Berdasarkan</b>
