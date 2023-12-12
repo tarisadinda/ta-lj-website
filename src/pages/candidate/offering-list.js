@@ -40,7 +40,7 @@ export default function OfferingList() {
 
   const getRecomendationJob = () => {
     axiosInstance
-      .get(`/jobs?size=${3}&${skillIds}`)
+      .get(`/jobs/recommendation?size=${3}&${skillIds}`)
       .then((res) => {
         if (res) {
           const data = res?.data?.data?.data;
