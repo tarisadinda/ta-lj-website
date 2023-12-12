@@ -1,6 +1,6 @@
 import cn from "classnames";
 import styles from "@/styles/pages/candidate/Profile.module.scss";
-import { Avatar, Card, IconButton } from "@mui/material";
+import { Avatar, Card, Chip, IconButton, Button } from "@mui/material";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { useRouter } from "next/router";
@@ -12,6 +12,8 @@ import AddSkill from "@/components/candidate/add-skill";
 import { useEffect, useState } from "react";
 import { CustomChip } from "@/components/common/chip";
 import { getCookie } from "cookies-next";
+import LaunchIcon from '@mui/icons-material/Launch';
+
 export default function Profile() {
   const router = useRouter();
   const [modalAddSkill, setModalAddSkill] = useState(false);
@@ -35,7 +37,12 @@ export default function Profile() {
     setModalAddSkill(true);
   };
 
+  console.log(userData?.candidate_detail?.cv?.split('/').pop())
   console.log(userData)
+
+  const openCV = () => {
+    console.log('cv')
+  }
 
   return (
     <>
@@ -68,19 +75,13 @@ export default function Profile() {
           <div>
             <div>
               <b>Email</b>
-              <p>{userData?.email}</p>
+              <p className="mb-0">{userData?.email}</p>
             </div>
-            {userData?.candidate_detail?.address && (
-              <div className={styles.skillSection}>
-                <b>Alamat</b>
-                <p>{userData?.candidate_detail?.address}</p>
-              </div>
-            )}
           </div>
           <div>
             <div>
               <b>Nomor Handphone</b>
-              <p>{userData?.candidate_detail?.phone_number}</p>
+              <p className="mb-0">{userData?.candidate_detail?.phone_number}</p>
             </div>
           </div>
           <div className={styles.group}>
@@ -89,6 +90,35 @@ export default function Profile() {
               <span>Edit Informasi</span>
             </button>
           </div>
+        </div>
+        <div>
+          {userData?.candidate_detail?.address && (
+            <div className="mt-2">
+              <b>Alamat</b>
+              <p>{userData?.candidate_detail?.address}</p>
+            </div>
+          )}
+        </div>
+        <div className="mt-2">
+          <b>Deskripsi diri</b>
+          <p>{userData?.candidate_detail?.description}</p>
+        </div>
+        <div className="mt-2 d-flex flex-column">
+          <b>CV</b>
+          <Link href={userData?.candidate_detail?.cv} target="_blank">
+            <Button
+              onClick={openCV}
+              endIcon={<LaunchIcon fontSize="small" />}
+              sx={{
+                width: 'max-content',
+                borderRadius: '50px',
+                paddingLeft: '20px',
+                paddingRight: '20px'
+              }}
+            >
+              {userData?.candidate_detail?.cv?.split('/').pop()}
+            </Button>
+          </Link>
         </div>
         {userData?.email &&
           userData?.candidate_detail?.address === null &&

@@ -56,7 +56,7 @@ export default function Skills() {
     const getSkill = () => {
         axiosInstance.get(API_SKILL, {
             params: {
-                size: 3,
+                size: 10,
                 page: page
             },
         }).then((res) => {
@@ -126,7 +126,7 @@ export default function Skills() {
                 deleteFunc={deleteModal}
                 editFunc={editModal}
                 getPage={getCurrPage}
-                rowsPerPage='3'
+                rowsPerPage='10'
             />
         </div>
         <EditSkillModal

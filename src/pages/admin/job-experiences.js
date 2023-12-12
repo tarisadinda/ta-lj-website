@@ -113,6 +113,7 @@ export default function JobExperience() {
                 idKey='id'
                 deleteFunc={deleteModal}
                 editFunc={editModal}
+                rowsPerPage='10'
             />
         </div>
         <CustomAlert open={isOpenAlert} 
