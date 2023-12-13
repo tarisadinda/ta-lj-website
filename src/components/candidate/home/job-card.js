@@ -7,6 +7,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn'
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet'
 import { useRouter } from 'next/router'
 import { formatRupiah } from 'src/utils/formatRupiah'
+import { formatDate } from 'src/utils/date-formatter'
 
 export default function JobCard({data, key}) {
     const router = useRouter()
@@ -15,6 +16,7 @@ export default function JobCard({data, key}) {
         router.push(`/candidate/job/${data?.slug}`)
     }
 
+    console.log(data)
     return (<>
         <div key={key}>
             <div className={cn(styles.cardWrap, 'card')}>
@@ -58,6 +60,7 @@ export default function JobCard({data, key}) {
                     <span>Rp {formatRupiah(data?.salary_min)} - Rp {formatRupiah(data?.salary_max)}</span>
                 </div>
                 <div className={styles.btnWrap}>
+                    <span className='form-text'>{formatDate(data.createdAt)}</span>
                     <button onClick={applyBtn} className={cn(styles.applyBtn, 'btn-primary blue')}>Lamar</button>
                 </div>
             </div>

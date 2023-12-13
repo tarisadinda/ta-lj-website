@@ -1,7 +1,7 @@
 import React from "react";
 import cn from "classnames";
 import styles from "@/styles/components/candidate/Navbar.module.scss";
-import { Avatar, Menu, MenuItem } from "@mui/material";
+import { Avatar, ClickAwayListener, Menu, MenuItem } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -54,17 +54,29 @@ export default function Navbar() {
                   <ExpandMoreIcon sx={{ color: "#F5F5F5" }} />
                 </div>
               </div>
-              <Menu
+              {
+                openDropdown &&
+                <ClickAwayListener onClickAway={handleDropdown}>
+                  <div className={`${styles.menuList} ${openDropdown ? styles.slideInFromBottom : styles.slideOutToBottom}`}>
+                    <div onClick={goToProfile} className={styles.userOption}>
+                      Profil Saya
+                    </div>
+                    <div onClick={handleDropdown}>Ubah password</div>
+                    <div onClick={logout}>Logout</div>
+                  </div>
+                </ClickAwayListener>
+              }
+              {/* <Menu
                 open={openDropdown}
                 onClick={handleDropdown}
-                sx={{
-                  "& .MuiPaper-root": {
-                    position: "absolute",
-                    top: "40px !important",
-                    left: "1015px !important",
-                    width: "180px",
-                  },
-                }}
+                // sx={{
+                //   "& .MuiPaper-root": {
+                //     position: "absolute",
+                //     top: "40px !important",
+                //     left: "1015px !important",
+                //     width: "180px",
+                //   },
+                // }}
                 id="account-menu"
                 PaperProps={{
                   elevation: 0,
@@ -92,7 +104,7 @@ export default function Navbar() {
                 </MenuItem>
                 <MenuItem onClick={handleDropdown}>Ubah password</MenuItem>
                 <MenuItem onClick={logout}>Logout</MenuItem>
-              </Menu>
+              </Menu> */}
             </div>
           </div>
         </div>

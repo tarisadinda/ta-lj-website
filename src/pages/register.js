@@ -103,7 +103,9 @@ export default function Register() {
                 setValue('confirm_pass', '')
             }
 
-            setTimeout(router.push('/login'), 2000)
+            setTimeout(() => {
+                router.push("/login");
+            }, 2000);
         }).catch((err) => {
             console.log(err)
             if(err.response.status == 400) {

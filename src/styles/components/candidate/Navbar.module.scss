@@ -1,3 +1,26 @@
+@keyframes slideInFromBottom {
+    0% {
+      transform: translateY(50%);
+      opacity: 0;
+    }
+    50% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+}
+
+@keyframes slideOutToBottom {
+    0% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+}
+
+  
 .navWrapper {
     background-color: $blue-2;
     z-index: 1000;
@@ -28,9 +51,35 @@
 
 .accountMenu {
     position: relative;
-    width: max-content;
+    width: 160px;
     height: 100%;
     cursor: pointer;
+}
+
+.menuList {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    background-color: #FFF;
+    padding: 15px 0px;
+    border-radius: 10px;
+    width: 100%;
+    margin-top: 5px;
+
+    div {
+        padding: 10px 15px;
+
+        &:hover {
+            background-color: $gray-4;
+        }
+    }
+}
+
+.slideInFromBottom {
+    animation: slideInFromBottom 0.3s ease-out;
+}
+  
+.slideOutToBottom {
+    animation: slideOutToBottom 0.3s ease-out;
 }
 
 .userBtn {
