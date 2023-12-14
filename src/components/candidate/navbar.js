@@ -43,7 +43,7 @@ export default function Navbar() {
     setOpenDropdown(!openDropdown);
   };
 
-  console.log(user?.full_name.split(' ')[0])
+  console.log(userProfile?.full_name.split(' ')[0])
 
   return (
     <>

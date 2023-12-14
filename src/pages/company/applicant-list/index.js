@@ -46,12 +46,12 @@ export default function ApplicantList() {
             job_name: item.job.name,
             status: item.status
     }))
-    const countProcess = dataApplied.filter((item) => item.status == 'processed').length
+    const countProcess = dataApplied?.filter((item) => item.status == 'processed').length
     const [page, setPage] = React.useState(0)
 
     console.log(appliedList)
     console.log(dataApplied)
-    console.log(countProcess)
+    
     const getCurrPage = (number) => {
         setPage(number)
     }

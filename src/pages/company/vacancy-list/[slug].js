@@ -42,6 +42,11 @@ export default function VacancyDetail() {
 
   const [jobVacancy, setJobVacancy] = useState();
   const [candidateList, setCandidateList] = useState([]);
+  const [page, setPage] = React.useState(0)
+
+  const getCurrPage = (number) => {
+    setPage(number)
+  }
 
   const detailBtn = (id) => {
     router.push(`/company/applicant-list/detail-applicant/${id}`);
@@ -63,7 +68,6 @@ export default function VacancyDetail() {
     axiosInstance
       .get(`${API_JOBS}/slug/${slug}`)
       .then((res) => {
-        console.log(res);
         setJobVacancy(res.data.data);
       })
       .catch((err) => console.log(err));
@@ -77,8 +81,6 @@ export default function VacancyDetail() {
     job_name: item?.job?.name,
     status: item?.status,
   }));
-
-  console.log(newCandidateList);
 
   return (
     <>
@@ -110,6 +112,9 @@ export default function VacancyDetail() {
           columns={colNames}
           data={newCandidateList}
           detailFunc={detailBtn}
+          rowsPerPage='5'
+          getPage={getCurrPage}
+          totalData={newCandidateList.length}
         />
       </div>
     </>

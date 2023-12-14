@@ -109,7 +109,10 @@ export default function CompanyEditForm() {
         <div>
             <h3><b>Edit Profil Perusahaan</b></h3>
             <div className={styles.avaSection}>
-                <Avatar sx={{ width: 150, height: 150 }} src={imgPreview == "" ? readDataCompany?.img : imgPreview} />
+                <Avatar 
+                    sx={{ width: 150, height: 150, objectFit: 'contain' }} 
+                    src={imgPreview == "" ? readDataCompany?.img : imgPreview} 
+                />
                 <div className={styles.btnList}>
                     <input 
                         type="file"

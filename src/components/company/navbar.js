@@ -21,11 +21,14 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import Link from 'next/link'
 import { deleteCookie } from 'cookies-next'
 import { dataCompany } from 'src/utils/data-cookies'
+import { useRouter } from 'next/router'
 
 const drawerWidth = 240
 
 
 export default function Navbar() {
+  const router = useRouter()
+
   const handleLogout = () => {
     sessionStorage.clear()
     deleteCookie("access_token")
@@ -40,6 +43,7 @@ export default function Navbar() {
     }
   }, [dataCompany])
 
+  console.log(router.pathname)
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -65,22 +69,29 @@ export default function Navbar() {
         <Box sx={{ overflow: 'auto' }} className={styles.menuWrap}>
           <List>
             <Link href='/company/dashboard'>
-              <ListItemButton>
+              <ListItemButton className={router.pathname.includes('dashboard') && styles.activeMenu}>
                 <ListItemText primary='Dashboard' />
               </ListItemButton>
             </Link>
             <Link href={isVerified == false ? '' : '/company/vacancy-list'}>
-              <ListItemButton disabled={isVerified == false ? true : false}>
+              <ListItemButton 
+                disabled={isVerified == false ? true : false}
+                className={router.pathname.includes('vacancy-list') && styles.activeMenu}
+              >
                 <ListItemText primary='Data Lowongan' />
               </ListItemButton>
             </Link>
             <Link href='/company/applicant-list'>
-              <ListItemButton>
+              <ListItemButton
+                className={router.pathname.includes('applicant-list') && styles.activeMenu}
+              >
                 <ListItemText primary='Data Pelamar' />
               </ListItemButton>
             </Link>
             <Link href='/company/search-employee'>
-              <ListItemButton>
+              <ListItemButton
+                className={router.pathname.includes('search-employee') && styles.activeMenu}
+              >
                 <ListItemText primary='Cari Karyawan' />
               </ListItemButton>
             </Link>

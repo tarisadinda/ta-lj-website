@@ -14,6 +14,7 @@ import Link from "next/link";
 
 export default function Dashboard() {
   const dispatch = useDispatch();
+
   const company = useSelector(selectCompany);
   const [countJob, setCountJob] = useState({
     total_job_active: 0,

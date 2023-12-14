@@ -105,7 +105,7 @@ export default function Profile() {
             <p>{userData?.candidate_detail?.description}</p>
           </div>
         }
-        {userData?.candidate_detail?.cv != undefined &&
+        {!(userData?.candidate_detail?.cv?.includes('/null')) &&
           <div className="mt-2 d-flex flex-column">
             <b>CV</b>
             <Link href={userData?.candidate_detail?.cv} target="_blank">
@@ -129,7 +129,7 @@ export default function Profile() {
           userData?.candidate_detail?.phone_number && (
             <div className={cn(styles.editGroup, "mt-5")}>
               <div>
-                <b className={styles.emptyTextHeader}>Ayo!Lengkapi Profilmu</b>
+                <b className={styles.emptyTextHeader}>Ayo! Lengkapi Profilmu</b>
                 <p>
                   Segera lengkapi profilmu agar semakin banyak <br /> rekruter
                   yang tertarik!

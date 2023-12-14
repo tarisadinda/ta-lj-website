@@ -8,7 +8,7 @@ export default function SummaryCard(props) {
         <Card variant="outlined" className={styles.cardWrap}>
             <p className={styles.count}><b>Total Akun: {totalCount}</b></p>
             <p>{companyCount} Akun Perusahaan</p>
-            <p>{employeeCount} Akun Pekerja</p>
+            <p>{employeeCount} Akun Kandidat</p>
         </Card>
     </>)
 }
