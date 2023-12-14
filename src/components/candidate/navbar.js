@@ -9,19 +9,26 @@ import { useSelector } from "react-redux";
 import { selectUser } from "src/redux/common/userSlice";
 import { removeToken } from "src/utils/token";
 import { getCookie } from "cookies-next";
+import { axiosInstance } from "src/utils/axios";
 
 export default function Navbar() {
   const [openDropdown, setOpenDropdown] = React.useState(false);
   const router = useRouter();
-  const user = useSelector(selectUser);
-  const dataUserFromToken = getCookie("user");
-  const dataUser = dataUserFromToken && JSON?.parse(dataUserFromToken);
-
-  const [userProfile, setUserProfile] = useState(user);
+  const getProfile = () => {
+    axiosInstance
+      .get(`/candidateDetail`)
+      .then((res) => {
+        const data = res?.data?.data;
+        setUserProfile(data);
+      })
+      .catch((err) => console.log(err));
+  };
 
   useEffect(() => {
-    setUserProfile(dataUser);
-  }, [user]);
+    getProfile();
+  }, []);
+
+  const [userProfile, setUserProfile] = useState();
 
   const goToProfile = () => {
     router.push("/candidate/profile");

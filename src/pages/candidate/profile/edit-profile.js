@@ -58,8 +58,6 @@ export default function EditProfil() {
     });
   }, [userProfile]);
 
-  const fileInputRef = useRef(null);
-
   const handleUpdateProfile = (e) => {
     e.preventDefault();
     axiosInstance
