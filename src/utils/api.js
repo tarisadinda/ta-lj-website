@@ -21,5 +21,5 @@ export const API_CAREER_LEVEL = '/careerLevels'
 export const API_COMPANY_PROFILE = '/companyDetail'
 export const API_CANDIDATE = '/candidates'
 export const API_VERIF_COMPANY = '/companyVerif'
-export const API_CANDIDATE_JOB = '/candidateJob'
+export const API_CANDIDATE_JOB = '/candidateJob' //list user applied and offered
 export const API_APPLIED_STATUS = '/candidateJob/acceptApplications'
