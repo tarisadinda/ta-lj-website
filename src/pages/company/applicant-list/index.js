@@ -38,6 +38,7 @@ export default function ApplicantList() {
 
     const [isDeleteModal, setIsDeleteModal] = React.useState(false)
     const appliedList = useSelector(candidateAppliedList)
+    // const countOffered = 
     const dataApplied = appliedList.candidateList.data?.data.map((item) => ({
             id: item.id,
             full_name: item.CandidateDetail.user.full_name,
@@ -45,10 +46,12 @@ export default function ApplicantList() {
             job_name: item.job.name,
             status: item.status
     }))
+    const countProcess = dataApplied.filter((item) => item.status == 'processed').length
     const [page, setPage] = React.useState(0)
 
     console.log(appliedList)
     console.log(dataApplied)
+    console.log(countProcess)
     const getCurrPage = (number) => {
         setPage(number)
     }
@@ -71,12 +74,12 @@ export default function ApplicantList() {
     }
 
     useEffect(() => {
-        dispatch(fetchCandidateApplied())
-    }, [])
+        dispatch(fetchCandidateApplied(page))
+    }, [page])
 
     return(<>
         <div className="d-flex gap-3 mb-5">
-            <CountingCard total='4' title='Pelamar dalam tahap seleksi' />
+            <CountingCard total={countProcess == undefined ? 0 : countProcess} title='Pelamar dalam tahap seleksi' />
             <CountingCard total='2' title='Pelamar yang direach' />
         </div>
         <div>

@@ -92,6 +92,12 @@
     }
 }
 
+.name {
+    display: flex;
+    column-gap: 5px;
+    align-items: center;
+}
+
 .userOption {
     a {
         text-decoration: none;

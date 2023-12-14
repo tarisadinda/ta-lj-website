@@ -8,6 +8,8 @@ import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet'
 import { useRouter } from 'next/router'
 import { formatRupiah } from 'src/utils/formatRupiah'
 import { formatDate } from 'src/utils/date-formatter'
+import React from 'react'
+import EllipsisText from '@/components/common/ellipsis-text'
 
 export default function JobCard({data, key}) {
     const router = useRouter()
@@ -20,44 +22,46 @@ export default function JobCard({data, key}) {
     return (<>
         <div key={key}>
             <div className={cn(styles.cardWrap, 'card')}>
-                <div className={styles.row}>
-                    <div className={styles.imgWrap}>
-                        <Image 
-                            src={data?.company_detail?.user?.img ? data?.company_detail?.user?.img : CompanyImg} 
-                            alt="company-img"
-                            width={60}
-                            height={60}
-                            className={styles.logoCompany}
+                <div>
+                    <div className={styles.row}>
+                        <div className={styles.imgWrap}>
+                            <Image 
+                                src={data?.company_detail?.user?.img ? data?.company_detail?.user?.img : CompanyImg} 
+                                alt="company-img"
+                                width={60}
+                                height={60}
+                                className={styles.logoCompany}
+                            />
+                        </div>
+                        <div className={styles.companyName}>
+                            <b>{data?.name}</b>
+                            <p>{data?.company_detail?.user?.full_name}</p>
+                        </div>
+                    </div>
+                    <div className={styles.companyTerms}>
+                        <Chip 
+                            sx={{
+                                backgroundColor: '#458AEB',
+                                color: '#F5F6FB'
+                            }}
+                            label={data?.career_level?.name}
+                        />
+                        <Chip 
+                            sx={{
+                                backgroundColor: '#458AEB',
+                                color: '#F5F6FB'
+                            }}
+                            label={data?.job_type_work?.name}
                         />
                     </div>
-                    <div className={styles.companyName}>
-                        <b>{data?.name}</b>
-                        <p>{data?.company_detail?.user?.full_name}</p>
+                    <div className={styles.textIcon}>
+                        <LocationOnIcon />
+                        <EllipsisText maxLines={2} text={data?.company_detail?.address} />
                     </div>
-                </div>
-                <div className={styles.companyTerms}>
-                    <Chip 
-                        sx={{
-                            backgroundColor: '#458AEB',
-                            color: '#F5F6FB'
-                        }}
-                        label={data?.career_level?.name}
-                    />
-                    <Chip 
-                        sx={{
-                            backgroundColor: '#458AEB',
-                            color: '#F5F6FB'
-                        }}
-                        label={data?.job_type_work?.name}
-                    />
-                </div>
-                <div className={styles.textIcon}>
-                    <LocationOnIcon />
-                    <span>{data?.company_detail?.address}</span>
-                </div>
-                <div className={styles.textIcon}>
-                    <AccountBalanceWalletIcon />
-                    <span>Rp {formatRupiah(data?.salary_min)} - Rp {formatRupiah(data?.salary_max)}</span>
+                    <div className={styles.textIcon}>
+                        <AccountBalanceWalletIcon />
+                        <span>{formatRupiah(data?.salary_min)} - {formatRupiah(data?.salary_max)}</span>
+                    </div>
                 </div>
                 <div className={styles.btnWrap}>
                     <span className='form-text'>{formatDate(data.createdAt)}</span>

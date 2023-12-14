@@ -126,7 +126,7 @@ export default function Home() {
   return (
     <>
       <div>
-        <p className={styles.title}>Temukan Lowongan Terdekat dari Lokasimu!</p>
+        <p className={styles.title}>Temukan Pekerjaan Impianmu!</p>
         <div className={styles.searchSection}>
           <SearchInput
             value={pagination.search}

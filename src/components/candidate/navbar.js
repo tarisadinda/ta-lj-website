@@ -1,7 +1,7 @@
 import React from "react";
 import cn from "classnames";
 import styles from "@/styles/components/candidate/Navbar.module.scss";
-import { Avatar, ClickAwayListener, Menu, MenuItem } from "@mui/material";
+import { Avatar, ClickAwayListener } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -27,6 +27,8 @@ export default function Navbar() {
     setOpenDropdown(!openDropdown);
   };
 
+  console.log(user?.full_name.split(' ')[0])
+
   return (
     <>
       <nav className={cn(styles.navWrapper, "navbar navbar-expand-lg")}>
@@ -49,8 +51,8 @@ export default function Navbar() {
             <div className={styles.accountMenu}>
               <div onClick={handleDropdown} className={styles.userBtn}>
                 <Avatar src={user?.img} sx={{ width: 32, height: 32 }} />
-                <div>
-                  <span>{user?.full_name}</span>
+                <div className={styles.name}>
+                  <span>{user?.full_name.split(' ')[0]}</span>
                   <ExpandMoreIcon sx={{ color: "#F5F5F5" }} />
                 </div>
               </div>
@@ -61,7 +63,7 @@ export default function Navbar() {
                     <div onClick={goToProfile} className={styles.userOption}>
                       Profil Saya
                     </div>
-                    <div onClick={handleDropdown}>Ubah password</div>
+                    {/* <div onClick={handleDropdown}>Ubah password</div> */}
                     <div onClick={logout}>Logout</div>
                   </div>
                 </ClickAwayListener>
