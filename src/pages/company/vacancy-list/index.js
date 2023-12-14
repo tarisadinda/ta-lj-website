@@ -1,9 +1,6 @@
 import styles from "@/styles/pages/company/VacancyList.module.scss";
-import cn from "classnames";
 import BlueCard from "@/components/common/blue-card";
 import LayoutMain from "@/components/company/layouts/main";
-import CustomIconButton from "@/components/common/icon-button";
-import AddIcon from "@mui/icons-material/Add";
 import CustomTable from "@/components/common/table";
 import { useRouter } from "next/router";
 import IconBtn from "@/components/common/icon-button";
@@ -101,9 +98,8 @@ export default function VacancyList() {
     setId(id)
   };
 
-  const editJob = (id) => {
-    router.push(`/company/${id}`);
-    console.log(id);
+  const editJob = (slug) => {
+    router.push(`/company/${slug}`);
   };
 
   return (
@@ -132,7 +128,8 @@ export default function VacancyList() {
         <div className="mt-3">
           <CustomTable
             columns={colNames}
-            idKey="id"
+            idKey="slug"
+            id="id"
             data={listJob}
             rowsPerPage="10"
             deleteFunc={deleteJob}

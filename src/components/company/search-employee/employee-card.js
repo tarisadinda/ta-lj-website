@@ -7,7 +7,7 @@ export default function EmployeeCard({ data }) {
   console.log(data);
   return (
     <>
-      <Link href="/company/search-employee/detail">
+      <Link href={`/company/search-employee/${data?.id}`}>
         <CustomCard className={styles.wrapper}>
           <Avatar sx={{ width: 70, height: 70 }} />
           <div className={styles.infoEmployee}>

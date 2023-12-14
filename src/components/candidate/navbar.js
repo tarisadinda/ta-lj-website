@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import cn from "classnames";
 import styles from "@/styles/components/candidate/Navbar.module.scss";
 import { Avatar, ClickAwayListener } from "@mui/material";
@@ -8,11 +8,27 @@ import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { selectUser } from "src/redux/common/userSlice";
 import { removeToken } from "src/utils/token";
+import { getCookie } from "cookies-next";
+import { axiosInstance } from "src/utils/axios";
 
 export default function Navbar() {
   const [openDropdown, setOpenDropdown] = React.useState(false);
   const router = useRouter();
-  const user = useSelector(selectUser);
+  const getProfile = () => {
+    axiosInstance
+      .get(`/candidateDetail`)
+      .then((res) => {
+        const data = res?.data?.data;
+        setUserProfile(data);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    getProfile();
+  }, []);
+
+  const [userProfile, setUserProfile] = useState();
 
   const goToProfile = () => {
     router.push("/candidate/profile");
@@ -20,8 +36,8 @@ export default function Navbar() {
 
   const logout = () => {
     router.push("/login");
-    removeToken()
-  }
+    removeToken();
+  };
 
   const handleDropdown = () => {
     setOpenDropdown(!openDropdown);
@@ -50,9 +66,9 @@ export default function Navbar() {
             </ul>
             <div className={styles.accountMenu}>
               <div onClick={handleDropdown} className={styles.userBtn}>
-                <Avatar src={user?.img} sx={{ width: 32, height: 32 }} />
-                <div className={styles.name}>
-                  <span>{user?.full_name.split(' ')[0]}</span>
+                <Avatar src={userProfile?.img} sx={{ width: 32, height: 32 }} />
+                <div>
+                  <span>{userProfile?.full_name?.split(' ')[0]}</span>
                   <ExpandMoreIcon sx={{ color: "#F5F5F5" }} />
                 </div>
               </div>
