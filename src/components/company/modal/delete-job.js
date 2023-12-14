@@ -50,8 +50,8 @@ const ModalDeleteJob = ({ open, handleClose, id, getAllJobs }) => {
               <button onClick={handleClose} className="btn btn-ghost blue">
                 Batal
               </button>
-              <button onClick={deleteJob} className="btn btn-primary blue">
-                Update
+              <button onClick={deleteJob} className="btn btn-secondary blue">
+                Delete
               </button>
             </div>
           </div>

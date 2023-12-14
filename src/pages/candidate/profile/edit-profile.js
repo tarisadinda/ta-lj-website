@@ -1,43 +1,62 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import LayoutMain from "@/components/candidate/layouts/main";
 import cn from "classnames";
 import styles from "@/styles/pages/candidate/EditProfile.module.scss";
 import { Avatar, Card, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useRouter } from "next/router";
-import { selectUser, updateUser } from "src/redux/common/userSlice";
+import { selectUser, setUser, updateUser } from "src/redux/common/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { axiosInstance } from "src/utils/axios";
 import { CloudUpload } from "@mui/icons-material";
-import {
-  alertMessage,
-  openAlert,
-  severity,
-  setMessage,
-  setOpenAlert,
-  setSeverity,
-} from "src/redux/common/alertSlice";
+
 import CustomAlert from "@/components/common/alert";
 
 export default function EditProfil() {
   const dispatch = useDispatch();
   const router = useRouter();
-  const user = useSelector(selectUser);
 
-  const isOpenAlert = useSelector(openAlert);
-  const alertMsg = useSelector(alertMessage);
-  const alertSeverity = useSelector(severity);
+  const getProfile = () => {
+    axiosInstance
+      .get(`/candidateDetail`)
+      .then((res) => {
+        const data = res?.data?.data;
+        setUserProfile(data);
+      })
+      .catch((err) => console.log(err));
+  };
 
-  const [profileImage, setProfileImage] = useState("");
+  useEffect(() => {
+    getProfile();
+  }, []);
+
   const [selectedAvatar, setSelectedAvatar] = useState(null);
-  const [fileCv, setFileCv] = useState(user?.candidate_detail?.cv);
-  const [newDataUser, setNewDataUser] = useState({
-    address: user?.candidate_detail?.address,
-    phone_number: user?.candidate_detail?.phone_number,
-    description: user?.candidate_detail?.description,
-    image_profile: "",
-    cv_file: fileCv,
+  const [userProfile, setUserProfile] = useState();
+  const [alert, setAlert] = useState({
+    success: false,
+    error: false,
   });
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const [newDataUser, setNewDataUser] = useState({
+    full_name: "",
+    address: "",
+    phone_number: "",
+    description: "",
+    image_profile: "",
+    cv_file: "",
+  });
+
+  useEffect(() => {
+    setNewDataUser({
+      full_name: userProfile?.full_name,
+      address: userProfile?.candidate_detail?.address,
+      phone_number: userProfile?.candidate_detail?.phone_number,
+      description: userProfile?.candidate_detail?.description,
+      image_profile: userProfile?.img,
+      cv_file: userProfile?.candidate_detail?.cv,
+    });
+  }, [userProfile]);
 
   const fileInputRef = useRef(null);
 
@@ -49,52 +68,43 @@ export default function EditProfil() {
         if (res.status == 201) {
           dispatch(updateUser(newDataUser));
 
-          dispatch(setOpenAlert(true));
-          dispatch(setMessage("Profile berhasil diperbarui!"));
-          dispatch(setSeverity("success"));
+          setAlert({ ...alert, success: true });
           setTimeout(() => {
             router.push("/candidate/profile");
           }, 1000);
         }
       })
       .catch((err) => {
-        dispatch(setOpenAlert(true));
-        dispatch(setMessage(err?.response?.data?.message));
-        dispatch(setSeverity("error"));
+        setAlert({ ...alert, error: true });
+        setErrorMessage(err?.response?.data?.message);
       });
   };
 
-  const handleFileUpload = (e) => {
+  const handleCVFileChange = (e) => {
     const file = e.target.files[0];
-    console.log(fileInputRef.current);
-    console.log(e);
-    // Lakukan validasi jika file tidak ada atau bukan file .pdf
-    if (!file || !file.name.match(/\.(pdf)$/)) {
-      alert("Silakan pilih file .pdf");
-      return;
+    if (file) {
+      setNewDataUser({ ...newDataUser, cv_file: file });
     }
-    setFileCv(file);
-    setNewDataUser({ ...newDataUser, cv_file: file });
   };
 
   const removeCv = () => {
-    setFileCv(null);
-    // ... Tambahkan logika untuk menghapus file CV dari server jika diperlukan
+    setNewDataUser({ ...newDataUser, cv_file: null });
   };
 
   const handleAvatarChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       setSelectedAvatar(URL.createObjectURL(file));
-      setProfileImage(file);
       setNewDataUser({ ...newDataUser, image_profile: file });
     }
   };
 
   const cancelBtn = (e) => {
     e.preventDefault();
-    router.back()
+    router.back();
   };
+
+  console.log(userProfile);
 
   return (
     <>
@@ -103,7 +113,7 @@ export default function EditProfil() {
       </h3>
       <div className={styles.avaRow}>
         <Avatar
-          src={selectedAvatar ? selectedAvatar : user?.img}
+          src={selectedAvatar ? selectedAvatar : userProfile?.img}
           sx={{ width: 150, height: 150 }}
         />
         <div className={styles.groupBtn}>
@@ -128,8 +138,10 @@ export default function EditProfil() {
               type="text"
               className="form-control"
               placeholder="Masukan nama lengkap"
-              value={user?.full_name}
-              onChange={() => {}}
+              value={newDataUser?.full_name}
+              onChange={(e) =>
+                setNewDataUser({ ...newDataUser, full_name: e.target.value })
+              }
             />
           </div>
           <div className={styles.inputGroup}>
@@ -138,7 +150,7 @@ export default function EditProfil() {
               type="text"
               className="form-control"
               placeholder="Masukan username"
-              value={user?.username}
+              value={userProfile?.username}
             />
           </div>
           <div className={styles.inputGroup}>
@@ -147,7 +159,7 @@ export default function EditProfil() {
               type="text"
               className="form-control"
               placeholder="Masukan email"
-              value={user?.email}
+              value={userProfile?.email}
             />
           </div>
           <div className={styles.inputGroup}>
@@ -156,7 +168,7 @@ export default function EditProfil() {
               type="text"
               className="form-control"
               placeholder="Masukan nomor handphone"
-              value={newDataUser.phone_number}
+              value={userProfile?.candidate_detail?.phone_number}
               onChange={(e) =>
                 setNewDataUser({ ...newDataUser, phone_number: e.target.value })
               }
@@ -168,7 +180,7 @@ export default function EditProfil() {
               type="text"
               className="form-control"
               placeholder="Masukan alamat"
-              value={newDataUser.address}
+              value={userProfile?.candidate_detail?.address}
               onChange={(e) =>
                 setNewDataUser({ ...newDataUser, address: e.target.value })
               }
@@ -180,7 +192,7 @@ export default function EditProfil() {
               type="text"
               className="form-control"
               placeholder="Masukan deskripsi diri anda"
-              value={newDataUser.description}
+              value={userProfile?.candidate_detail?.description}
               onChange={(e) =>
                 setNewDataUser({ ...newDataUser, description: e.target.value })
               }
@@ -188,10 +200,10 @@ export default function EditProfil() {
           </div>
           <div className={styles.inputGroup}>
             <label>Curriculum Vitae/Resume</label>
-            {fileCv ? (
+            {newDataUser?.cv_file ? (
               <Card variant="outline">
                 <div className={styles.cardGroup}>
-                  <p>{fileCv?.name ? fileCv?.name : fileCv}</p>
+                  <p>{newDataUser?.cv_file.name}</p>
                   <IconButton size="small" onClick={() => removeCv()}>
                     <CloseIcon fontSize="small" />
                   </IconButton>
@@ -214,7 +226,7 @@ export default function EditProfil() {
                   name="fileInputCv"
                   style={{ display: "none" }}
                   accept="application/pdf"
-                  onChange={handleFileUpload}
+                  onChange={handleCVFileChange}
                 />
               </div>
             )}
@@ -236,11 +248,18 @@ export default function EditProfil() {
         </form>
       </div>
       <CustomAlert
-        open={isOpenAlert}
-        severity={alertSeverity}
-        text={alertMsg}
-        duration={2000}
-        onClose={() => dispatch(setOpenAlert(false))}
+        open={alert.success}
+        severity={"success"}
+        text={"Berhasil Edit Profile"}
+        duration={1500}
+        onClose={() => setAlert({ ...alert, success: false })}
+      />
+      <CustomAlert
+        open={alert.error}
+        severity={"error"}
+        text={errorMessage}
+        duration={1500}
+        onClose={() => setAlert({ ...alert, error: false })}
       />
     </>
   );

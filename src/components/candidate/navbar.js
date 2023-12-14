@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import cn from "classnames";
 import styles from "@/styles/components/candidate/Navbar.module.scss";
 import { Avatar, ClickAwayListener, Menu, MenuItem } from "@mui/material";
@@ -8,11 +8,20 @@ import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { selectUser } from "src/redux/common/userSlice";
 import { removeToken } from "src/utils/token";
+import { getCookie } from "cookies-next";
 
 export default function Navbar() {
   const [openDropdown, setOpenDropdown] = React.useState(false);
   const router = useRouter();
   const user = useSelector(selectUser);
+  const dataUserFromToken = getCookie("user");
+  const dataUser = dataUserFromToken && JSON?.parse(dataUserFromToken);
+
+  const [userProfile, setUserProfile] = useState(user);
+
+  useEffect(() => {
+    setUserProfile(dataUser);
+  }, [user]);
 
   const goToProfile = () => {
     router.push("/candidate/profile");
@@ -20,8 +29,8 @@ export default function Navbar() {
 
   const logout = () => {
     router.push("/login");
-    removeToken()
-  }
+    removeToken();
+  };
 
   const handleDropdown = () => {
     setOpenDropdown(!openDropdown);
@@ -48,9 +57,9 @@ export default function Navbar() {
             </ul>
             <div className={styles.accountMenu}>
               <div onClick={handleDropdown} className={styles.userBtn}>
-                <Avatar src={user?.img} sx={{ width: 32, height: 32 }} />
+                <Avatar src={userProfile?.img} sx={{ width: 32, height: 32 }} />
                 <div>
-                  <span>{user?.full_name}</span>
+                  <span>{userProfile?.full_name}</span>
                   <ExpandMoreIcon sx={{ color: "#F5F5F5" }} />
                 </div>
               </div>
