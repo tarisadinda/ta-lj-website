@@ -7,6 +7,8 @@ import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { candidateAppliedList, fetchCandidateApplied } from "src/redux/company/candidateSlice"
 import { convertDate } from "src/utils/convert-date"
+import { axiosInstance } from "src/utils/axios"
+import { API_CANDIDATE_JOB } from "src/utils/api"
 
 const colNames = [
     {
@@ -25,10 +27,15 @@ const colNames = [
         render: (data) => <span>{convertDate(data.createdAt)}</span>
     },
     {
+        id: 'type_request',
+        label: 'Keterangan',
+        render: (data) => <span>{data.type_request ? data.type_request == 'given_offer' ? 'Dilamar' : 'Melamar' : "-"}</span>
+    },
+    {
         id: 'status',
         label: 'Status',
-        render: (data) => <span>{data.status == 'processed' ? 'Dalam review' :
-            data.status == 'accepted' ? 'Diterima' : 'Ditolak'}</span>
+        render: (data) => <span>{data.status ? data.status == 'processed' ? 'Dalam review' :
+            data.status == 'accepted' ? 'Diterima' : 'Ditolak' : "-"}</span>
     },
 ]
 
@@ -44,14 +51,28 @@ export default function ApplicantList() {
             full_name: item.CandidateDetail.user.full_name,
             createdAt: item.createdAt,
             job_name: item.job.name,
-            status: item.status
+            status: item.status,
+            type_request: item.type_request
     }))
     const countProcess = dataApplied?.filter((item) => item.status == 'processed').length
     const [page, setPage] = React.useState(0)
 
-    console.log(appliedList)
-    console.log(dataApplied)
+    // console.log(appliedList)
+    // console.log(dataApplied)
     
+    const givenOffer = () => {
+        axiosInstance.get(API_CANDIDATE_JOB, {
+            params: {
+
+            }
+        })
+        .then((res) => {
+            console.log(res)
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
+
     const getCurrPage = (number) => {
         setPage(number)
     }
@@ -74,8 +95,12 @@ export default function ApplicantList() {
     }
 
     useEffect(() => {
-        dispatch(fetchCandidateApplied(page))
+        dispatch(fetchCandidateApplied({page, type_request: ""}))
     }, [page])
+
+    // useEffect(() => {
+    //     givenOffer()
+    // }, [])
 
     return(<>
         <div className="d-flex gap-3 mb-5">

@@ -8,7 +8,7 @@ const initialState = {
     error: ''
 }
 
-export const fetchCandidateApplied = createAsyncThunk('candidate/fetchCandidateApplied', (page, type_request) => {
+export const fetchCandidateApplied = createAsyncThunk('candidate/fetchCandidateApplied', ({page, type_request}) => {
     return axiosInstance.get(API_CANDIDATE_JOB, {
             params: {
                 size: 10,
