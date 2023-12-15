@@ -41,7 +41,12 @@ export default function AboutVacancy() {
     <>
       <div className={cn(styles.companyCard, "card")}>
         <div className={styles.companyInfo}>
-          <Avatar src={detailJob?.company_detail?.user?.img} variant="rounded" sx={{ width: 120, height: 120 }} />
+          <Avatar 
+            src={detailJob?.company_detail?.user?.img} 
+            variant="rounded" 
+            sx={{ width: 120, height: 120 }} 
+            className={styles.companyImg}
+          />
           <div>
             <h3>{detailJob?.name}</h3>
             <h5 className={styles.compName}>{detailJob?.company_detail?.user?.full_name}</h5>

@@ -105,10 +105,11 @@ export default function Profile() {
             <p>{userData?.candidate_detail?.description}</p>
           </div>
         }
-        {!(userData?.candidate_detail?.cv?.includes('/null')) &&
+        {userData?.candidate_detail?.cv != undefined &&
           <div className="mt-2 d-flex flex-column">
             <b>CV</b>
-            <Link href={userData?.candidate_detail?.cv} target="_blank">
+            <Link 
+              href={userData?.candidate_detail?.cv?.includes("/null") ? "#" : userData?.candidate_detail?.cv} target="_blank">
               <Button
                 onClick={openCV}
                 endIcon={<LaunchIcon fontSize="small" />}

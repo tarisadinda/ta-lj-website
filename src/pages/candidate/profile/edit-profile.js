@@ -102,7 +102,7 @@ export default function EditProfil() {
     router.back();
   };
 
-  console.log(userProfile);
+  console.log(newDataUser);
 
   return (
     <>
@@ -173,7 +173,7 @@ export default function EditProfil() {
             />
           </div>
           <div className={styles.inputGroup}>
-            <label>Alamat (opsional)</label>
+            <label>Alamat</label>
             <input
               type="text"
               className="form-control"
@@ -198,7 +198,7 @@ export default function EditProfil() {
           </div>
           <div className={styles.inputGroup}>
             <label>Curriculum Vitae/Resume</label>
-            {newDataUser?.cv_file ? (
+            {!(newDataUser?.cv_file?.includes("/null")) ? (
               <Card variant="outline">
                 <div className={styles.cardGroup}>
                   <p>{newDataUser?.cv_file.name}</p>
@@ -213,8 +213,8 @@ export default function EditProfil() {
                   <div style={{ display: "flex", alignItems: "center" }}>
                     <CloudUpload sx={{ width: 78, height: 78 }} />
                     <div style={{ marginLeft: 20 }}>
-                      <p>Unggah File</p>
-                      <p>Ukuran file maksimal 5MB berformat .pdf</p>
+                      <p className="mb-1">Unggah File</p>
+                      <p className="form-text mb-0">Ukuran file maksimal 5MB berformat .pdf</p>
                     </div>
                   </div>
                 </label>

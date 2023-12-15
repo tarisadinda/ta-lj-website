@@ -7,6 +7,12 @@
     column-gap: 30px;
 }
 
+.companyImg {
+    .MuiAvatar-img {
+        object-fit: contain !important;
+    }
+}
+
 .compName {
     color: $light-gray;
 }
