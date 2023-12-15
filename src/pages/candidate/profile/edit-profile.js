@@ -201,7 +201,7 @@ export default function EditProfil() {
             {!(newDataUser?.cv_file?.includes("/null")) ? (
               <Card variant="outline">
                 <div className={styles.cardGroup}>
-                  <p>{newDataUser?.cv_file.name}</p>
+                  <p>{newDataUser?.cv_file?.name}</p>
                   <IconButton size="small" onClick={() => removeCv()}>
                     <CloseIcon fontSize="small" />
                   </IconButton>
