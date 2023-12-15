@@ -27,9 +27,9 @@ const colNames = [
     render: (data) => <span>{data.applicantAccepted}</span>,
   },
   {
-    id: "entryApplication",
+    id: "count_apply_job",
     label: "Lamaran Masuk",
-    render: (data) => <span>{data.entryApplication}</span>,
+    render: (data) => <span>{data.count_apply_job}</span>,
   },
 ];
 
@@ -69,7 +69,7 @@ export default function VacancyList() {
                 status: true ? "Buka" : "Tutup",
                 slug: value.slug,
                 applicantAccepted: "-",
-                entryApplication: "-",
+                count_apply_job: value.count_apply_job,
               };
             })
           );
