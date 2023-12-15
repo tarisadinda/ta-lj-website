@@ -119,13 +119,13 @@ export default function SearchEmployee() {
         </div>
 
         <div className={styles.rightGrid}>
-          <SearchInput
+          {/* <SearchInput
             value={pagination.search}
             onChange={(e) =>
               setPagination({ ...pagination, search: e.target.value })
             }
             onClick={onSearchCandidate}
-          />
+          /> */}
           <div className={cn(styles.listEmployee, "mt-3")}>
             {candidate.map((value, index) => (
               <EmployeeCard key={index} data={value} />
