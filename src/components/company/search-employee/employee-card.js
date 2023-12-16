@@ -1,5 +1,5 @@
 import styles from "@/styles/components/company/search-employee/EmployeeCard.module.scss";
-import { Avatar } from "@mui/material";
+import { Avatar, Chip } from "@mui/material";
 import CustomCard from "../card";
 import Link from "next/link";
 import EllipsisText from "@/components/common/ellipsis-text";
@@ -34,6 +34,7 @@ export default function EmployeeCard({ data }) {
               } 
               maxLines={2}
             />
+            <Chip label="primary" color="primary" />
           </div>
         </CustomCard>
       </Link>

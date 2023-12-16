@@ -86,6 +86,9 @@
     display: flex;
     column-gap: 20px;
     align-items: center;
+    justify-content: space-between;
+    width: max-content;
+    max-width: 130px;
 
     span {
         color: $light;

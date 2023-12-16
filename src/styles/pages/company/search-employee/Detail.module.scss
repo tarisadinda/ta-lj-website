@@ -32,14 +32,21 @@
     color: $gray-1;
 }
 
+.offeringForm {
+    width: 80%;
+}
+
 .offerBtn {
     width: 130px;
-    height: max-content;
+}
+
+.detailCard {
+    width: 80%;
 }
 
 .detail {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 50%);
     column-gap: 20px;
 }
 

@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { axiosInstance } from "src/utils/axios";
 import { useEffect, useState } from "react";
 import CustomAlert from "@/components/common/alert";
+import Link from "next/link";
 
 export default function SearchEmployeeDetail() {
   const router = useRouter();
@@ -75,6 +76,7 @@ export default function SearchEmployeeDetail() {
     getAllJobs();
   }, [id]);
 
+  console.log(user)
   return (
     <>
       <CustomCard className={styles.wrapCard}>
@@ -98,7 +100,7 @@ export default function SearchEmployeeDetail() {
       </CustomCard>
       {offer ? (
         <>
-          <div>
+          <div className={styles.detailCard}>
             <div>
               <label className="mb-3 mt-3">Posisi</label>
               <select
@@ -123,57 +125,67 @@ export default function SearchEmployeeDetail() {
                 onChange={(e) => setDescription(e.target.value)}
               />
             </div>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "flex-end",
-              marginTop: 20,
-            }}
-          >
-            <button
-              className={cn(styles.offerBtn, "btn btn-secondary blue")}
-              onClick={() => setOffer(false)}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                marginTop: 20,
+              }}
             >
-              Batal
-            </button>
-            <button
-              style={{ marginLeft: 30 }}
-              className={cn(styles.offerBtn, "btn btn-primary blue")}
-              onClick={giveOffer}
-            >
-              Kirim
-            </button>
+              <button
+                className={cn(styles.offerBtn, "btn btn-secondary blue")}
+                onClick={() => setOffer(false)}
+              >
+                Batal
+              </button>
+              <button
+                style={{ marginLeft: 30 }}
+                className={cn(styles.offerBtn, "btn btn-primary blue")}
+                onClick={giveOffer}
+              >
+                Kirim
+              </button>
+            </div>
           </div>
         </>
       ) : (
         <>
-          <div className={cn(styles.detail, "mt-4")}>
-            <div>
-              <p>
-                <b>Email</b>
-              </p>
-              <p>{user?.email}</p>
+          <div className={styles.detailCard}>
+            <div className={cn(styles.detail, "mt-4")}>
+              <div>
+                <p>
+                  <b>Email</b>
+                </p>
+                <p>{user?.email}</p>
+              </div>
+              <div>
+                <p>
+                  <b>Nomor Handphone</b>
+                </p>
+                <p>{user?.candidate_detail?.phone_number}</p>
+              </div>
             </div>
-            <div>
-              <p>
-                <b>Nomor Handphone</b>
-              </p>
-              <p>{user?.candidate_detail?.phone_number}</p>
-            </div>
-          </div>
-          <div className={styles.detail}>
-            <div>
-              <p>
-                <b>Deskripsi diri</b>
-              </p>
-              <p>{user?.candidate_detail?.description}</p>
-            </div>
-            <div>
-              <p>
-                <b>Curriculum Vitae/Resume</b>
-              </p>
-              <p className={styles.pdf}>{user?.candidate_detail?.cv}</p>
+            <div className={styles.detail}>
+              <div>
+                <p>
+                  <b>Deskripsi diri</b>
+                </p>
+                <p>{user?.candidate_detail?.description}</p>
+              </div>
+              <div>
+                <p>
+                  <b>Curriculum Vitae/Resume</b>
+                </p>
+                {
+                  user?.candidate_detail?.cv.match("/null") == null ?
+                  <>
+                    <span>Belum mengunggah CV</span>
+                  </> :
+                  <Link className={styles.pdf} href={user?.candidate_detail?.cv} target="_blank">
+                    <p>{user?.candidate_detail?.cv.split('/').pop()}</p>
+                  </Link>                  
+                }
+              </div>
             </div>
           </div>
         </>

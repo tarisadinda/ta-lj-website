@@ -1,5 +1,6 @@
 import ProfileLayout from "@/components/candidate/layouts/profile-layout";
 import OfferingCard from "@/components/candidate/offering/offering-card";
+import cn from 'classnames'
 import CustomAlert from "@/components/common/alert";
 import styles from "@/styles/pages/candidate/OfferingList.module.scss";
 import { Alert, AlertTitle } from "@mui/material";
@@ -9,7 +10,7 @@ import { useEffect, useState } from "react";
 import { axiosInstance } from "src/utils/axios";
 
 export default function OfferingList() {
-  const [params, setParams] = useState({
+  const [params, setParams] = useState({ 
     size: 10,
     page: 0,
     search: "",
@@ -74,7 +75,7 @@ export default function OfferingList() {
           ))
         }
         <p className="mb-1"><b>Daftar Perusahaan yang menawarkan pekerjaan</b></p>
-        <div className="card">
+        <div className={cn(styles.noJob, "card")}>
           <p className={styles.noList}>Belum ada tawaran pekerjaan</p>
         </div>
         {listApply?.map((value, index) => (
