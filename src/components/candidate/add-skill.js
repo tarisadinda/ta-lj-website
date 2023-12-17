@@ -14,7 +14,8 @@ import {
 } from "src/redux/common/alertSlice";
 import CustomAlert from "../common/alert";
 
-const AddSkill = ({ open, onClose }) => {
+const AddSkill = ({ open, onClose, skillData }) => {
+  console.log(skillData)
   const [pagination, setPagination] = useState({
     size: 10,
     page: 0,
@@ -53,8 +54,15 @@ const AddSkill = ({ open, onClose }) => {
     getAllSkills();
   }, []);
 
+  useEffect(() => {
+    setSelectedOptions(skillData)
+    setSelectedSkills(skillData.map((item) => item.value))
+  }, [skillData])
+
   const handleSelectedSkillsChange = (event) => {
     const selectedValues = event.target.value;
+
+    console.log(selectedValues)
 
     const newSelectedOptions = selectedValues
       .map((value) => {
@@ -72,13 +80,17 @@ const AddSkill = ({ open, onClose }) => {
     setSelectedSkills(selectedValues);
   };
 
+  console.log(selectedOptions)
+  console.log(selectedSkills)
   const handleRemoveSkill = (indexToRemove) => {
     const updatedSkills = [...selectedSkills]; // Duplikat array agar tidak mengubah array asli
     updatedSkills.splice(indexToRemove, 1); // Menghapus elemen pada indeks yang diberikan
 
     const updatedOptions = [...selectedOptions]; // Duplikat array agar tidak mengubah array asli
+    updatedOptions.splice(indexToRemove, 1);
+
     const filteredOptions = updatedOptions.filter(
-      (item) => item.value !== indexToRemove + 1
+      (item) => item !== indexToRemove
     );
 
     setSelectedSkills(updatedSkills);
@@ -113,7 +125,7 @@ const AddSkill = ({ open, onClose }) => {
   };
 
   return (
-    <FrameModal open={open} handleClose={onClose} title="Tambah Keahlian">
+    <FrameModal open={open} handleClose={onClose} title="Kelola Keahlian">
       <CustomDropdown
         data={skillOptions}
         placeholder="tambahkan keahlian"
@@ -155,7 +167,7 @@ const AddSkill = ({ open, onClose }) => {
         <button
           onClick={onClose}
           style={{ maxWidth: 120, marginRight: 20 }}
-          className="btn  "
+          className="btn"
         >
           <span>Batal</span>
         </button>

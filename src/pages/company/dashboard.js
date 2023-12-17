@@ -5,11 +5,11 @@ import WorkIcon from "@mui/icons-material/Work";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import CustomCard from "@/components/common/card";
 import { axiosInstance } from "src/utils/axios";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCompany, setCompany } from "src/redux/common/companySlice";
 import { setCookie } from "cookies-next";
-import { API_COMPANY_PROFILE } from "src/utils/api";
+import { API_CANDIDATE_JOB, API_COMPANY_PROFILE } from "src/utils/api";
 import Link from "next/link";
 
 export default function Dashboard() {
@@ -20,7 +20,13 @@ export default function Dashboard() {
     total_job_active: 0,
     total_all_job: 0,
   });
+  const [countData, setCountData] = React.useState({
+    process: 0,
+    reject: 0,
+    accept: 0
+  })
 
+  console.log(countData)
   const getProfileCompany = () => {
     axiosInstance.get(API_COMPANY_PROFILE).then((res) => {
       if (res) {
@@ -86,9 +92,61 @@ export default function Dashboard() {
       });
   };
 
+  const getProccessCandidate = () => {
+    axiosInstance.get(API_CANDIDATE_JOB, {
+      params: {
+        size: 5,
+        page: 0,
+        status: 'processed'
+      }
+    })
+    .then((res) => {
+      console.log(res)
+      setCountData({
+        ...countData,
+        process: res.data.data.pagination.total
+      })
+    }).catch((err) => console.log(err))
+  }
+
+  const getAcceptCandidate = () => {
+    axiosInstance.get(API_CANDIDATE_JOB, {
+      params: {
+        size: 5,
+        page: 0,
+        status: 'accepted'
+      }
+    })
+    .then((res) => {
+      setCountData({
+        ...countData,
+        accept: res.data.data.pagination.total
+      })
+    }).catch((err) => console.log(err))
+  }
+
+  const getRejectandidate = () => {
+    axiosInstance.get(API_CANDIDATE_JOB, {
+      params: {
+        size: 5,
+        page: 0,
+        status: 'rejected'
+      }
+    })
+    .then((res) => {
+      setCountData({
+        ...countData,
+        reject: res.data.data.pagination.total
+      })
+    }).catch((err) => console.log(err))
+  }
+
   useEffect(() => {
     getProfileCompany();
     getCountJob();
+    getProccessCandidate();
+    getAcceptCandidate();
+    getRejectandidate();
   }, []);
 
   useEffect(() => {
@@ -129,9 +187,9 @@ export default function Dashboard() {
           <h4>
             <b>Statistik Pendaftar</b>
           </h4>
-          <p>Review : 10 Pelamar</p>
-          <p>Seleksi : 3 Pelamar</p>
-          <p>Ditolak : 8 Pelamar</p>
+          <p>Review : {countData.process} Pelamar</p>
+          <p>Seleksi : {countData.process} Pelamar</p>
+          <p>Ditolak : {countData.reject} Pelamar</p>
         </div>
       </CustomCard>
     </>

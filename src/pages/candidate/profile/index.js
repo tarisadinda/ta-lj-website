@@ -2,14 +2,13 @@ import cn from "classnames";
 import styles from "@/styles/pages/candidate/Profile.module.scss";
 import { Avatar, Card, Chip, IconButton, Button } from "@mui/material";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import ProfileLayout from "@/components/candidate/layouts/profile-layout";
 import { useSelector } from "react-redux";
 import { selectUser } from "src/redux/common/userSlice";
 import AddSkill from "@/components/candidate/add-skill";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CustomChip } from "@/components/common/chip";
 import { getCookie } from "cookies-next";
 import LaunchIcon from '@mui/icons-material/Launch';
@@ -24,10 +23,15 @@ export default function Profile() {
   
   const [userData, setUserData] = useState(user)
 
+  const [dataSkill, setDataSkill] = React.useState([])
+
   useEffect(() => {
     setUserData(dataUser)
+    setDataSkill(user.candidate_detail.skill.map((item) => ({
+      value: item.combination_candidate_skills.skill_id,
+      label: item.name
+    })))
   }, [user])
-
 
   const editInfo = () => {
     router.push("/candidate/profile/edit-profile");
@@ -37,8 +41,8 @@ export default function Profile() {
     setModalAddSkill(true);
   };
 
-  console.log(userData?.candidate_detail?.cv?.split('/').pop())
-  console.log(userData)
+  console.log(user)
+  console.log(dataSkill)
 
   const openCV = () => {
     console.log('cv')
@@ -195,7 +199,7 @@ export default function Profile() {
         </Card>
       )}
 
-      <AddSkill open={modalAddSkill} onClose={() => setModalAddSkill(false)} />
+      <AddSkill skillData={dataSkill} open={modalAddSkill} onClose={() => setModalAddSkill(false)} />
     </>
   );
 }

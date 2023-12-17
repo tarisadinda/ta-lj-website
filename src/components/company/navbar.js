@@ -92,7 +92,7 @@ export default function Navbar() {
               <ListItemButton
                 className={router.pathname.includes('search-employee') && styles.activeMenu}
               >
-                <ListItemText primary='Cari Karyawan' />
+                <ListItemText primary='Cari Kandidat' />
               </ListItemButton>
             </Link>
           </List>

@@ -30,6 +30,8 @@ export default function DetailApplicant() {
         setEditStatus(true)
     }
 
+    console.log(userId)
+
     React.useEffect(() => {
         dispatch(fetchDetailCandidate(userId))
     }, [userId])

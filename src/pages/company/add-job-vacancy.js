@@ -114,8 +114,11 @@ export default function JobVacancyForm() {
   }, []);
 
   const selectSkill = (e) => {
-    if (!skillList.includes(e.target.value)) {
-      setSkillList((prevData) => [...prevData, e.target.value]);
+    if ((skillList.find((item) => item.id == e.target.value)) == undefined) {
+      setSkillList((prevData) => [...prevData, {
+        id: e.target.value,
+        label: e.target.options[e.target.selectedIndex].text
+      }]);
     }
   };
 
@@ -123,7 +126,7 @@ export default function JobVacancyForm() {
     skillList.splice(id, 1);
     setSkillList(
       skillList.filter((data) => {
-        return data !== id;
+        return data.id !== id;
       })
     );
   };
@@ -152,8 +155,8 @@ export default function JobVacancyForm() {
     formData.append("career_level_id", jobForm.career_level_id);
     formData.append("qualification_id", jobForm.qualification_id);
 
-    skillList.forEach((skillId) => {
-      formData.append("skill", skillId);
+    skillList.forEach((item) => {
+      formData.append("skill", item.id);
     });
 
     axiosInstance({
@@ -163,6 +166,7 @@ export default function JobVacancyForm() {
     })
       .then((res) => {
         setTimeout(() => {
+          console.log(res)
           router.push("/company/vacancy-list");
           setAlert(true);
           setError(false);
@@ -175,6 +179,7 @@ export default function JobVacancyForm() {
       });
   };
 
+  console.log(skillList)
   return (
     <>
       <CustomCard sx={{ width: "100%", padding: "60px" }}>
@@ -359,7 +364,7 @@ export default function JobVacancyForm() {
                   return (
                     <CustomChip
                       key={item}
-                      label={item?.name}
+                      label={item?.label}
                       onDelete={() => deleteSkill(index)}
                       bgcolor="#FF9D3E"
                     />

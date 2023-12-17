@@ -15,11 +15,13 @@ const colNames = [
     id: "name",
     label: "Nama Pelamar",
     render: (data) => <span>{data.full_name}</span>,
+    width: 350
   },
   {
     id: "date",
     label: "Tgl Melamar",
     render: (data) => <span>{convertDate(data.createdAt)}</span>,
+    width: 250
   },
   {
     id: "status",
@@ -49,7 +51,12 @@ export default function VacancyDetail() {
   }
 
   const detailBtn = (id) => {
-    router.push(`/company/applicant-list/detail-applicant/${id}`);
+    console.log(id)
+    // router.push(`/company/applicant-list/detail-applicant/${id}`);
+    router.push({
+      pathname: '/company/applicant-list/detail-applicant/[id]',
+      query: { id: id }
+    })
   };
 
   const getCandidateList = () => {
@@ -82,6 +89,7 @@ export default function VacancyDetail() {
     status: item?.status,
   }));
 
+  console.log(newCandidateList)
   return (
     <>
       <div>
@@ -111,6 +119,7 @@ export default function VacancyDetail() {
         <CustomTable
           columns={colNames}
           data={newCandidateList}
+          idKey='id'
           detailFunc={detailBtn}
           rowsPerPage='5'
           getPage={getCurrPage}

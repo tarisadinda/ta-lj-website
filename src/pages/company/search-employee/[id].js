@@ -50,10 +50,9 @@ export default function SearchEmployeeDetail() {
   }));
 
   console.log(jobId)
-  console.log(id)
   const giveOffer = () => {
     axiosInstance
-      .post(`/candidateJob/givenOffer?candidate_id=${id}&job_id=${jobId}`, {
+      .post(`/candidateJob/givenOffer?candidate_id=${user.candidate_detail?.id}&job_id=${jobId}`, {
         description: description,
       })
       .then((res) => {

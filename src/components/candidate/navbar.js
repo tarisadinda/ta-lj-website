@@ -43,8 +43,6 @@ export default function Navbar() {
     setOpenDropdown(!openDropdown);
   };
 
-  console.log(userProfile?.full_name.split(' ')[0])
-
   return (
     <>
       <nav className={cn(styles.navWrapper, "navbar navbar-expand-lg")}>

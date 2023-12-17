@@ -8,6 +8,7 @@ import { getCookie, getCookies } from "cookies-next";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { axiosInstance } from "src/utils/axios";
+import { API_CANDIDATE_JOB, API_JOBS } from "src/utils/api";
 
 export default function OfferingList() {
   const [params, setParams] = useState({ 
@@ -28,10 +29,13 @@ export default function OfferingList() {
 
   const getApplyJob = () => {
     axiosInstance
-      .get(
-        `/candidateJob?size=${params.size}&page=${params.page}&status=${params.status}&type_request=${params.type_request}`
-      )
-      .then((res) => {
+      .get(`${API_CANDIDATE_JOB}`, {
+        params: {
+          size: 10,
+          page: 0
+        }
+      }).then((res) => {
+        console.log(res)
         if (res) {
           const data = res?.data?.data?.data;
           setListApply(data);
@@ -58,6 +62,7 @@ export default function OfferingList() {
     getRecomendationJob();
   }, []);
 
+  console.log(listApply)
   return (
     <>
       <h2>
@@ -75,16 +80,17 @@ export default function OfferingList() {
           ))
         }
         <p className="mb-1"><b>Daftar Perusahaan yang menawarkan pekerjaan</b></p>
-        <div className={cn(styles.noJob, "card")}>
-          <p className={styles.noList}>Belum ada tawaran pekerjaan</p>
-        </div>
-        {listApply?.map((value, index) => (
-          <Link key={index} href="/candidate/offer-detail">
-            <OfferingCard data={value} />
-          </Link>
-        ))}
+        {listApply.length > 0 ?
+          listApply?.map((value, index) => (
+            <Link key={index} href={`/candidate/offer-detail/${value.slug}`}>
+              <OfferingCard data={value} />
+            </Link>
+          )) : 
+          <div className={cn(styles.noJob, "card")}>
+            <p className={styles.noList}>Belum ada tawaran pekerjaan</p>
+          </div>
+        }
       </div>
-
     </>
   );
 }
