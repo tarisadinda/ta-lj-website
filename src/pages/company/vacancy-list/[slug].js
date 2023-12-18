@@ -24,6 +24,11 @@ const colNames = [
     width: 250
   },
   {
+    id: 'type_request',
+    label: 'Keterangan',
+    render: (data) => <span>{data.type_request ? data.type_request == 'given_offer' ? 'Dilamar' : 'Melamar' : "-"}</span>
+  },
+  {
     id: "status",
     label: "Status",
     render: (data) => (
@@ -87,6 +92,7 @@ export default function VacancyDetail() {
     createdAt: item?.createdAt,
     job_name: item?.job?.name,
     status: item?.status,
+    type_request: item.type_request
   }));
 
   console.log(newCandidateList)

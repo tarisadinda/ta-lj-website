@@ -55,6 +55,7 @@ export default function ApplicantList() {
             type_request: item.type_request
     }))
     const countProcess = dataApplied?.filter((item) => item.status == 'processed').length
+    const [countReach, setCountReach] = React.useState(0)
     const [page, setPage] = React.useState(0)
 
     // console.log(appliedList)
@@ -63,11 +64,13 @@ export default function ApplicantList() {
     const givenOffer = () => {
         axiosInstance.get(API_CANDIDATE_JOB, {
             params: {
-
+                size: 3,
+                page: 0,
+                type_request: 'given_offer'
             }
         })
         .then((res) => {
-            console.log(res)
+            setCountReach(res.data.data.pagination.total)
         }).catch((err) => {
             console.log(err)
         })
@@ -98,14 +101,14 @@ export default function ApplicantList() {
         dispatch(fetchCandidateApplied({page, type_request: ""}))
     }, [page])
 
-    // useEffect(() => {
-    //     givenOffer()
-    // }, [])
+    useEffect(() => {
+        givenOffer()
+    }, [])
 
     return(<>
         <div className="d-flex gap-3 mb-5">
             <CountingCard total={countProcess == undefined ? 0 : countProcess} title='Pelamar dalam tahap seleksi' />
-            <CountingCard total='2' title='Pelamar yang direach' />
+            <CountingCard total={countReach == 0 ? 0 : countReach} title='Pelamar yang direach' />
         </div>
         <div>
             <CustomTable 

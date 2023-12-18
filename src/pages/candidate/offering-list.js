@@ -27,12 +27,13 @@ export default function OfferingList() {
   );
   const skillIds = userSkill?.map((skillId) => `skill=${skillId}`).join("&");
 
-  const getApplyJob = () => {
+  const getOffering = () => {
     axiosInstance
       .get(`${API_CANDIDATE_JOB}`, {
         params: {
           size: 10,
-          page: 0
+          page: 0,
+          type_request: "given_offer"
         }
       }).then((res) => {
         console.log(res)
@@ -58,7 +59,7 @@ export default function OfferingList() {
 
   
   useEffect(() => {
-    getApplyJob();
+    getOffering();
     getRecomendationJob();
   }, []);
 
@@ -82,7 +83,7 @@ export default function OfferingList() {
         <p className="mb-1"><b>Daftar Perusahaan yang menawarkan pekerjaan</b></p>
         {listApply.length > 0 ?
           listApply?.map((value, index) => (
-            <Link key={index} href={`/candidate/offer-detail/${value.slug}`}>
+            <Link key={index} href={`/candidate/offer-detail/${value.job.slug}`}>
               <OfferingCard data={value} />
             </Link>
           )) : 

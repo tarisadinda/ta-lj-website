@@ -198,7 +198,44 @@ export default function EditProfil() {
           </div>
           <div className={styles.inputGroup}>
             <label>Curriculum Vitae/Resume</label>
-            {!(newDataUser?.cv_file?.includes("/null")) ? (
+            {newDataUser?.cv_file == null || (newDataUser?.cv_file == "http://localhost:3000/images/null")?
+              <div style={{ display: "flex" }}>
+                <label htmlFor="fileInputCv" style={{ cursor: "pointer" }}>
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <CloudUpload sx={{ width: 78, height: 78 }} />
+                    <div style={{ marginLeft: 20 }}>
+                      <p className="mb-1">Unggah File</p>
+                      <p className="form-text mb-0">Ukuran file maksimal 5MB berformat .pdf</p>
+                    </div>
+                  </div>
+                </label>
+                <input
+                  type="file"
+                  id="fileInputCv"
+                  name="fileInputCv"
+                  style={{ display: "none" }}
+                  accept="application/pdf"
+                  onChange={handleCVFileChange}
+                />
+              </div> : (newDataUser?.cv_file?.name) ? 
+              <Card variant="outline">
+                <div className={styles.cardGroup}>
+                  <p>{newDataUser?.cv_file?.name}</p>
+                  <IconButton size="small" onClick={() => removeCv()}>
+                    <CloseIcon fontSize="small" />
+                  </IconButton>
+                </div>
+              </Card> : 
+              <Card variant="outline">
+                <div className={styles.cardGroup}>
+                  <p>{newDataUser?.cv_file?.split('/').pop()}</p>
+                  <IconButton size="small" onClick={() => removeCv()}>
+                    <CloseIcon fontSize="small" />
+                  </IconButton>
+                </div>
+              </Card>
+            }
+            {/* {!(newDataUser?.cv_file?.name?.match("/null")) ? (
               <Card variant="outline">
                 <div className={styles.cardGroup}>
                   <p>{newDataUser?.cv_file?.name}</p>
@@ -227,7 +264,7 @@ export default function EditProfil() {
                   onChange={handleCVFileChange}
                 />
               </div>
-            )}
+            )} */}
           </div>
           <div className={styles.actionBtn}>
             <button
