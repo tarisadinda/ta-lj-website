@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import CustomAlert from "@/components/common/alert";
 import { useSelector } from "react-redux";
+import { selectUser } from "src/redux/common/userSlice";
 
 export default function OfferDetail() {
   const router = useRouter();
