@@ -7,6 +7,7 @@ import { API_CANDIDATE_JOB, API_JOBS } from "src/utils/api";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import CustomAlert from "@/components/common/alert";
+import { useSelector } from "react-redux";
 
 export default function OfferDetail() {
   const router = useRouter();
