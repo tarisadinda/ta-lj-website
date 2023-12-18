@@ -10,7 +10,7 @@ import CustomAlert from "@/components/common/alert";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { axiosInstance } from "src/utils/axios";
-import { selectUser } from "src/redux/common/userSlice";
+import { selectUser, setUser } from "src/redux/common/userSlice";
 import { formatJsDate } from "src/utils/date-formatter";
 
 export default function ApplyJob() {
@@ -72,8 +72,6 @@ export default function ApplyJob() {
     getJobBySlug();
   }, [slug]);
 
-  console.log(user)
-  console.log(detailApply)
   return (
     <>
       <div className={cn(styles.companyCard, "card")}>
@@ -161,8 +159,6 @@ export default function ApplyJob() {
         open={editApplication}
         onClose={() => setEditApplication(false)}
         data={user}
-        setDescription={setDescription}
-        description={description}
       />
       <CustomAlert
         open={alert}

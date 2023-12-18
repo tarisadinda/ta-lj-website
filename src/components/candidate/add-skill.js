@@ -15,7 +15,6 @@ import {
 import CustomAlert from "../common/alert";
 
 const AddSkill = ({ open, onClose, skillData }) => {
-  console.log(skillData)
   const [pagination, setPagination] = useState({
     size: 10,
     page: 0,
@@ -24,8 +23,8 @@ const AddSkill = ({ open, onClose, skillData }) => {
   const dispatch = useDispatch();
   const [skillOptions, setSkillOptions] = useState([]);
   const [selectedSkills, setSelectedSkills] = useState([]);
-  const [selectedOptions, setSelectedOptions] = useState([]);
-
+  const [selectedOptions, setSelectedOptions] = useState(skillData);
+  
   const isOpenAlert = useSelector(openAlert);
   const alertMsg = useSelector(alertMessage);
   const alertSeverity = useSelector(severity);
@@ -123,6 +122,8 @@ const AddSkill = ({ open, onClose, skillData }) => {
       dispatch(setSeverity("error"));
     });
   };
+
+  console.log(selectedOptions)
 
   return (
     <FrameModal open={open} handleClose={onClose} title="Kelola Keahlian">

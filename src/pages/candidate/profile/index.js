@@ -11,19 +11,18 @@ import AddSkill from "@/components/candidate/add-skill";
 import React, { useEffect, useState } from "react";
 import { CustomChip } from "@/components/common/chip";
 import { getCookie } from "cookies-next";
-import LaunchIcon from '@mui/icons-material/Launch';
+import LaunchIcon from "@mui/icons-material/Launch";
 
 export default function Profile() {
   const router = useRouter();
   const [modalAddSkill, setModalAddSkill] = useState(false);
-  
+
   const user = useSelector(selectUser);
   const dataUserFromToken = getCookie("user");
   const dataUser = dataUserFromToken && JSON?.parse(dataUserFromToken);
-  
-  const [userData, setUserData] = useState(user)
 
   const [dataSkill, setDataSkill] = React.useState([])
+  const [userData, setUserData] = useState({})
 
   useEffect(() => {
     setUserData(dataUser)
@@ -45,8 +44,8 @@ export default function Profile() {
   console.log(dataSkill)
 
   const openCV = () => {
-    console.log('cv')
-  }
+    console.log("cv");
+  };
 
   return (
     <>
@@ -70,7 +69,9 @@ export default function Profile() {
             <h4>
               <b>{userData?.full_name}</b>
             </h4>
-            <p className={cn(styles.levelGroup, "mb-0")}>{userData?.username}</p>
+            <p className={cn(styles.levelGroup, "mb-0")}>
+              {userData?.username}
+            </p>
           </div>
         </div>
       </div>
@@ -103,13 +104,13 @@ export default function Profile() {
             </div>
           )}
         </div>
-        {userData?.candidate_detail?.description != undefined &&
+        {userData?.candidate_detail?.description != undefined && (
           <div className="mt-2">
             <b>Deskripsi diri</b>
             <p>{userData?.candidate_detail?.description}</p>
           </div>
-        }
-        {userData?.candidate_detail?.cv != undefined &&
+        )}
+        {userData?.candidate_detail?.cv != undefined && (
           <div className="mt-2 d-flex flex-column">
             <b>CV</b>
             <Link 
@@ -118,17 +119,17 @@ export default function Profile() {
                 onClick={openCV}
                 endIcon={<LaunchIcon fontSize="small" />}
                 sx={{
-                  width: 'max-content',
-                  borderRadius: '50px',
-                  paddingLeft: '20px',
-                  paddingRight: '20px'
+                  width: "max-content",
+                  borderRadius: "50px",
+                  paddingLeft: "20px",
+                  paddingRight: "20px",
                 }}
               >
-                {userData?.candidate_detail?.cv?.split('/').pop()}
+                {userData?.candidate_detail?.cv?.split("/").pop()}
               </Button>
             </Link>
           </div>
-        }
+        )}
         {userData?.email &&
           userData?.candidate_detail?.address === null &&
           userData?.candidate_detail?.phone_number && (
