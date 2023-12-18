@@ -18,6 +18,11 @@ export default function OfferDetail() {
     error: false,
   });
   const [errorMsg, setErrorMsg] = React.useState("")
+  const user = useSelector(selectUser);
+  const dataUserFromToken = getCookie("user");
+  const dataUser = dataUserFromToken && JSON?.parse(dataUserFromToken);
+
+  const [userData, setUserData] = React.useState({})
 
   const getDetailJob = () => {
     axiosInstance
@@ -31,7 +36,8 @@ export default function OfferDetail() {
 
   useEffect(() => {
     getDetailJob();
-  }, [slugJob]);
+    setUserData(dataUser)
+  }, [slugJob, user]);
 
   const submitBtn = () => {
     const formData = {
@@ -42,7 +48,7 @@ export default function OfferDetail() {
     axiosInstance
       .post(`${API_CANDIDATE_JOB}/acceptOffers`, formData, {
         params: {
-          candidate_job_id: dataCompany.id,
+          candidate_job_id: userData?.id,
         },
       })
       .then((res) => {
@@ -63,7 +69,7 @@ export default function OfferDetail() {
     axiosInstance
       .post(`${API_CANDIDATE_JOB}/acceptOffers`, formData, {
         params: {
-          candidate_job_id: dataCompany.id,
+          candidate_job_id: userData?.id,
         },
       })
       .then((res) => {
