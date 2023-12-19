@@ -6,7 +6,13 @@ import cn from "classnames";
 import { useRef, useState } from "react";
 import { axiosInstance } from "src/utils/axios";
 
-export default function SubmitApplication({ open, onClose, data }) {
+export default function SubmitApplication({
+  open,
+  onClose,
+  data,
+  setDescription,
+  description,
+}) {
   const fileRef = useRef();
 
   const [user, setUser] = useState({
@@ -14,16 +20,16 @@ export default function SubmitApplication({ open, onClose, data }) {
     address: data?.candidate_detail?.address,
     phone_number: data?.candidate_detail?.phone_number,
     description: data?.candidate_detail?.description,
+    image_profile: data?.img,
     cv_file: data?.candidate_detail?.cv,
   });
-  const [email, setEmail] = useState(data?.email)
+
+  const [email, setEmail] = useState(data?.email);
   const [alert, setAlert] = useState({
     success: false,
     error: false,
   });
   const [errMsg, setErrMsg] = useState("");
-
-  console.log(data)
 
   const changeFile = () => {
     fileRef.current.click();
@@ -107,12 +113,10 @@ export default function SubmitApplication({ open, onClose, data }) {
           <div>
             <label>Surat Lamaran (opsional)</label>
             <textarea
-              value={user?.description}
+              value={description}
               className={cn(styles.letter, "form-control")}
               placeholder="Tulis surat penawaran untuk kandidat"
-              onChange={(e) =>
-                setUser({ ...user, description: e.target.value })
-              }
+              onChange={(e) => setDescription(e.target.value)}
             />
           </div>
           <div className={styles.btnSection}>

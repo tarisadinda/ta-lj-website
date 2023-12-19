@@ -47,6 +47,7 @@ export default function JobVacancyEditForm() {
   const [skill, setSkill] = useState([]);
   const [level, setLevel] = useState([]);
   const [skillList, setSkillList] = useState([]);
+  const [selectedOptions, setSelectedOptions] = useState();
 
   const getQualifications = () => {
     axiosInstance
@@ -132,21 +133,33 @@ export default function JobVacancyEditForm() {
             (value) => value?.combination_job_skills?.skill_id
           ),
         });
+        setSelectedOptions(data.Skill.map((item) => ({
+          value: item?.combination_candidate_skills?.skill_id,
+          label: item?.name
+        })))
       })
       .catch((err) => console.log(err));
   };
 
   const selectSkill = (e) => {
-    const selectedSkill = e.target.value;
-    if (!job.skill.includes(selectedSkill)) {
-      const updatedJobSkills = [...job.skill, selectedSkill];
+    const selectedSkillId = e.target.value;
+    const selectedSkill = skill.find((item) => item.id === parseInt(selectedSkillId));
+  
+    if (selectedSkill && !job.skill.includes(selectedSkillId)) {
+      const updatedJobSkills = [...job.skill, selectedSkillId];
+      const updatedSelectedOptions = [...selectedOptions, { value: selectedSkillId, label: selectedSkill.name }];
+  
       setJob({ ...job, skill: updatedJobSkills });
+      setSelectedOptions(updatedSelectedOptions);
     }
   };
 
-  const deleteSkill = (id) => {
-    const updatedSkills = job.skill.filter((skillId) => skillId !== id);
+  const deleteSkill = (index) => {
+    const updatedSkills = job.skill.filter((_, i) => i !== index);
+    const updatedSelectedOptions = selectedOptions.filter((_, i) => i !== index);
+  
     setJob({ ...job, skill: updatedSkills });
+    setSelectedOptions(updatedSelectedOptions);
   };
 
   const mergedSkills = [...new Set([...skillList, ...job.skill])];
@@ -371,10 +384,10 @@ export default function JobVacancyEditForm() {
             </select>
           </div>
           <div className={styles.selectedList}>
-            {job?.skill?.map((item, index) => (
+            {selectedOptions?.map((item, index) => (
               <CustomChip
                 key={item}
-                label={item?.name}
+                label={item?.label}
                 onDelete={() => deleteSkill(index)}
                 bgcolor="#FF9D3E"
               />

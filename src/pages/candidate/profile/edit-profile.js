@@ -148,6 +148,7 @@ export default function EditProfil() {
               type="text"
               className="form-control"
               placeholder="Masukan username"
+              disabled
               value={userProfile?.username}
             />
           </div>
@@ -157,6 +158,7 @@ export default function EditProfil() {
               type="text"
               className="form-control"
               placeholder="Masukan email"
+              disabled
               value={userProfile?.email}
             />
           </div>
@@ -166,7 +168,7 @@ export default function EditProfil() {
               type="text"
               className="form-control"
               placeholder="Masukan nomor handphone"
-              value={userProfile?.candidate_detail?.phone_number}
+              value={newDataUser?.phone_number}
               onChange={(e) =>
                 setNewDataUser({ ...newDataUser, phone_number: e.target.value })
               }
@@ -178,7 +180,7 @@ export default function EditProfil() {
               type="text"
               className="form-control"
               placeholder="Masukan alamat"
-              value={userProfile?.candidate_detail?.address}
+              value={newDataUser?.address}
               onChange={(e) =>
                 setNewDataUser({ ...newDataUser, address: e.target.value })
               }
@@ -190,7 +192,7 @@ export default function EditProfil() {
               type="text"
               className="form-control"
               placeholder="Masukan deskripsi diri anda"
-              value={userProfile?.candidate_detail?.description}
+              value={newDataUser?.description}
               onChange={(e) =>
                 setNewDataUser({ ...newDataUser, description: e.target.value })
               }

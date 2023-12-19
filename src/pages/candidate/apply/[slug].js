@@ -144,6 +144,12 @@ export default function ApplyJob() {
             </p>
             <p className="mb-0">{user?.candidate_detail?.phone_number}</p>
           </div>
+          <div className={styles.textDetail}>
+            <p className="mb-2">
+              <b>Surat Lamaran</b>
+            </p>
+            <p className="mb-0">{description}</p>
+          </div>
           <button onClick={applyJob} className="btn btn-primary blue">
             Kirim Lamaran
           </button>
@@ -159,6 +165,8 @@ export default function ApplyJob() {
         open={editApplication}
         onClose={() => setEditApplication(false)}
         data={user}
+        setDescription={setDescription}
+        description={description}
       />
       <CustomAlert
         open={alert}

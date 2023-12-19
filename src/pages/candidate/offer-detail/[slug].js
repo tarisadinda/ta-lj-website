@@ -42,6 +42,8 @@ export default function OfferDetail() {
     setUserData(dataUser)
   }, [slugJob, user]);
 
+  console.log(userData)
+
   const submitBtn = () => {
     const formData = {
       status: "accepted",
@@ -51,7 +53,7 @@ export default function OfferDetail() {
     axiosInstance
       .post(`${API_CANDIDATE_JOB}/acceptOffers`, formData, {
         params: {
-          candidate_job_id: userData?.id,
+          candidate_job_id: userData?.candidate_detail?.id,
         },
       })
       .then((res) => {
@@ -72,7 +74,7 @@ export default function OfferDetail() {
     axiosInstance
       .post(`${API_CANDIDATE_JOB}/acceptOffers`, formData, {
         params: {
-          candidate_job_id: userData?.id,
+          candidate_job_id: userData?.candidate_detail?.id,
         },
       })
       .then((res) => {
