@@ -29,7 +29,7 @@ export default function OfferDetail() {
 
   const getDetailJob = () => {
     axiosInstance
-      .get(`${API_JOBS}/slug/${slugJob}`)
+      .get(`/candidateJob/detail/${slugJob}`)
       .then((res) => {
         console.log(res);
         setDataCompany(res.data.data);
@@ -41,8 +41,6 @@ export default function OfferDetail() {
     getDetailJob();
     setUserData(dataUser);
   }, [slugJob, user]);
-
-  console.log(userData);
 
   const submitBtn = () => {
     const formData = {
@@ -101,22 +99,34 @@ export default function OfferDetail() {
         <Card variant="outlined" className={styles.card}>
           <div>
             <p className={styles.company}>
-              {dataCompany?.company_detail.user.full_name}
+              {dataCompany?.job?.company_detail.user.full_name}
             </p>
-            <p className={styles.role}>{dataCompany?.name}</p>
+            <p className={styles.role}>{dataCompany?.job?.name}</p>
             <div className={styles.loc}>
               <PlaceIcon />
-              <span>{dataCompany?.company_detail.address}</span>
+              <span>{dataCompany?.job?.company_detail.address}</span>
             </div>
           </div>
-          <div className={styles.action}>
-            <button onClick={submitBtn} className="btn btn-primary blue">
-              Terima Tawaran
+          {dataCompany?.status !== "rejected" &&
+            dataCompany?.status !== "accepted" && (
+              <div className={styles.action}>
+                <button onClick={submitBtn} className="btn btn-primary blue">
+                  Terima Tawaran
+                </button>
+                <button onClick={declineBtn} className="btn btn-danger red">
+                  Tolak Tawaran
+                </button>
+              </div>
+            )}
+          {dataCompany?.status === "rejected" ? (
+            <button disabled className="btn btn-danger red w-25">
+              Tawaran Ditolak
             </button>
-            <button onClick={declineBtn} className="btn btn-danger red">
-              Tolak Tawaran
+          ) : (
+            <button disabled className="btn btn-primary blue w-25">
+              Tawaran Diterima
             </button>
-          </div>
+          )}
         </Card>
         <div className={styles.colGrid}>
           <div>
@@ -124,26 +134,26 @@ export default function OfferDetail() {
               <p className="mb-1">
                 <b>Deskripsi Pekerjaan</b>
               </p>
-              <p>{dataCompany?.description}</p>
+              <p>{dataCompany?.job?.description}</p>
             </div>
             <div>
               <p className="mb-1">
                 <b>Kualifikasi</b>
               </p>
-              <p>{dataCompany?.qualification?.name}</p>
+              <p>{dataCompany?.job?.qualification?.name}</p>
             </div>
             <div className={styles.colFlex}>
               <div>
                 <p className="mb-1">
                   <b>Jenis Pekerjaan</b>
                 </p>
-                <p>{dataCompany?.career_level?.name}</p>
+                <p>{dataCompany?.job?.career_level?.name}</p>
               </div>
               <div>
                 <p className="mb-1">
                   <b>Metode Kerja</b>
                 </p>
-                <p>{dataCompany?.job_type_work?.name}</p>
+                <p>{dataCompany?.job?.job_type_work?.name}</p>
               </div>
             </div>
           </div>
@@ -152,7 +162,7 @@ export default function OfferDetail() {
       <CustomAlert
         open={alert.success}
         severity={"success"}
-        text={"berhasil update profile"}
+        text={"berhasil merubah status"}
         duration={2000}
         onClose={() => setAlert({ ...alert, success: false })}
       />

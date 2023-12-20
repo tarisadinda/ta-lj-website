@@ -83,7 +83,7 @@ export default function OfferingList() {
         <p className="mb-1"><b>Daftar Perusahaan yang menawarkan pekerjaan</b></p>
         {listApply.length > 0 ?
           listApply?.map((value, index) => (
-            <Link key={index} href={`/candidate/offer-detail/${value.job.slug}`}>
+            <Link key={index} href={`/candidate/offer-detail/${value.id}`}>
               <OfferingCard data={value} />
             </Link>
           )) : 
