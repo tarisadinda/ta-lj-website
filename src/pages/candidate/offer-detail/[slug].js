@@ -20,12 +20,12 @@ export default function OfferDetail() {
     success: false,
     error: false,
   });
-  const [errorMsg, setErrorMsg] = React.useState("")
+  const [errorMsg, setErrorMsg] = React.useState("");
   const user = useSelector(selectUser);
   const dataUserFromToken = getCookie("user");
   const dataUser = dataUserFromToken && JSON?.parse(dataUserFromToken);
 
-  const [userData, setUserData] = React.useState({})
+  const [userData, setUserData] = React.useState({});
 
   const getDetailJob = () => {
     axiosInstance
@@ -39,10 +39,10 @@ export default function OfferDetail() {
 
   useEffect(() => {
     getDetailJob();
-    setUserData(dataUser)
+    setUserData(dataUser);
   }, [slugJob, user]);
 
-  console.log(userData)
+  console.log(userData);
 
   const submitBtn = () => {
     const formData = {
@@ -53,15 +53,18 @@ export default function OfferDetail() {
     axiosInstance
       .post(`${API_CANDIDATE_JOB}/acceptOffers`, formData, {
         params: {
-          candidate_job_id: userData?.candidate_detail?.id,
+          candidate_job_id: dataCompany?.id,
         },
       })
       .then((res) => {
         setAlert({ ...alert, success: true });
+        setTimeout(() => {
+          router.push("/candidate/offering-list");
+        }, 2000);
       })
       .catch((err) => {
         setAlert({ ...alert, error: true });
-        setErrorMsg(err?.response?.data?.message)
+        setErrorMsg(err?.response?.data?.message);
       });
   };
 
@@ -74,15 +77,18 @@ export default function OfferDetail() {
     axiosInstance
       .post(`${API_CANDIDATE_JOB}/acceptOffers`, formData, {
         params: {
-          candidate_job_id: userData?.candidate_detail?.id,
+          candidate_job_id: dataCompany?.id,
         },
       })
       .then((res) => {
+        setTimeout(() => {
+          router.push("/candidate/offering-list");
+        }, 2000);
         setAlert({ ...alert, success: true });
       })
       .catch((err) => {
         setAlert({ ...alert, error: true });
-        setErrorMsg(err?.response?.data?.message)
+        setErrorMsg(err?.response?.data?.message);
       });
   };
 
