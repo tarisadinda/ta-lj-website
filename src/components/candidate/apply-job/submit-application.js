@@ -15,14 +15,16 @@ export default function SubmitApplication({
 }) {
   const fileRef = useRef();
 
+  const [cv, setCv] = useState(data?.candidate_detail?.cv)
+  const [newCv, setNewCv] = useState()
   const [user, setUser] = useState({
     full_name: data?.full_name,
     address: data?.candidate_detail?.address,
     phone_number: data?.candidate_detail?.phone_number,
     description: data?.candidate_detail?.description,
-    image_profile: data?.img,
-    cv_file: data?.candidate_detail?.cv,
+    cv_file: newCv ? newCv : ""
   });
+  
 
   const [email, setEmail] = useState(data?.email);
   const [alert, setAlert] = useState({
@@ -37,7 +39,7 @@ export default function SubmitApplication({
 
   const handleChange = (e) => {
     const selectedFile = e.target.files[0];
-    setUser({ ...user, cv_file: selectedFile });
+    setNewCv(selectedFile);
   };
 
   const submitForm = (e) => {
@@ -48,6 +50,7 @@ export default function SubmitApplication({
     axiosInstance
       .post(`/candidateDetail`, user)
       .then((res) => {
+        onClose()
         setAlert({ ...alert, success: true });
       })
       .catch((err) => {
@@ -55,6 +58,8 @@ export default function SubmitApplication({
         setErrMsg(err?.response?.data?.message);
       });
   };
+
+  console.log(cv)
 
   return (
     <>
@@ -97,9 +102,7 @@ export default function SubmitApplication({
               />
               <div>
                 <p className={styles.fileName}>
-                  {user?.cv_file
-                    ? user.cv_file.name || user.cv_file.split("/").pop()
-                    : ""}
+                  {cv?.split("/").pop()}
                 </p>
               </div>
               <button

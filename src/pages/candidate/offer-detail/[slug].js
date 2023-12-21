@@ -107,8 +107,7 @@ export default function OfferDetail() {
               <span>{dataCompany?.job?.company_detail.address}</span>
             </div>
           </div>
-          {dataCompany?.status !== "rejected" &&
-            dataCompany?.status !== "accepted" && (
+          {dataCompany?.status === "proccess" && (
               <div className={styles.action}>
                 <button onClick={submitBtn} className="btn btn-primary blue">
                   Terima Tawaran
@@ -118,13 +117,14 @@ export default function OfferDetail() {
                 </button>
               </div>
             )}
-          {dataCompany?.status === "rejected" ? (
+          {dataCompany?.status === "rejected" && (
             <button disabled className="btn btn-danger red w-25">
               Tawaran Ditolak
             </button>
-          ) : (
-            <button disabled className="btn btn-primary blue w-25">
-              Tawaran Diterima
+          )}
+          {dataCompany?.status === "accepted" && (
+            <button disabled className="btn btn-danger red w-25">
+              Tawaran Ditolak
             </button>
           )}
         </Card>
