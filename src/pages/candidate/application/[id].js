@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "@/styles/pages/candidate/ApplicationDetail.module.scss";
 import LayoutMain from "@/components/candidate/layouts/main";
+import cn from 'classnames'
 import Image from "next/image";
 import CompanyImg from "public/images/company.jpg";
 import { Divider } from "@mui/material";
@@ -11,11 +12,39 @@ import { useRouter } from "next/router";
 import { axiosInstance } from "src/utils/axios";
 import { chipApplyJob } from "src/utils/common";
 import { formatDate } from "src/utils/date-formatter";
+import TrueFalseModal from "@/components/common/true-false-modal";
+import { API_CANDIDATE_JOB } from "src/utils/api";
 
 export default function ApplicationDetail() {
   const router = useRouter();
   const { id } = router.query;
+  
   const [detailJob, setDetailJob] = useState({});
+  const [openModal, setOpenModal] = useState(false)
+
+  const withdrawBtn = () => {
+    setOpenModal(true)
+  }
+  
+  const verifyBtn = () => {
+    axiosInstance({
+      method: "put",
+      url: `${API_CANDIDATE_JOB}/withdraw`,
+      data: {
+        status: true,
+      },
+      params: {
+        candidate_job_id: id
+      },
+    }).then((res) => {
+      console.log(res)
+    }).catch((err) => {
+      console.log(err)
+    })
+
+
+    setOpenModal(false)
+  }
 
   const getJobBySlug = () => {
     axiosInstance
@@ -62,8 +91,15 @@ export default function ApplicationDetail() {
       />
       <div className={styles.colGrid}>
         <div>
-          <p className={styles.statusText}>Status Lamaran</p>
-          {chipApplyJob(detailJob?.status)}
+          <p className={styles.statusText}><b>Status Lamaran</b></p>
+          <div className={styles.infoChip}>
+            {detailJob?.withdraw == true && 
+              chipApplyJob(detailJob?.withdraw) 
+            }
+            {
+              chipApplyJob(detailJob?.status)
+            }
+          </div>
           <p className="mt-2 mb-4">
             Lamaran dikirim pada{" "}
             {formatDate(detailJob?.createdAt, "DD MMMM YYYY")}
@@ -78,7 +114,7 @@ export default function ApplicationDetail() {
             <p className="mb-1">
               <b>Email</b>
             </p>
-            <p>{detailJob?.CandidateDetail?.email}</p>
+            <p>{detailJob?.CandidateDetail?.user?.email}</p>
           </div>
           <div>
             <p className="mb-1">
@@ -88,21 +124,41 @@ export default function ApplicationDetail() {
           </div>
         </div>
         <div>
-          <p>
-            <b>Informasi Pekerjaan</b>
-          </p>
-          <p>
-            <AccessTimeFilledIcon /> {detailJob?.job?.career_level?.name}
-          </p>
-          <p className="d-flex col-gap-3">
-            <LocationOnIcon />
-            <span className={styles.workType}>
-              <span>{detailJob?.job?.job_type_work?.name}</span>
-              <span>{detailJob?.job?.company_detail?.address}</span>
-            </span>
-          </p>
+          <div>
+            <p>
+              <b>Informasi Pekerjaan</b>
+            </p>
+            <p>
+              <AccessTimeFilledIcon /> {detailJob?.job?.career_level?.name}
+            </p>
+            <p className="d-flex col-gap-3">
+              <LocationOnIcon />
+              <span className={styles.workType}>
+                <span>{detailJob?.job?.job_type_work?.name}</span>
+                <span>{detailJob?.job?.company_detail?.address}</span>
+              </span>
+            </p>
+          </div>
+          {detailJob?.withdraw == false &&
+            <div>
+              <p className="mb-1">
+                <b>Tarik Lamaran Kerja</b>
+              </p>
+              <button
+                onClick={withdrawBtn} 
+                className={cn(styles.withdrawBtn, "btn btn-primary red")}>
+                Tarik Lamaran
+              </button>
+            </div>
+          }
         </div>
       </div>
+      <TrueFalseModal
+        title='Apakah anda yakin untuk menarik lamaran kerja ini?'
+        open={openModal} 
+        declineBtn={() => setOpenModal(false)} 
+        acceptBtn={verifyBtn} 
+      />
     </>
   );
 }

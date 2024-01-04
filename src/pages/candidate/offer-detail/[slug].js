@@ -66,6 +66,7 @@ export default function OfferDetail() {
       });
   };
 
+  console.log(dataCompany)
   const declineBtn = () => {
     const formData = {
       status: "rejected",

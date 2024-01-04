@@ -14,9 +14,9 @@ export const chipApplyJob = (status) => {
             return (
                 <CustomChip label="Diterima" bgcolor="#17AD47" />
             )
-        case "complete":
+        case true:
             return (
-                <CustomChip label="Diterima" bgcolor="#17AD47" />
+                <CustomChip label="Lamaran Ditarik" bgcolor="#D41C1D" />
             )
         default:
             break

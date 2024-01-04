@@ -62,25 +62,35 @@ export default function DetailApplicant() {
                     </div>
                 </BlueCard>
             </div>
-            <div>
-                <div className={styles.editStatus}>
-                    <h4 className='mb-0'><b>Status Lamaran</b></h4>
-                    <CustomIconButton 
-                        onClick={handleStatusModal} 
-                        icon={<EditIcon />} 
-                        title='Ubah Status' 
-                        className='btn btn-secondary blue'
-                    />
+            {
+                userData?.withdraw == false && 
+                <div>
+                    <div className={styles.editStatus}>
+                        <h4 className='mb-0'><b>Status Lamaran</b></h4>
+                        <CustomIconButton 
+                            onClick={handleStatusModal} 
+                            icon={<EditIcon />} 
+                            title='Ubah Status' 
+                            className='btn btn-secondary blue'
+                        />
+                    </div>
+                    {userData?.status == "accepted" ? 
+                        <CustomChip label="Diterima" bgcolor='#17AD47' /> :
+                        userData?.status == "processed" ?
+                        <CustomChip label="Dalam Review" bgcolor='#F1C93A' /> :
+                        <CustomChip label="Ditolak" bgcolor='#D41C1D' />
+                    }
                 </div>
-                {userData?.status == "accepted" ? 
-                    <CustomChip label="Diterima" bgcolor='#17AD47' /> :
-                    userData?.status == "processed" ?
-                    <CustomChip label="Dalam Review" bgcolor='#F1C93A' /> :
-                    <CustomChip label="Ditolak" bgcolor='#D41C1D' />
-                }
-            </div>
+            }
         </div>
-        <div className='mt-5'>
+        <div className='mt-4'>
+            <h4><b>Keterangan</b></h4>
+            <p className='mb-0'>{userData?.withdraw == true ? "Lamaran ditarik pelamar" : "-" }</p>
+            <span>Status seleksi : {userData?.status == "accepted" ? "Diterima" : 
+                userData?.status == "processed" ? "Dalam Review" : "Ditolak"}
+            </span>
+        </div>
+        <div className='mt-4'>
             <h4><b>Informasi Posisi</b></h4>
             <p className={cn(styles.date, 'mb-2')}>Tanggal melamar: 5/10/2022</p>
             <BlueCard className={styles.positionInfo}>

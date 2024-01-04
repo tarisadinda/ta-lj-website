@@ -101,7 +101,6 @@ export default function Dashboard() {
       }
     })
     .then((res) => {
-      console.log(res)
       setCountData({
         ...countData,
         process: res.data.data.pagination.total
@@ -187,8 +186,8 @@ export default function Dashboard() {
           <h4>
             <b>Statistik Pendaftar</b>
           </h4>
-          <p>Review : {countData.process} Pelamar</p>
           <p>Seleksi : {countData.process} Pelamar</p>
+          <p>Diterima : {countData.accept} Pelamar</p>
           <p>Ditolak : {countData.reject} Pelamar</p>
         </div>
       </CustomCard>

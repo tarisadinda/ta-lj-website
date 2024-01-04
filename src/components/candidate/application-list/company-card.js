@@ -28,7 +28,10 @@ export default function CompanyCard({ data }) {
             </span>
           </div>
         </div>
-        {chipApplyJob(data?.status)}
+        {data?.withdraw == true ? 
+          chipApplyJob(data?.withdraw) :
+          chipApplyJob(data?.status)
+        }
       </div>
     </>
   );

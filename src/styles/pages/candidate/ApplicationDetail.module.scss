@@ -17,6 +17,12 @@
     margin-bottom: 5px;
 }
 
+.infoChip {
+    display: grid;
+    justify-items: start;
+    row-gap: 5px;
+}
+
 .workType {
     display: flex;
     flex-direction: column;
@@ -24,4 +30,8 @@
 
 .timeline {
     margin-top: 20px;
+}
+
+.withdrawBtn {
+    width: max-content;
 }
